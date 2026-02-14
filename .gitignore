@@ -64,3 +64,4 @@ testing/.test-workspace-path
 
 # Ralph TUI parallel execution worktrees
 .ralph-tui/worktrees/
+.github/
