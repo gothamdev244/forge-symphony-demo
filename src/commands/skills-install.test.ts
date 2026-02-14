@@ -188,10 +188,10 @@ describe('skills install command (spawn)', () => {
     mockSpawnStdout = 'Found 1 skill\nInstallation complete\n';
     mockSpawnExitCode = 0;
 
-    await executeSkillsCommand(['install', '--skill', 'ralph-tui-prd']);
+    await executeSkillsCommand(['install', '--skill', 'orbit-prd']);
 
     expect(mockSpawnArgs[0].args).toContain('-s');
-    expect(mockSpawnArgs[0].args).toContain('ralph-tui-prd');
+    expect(mockSpawnArgs[0].args).toContain('orbit-prd');
   });
 
   test('uses local flag when --local specified', async () => {
@@ -210,17 +210,17 @@ describe('skills install command (spawn)', () => {
     await executeSkillsCommand(['install']);
 
     const allOutput = consoleSpy.mock.calls.map((c: unknown[]) => c[0]).join('\n');
-    expect(allOutput).toContain('ralph-tui skills list');
+    expect(allOutput).toContain('orbit skills list');
   });
 
   test('shows installing message with skill and agent context', async () => {
     mockSpawnStdout = 'Found 1 skill\nInstallation complete\n';
     mockSpawnExitCode = 0;
 
-    await executeSkillsCommand(['install', '--agent', 'claude', '--skill', 'ralph-tui-prd']);
+    await executeSkillsCommand(['install', '--agent', 'claude', '--skill', 'orbit-prd']);
 
     const allOutput = consoleSpy.mock.calls.map((c: unknown[]) => c[0]).join('\n');
-    expect(allOutput).toContain('ralph-tui-prd');
+    expect(allOutput).toContain('orbit-prd');
     expect(allOutput).toContain('claude');
   });
 

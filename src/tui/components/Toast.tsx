@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Toast notification component for the Ralph TUI.
+ * ABOUTME: Toast notification component for the Orbit TUI.
  * Displays transient, non-blocking notifications with icon and message.
  * Supports success, error, info, and warning variants.
  * Also provides connection resilience feedback (reconnecting, reconnected, failed).

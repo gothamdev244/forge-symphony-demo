@@ -177,16 +177,16 @@ async function testRemoteConnection(
  */
 async function executeRemoteAdd(options: RemoteCommandOptions): Promise<void> {
   if (!options.alias || !options.hostPort) {
-    console.error('Usage: ralph-tui remote add <alias> <host:port> --token <token>');
+    console.error('Usage: orbit remote add <alias> <host:port> --token <token>');
     console.error('');
-    console.error('Example: ralph-tui remote add prod server.example.com:7890 --token abc123');
+    console.error('Example: orbit remote add prod server.example.com:7890 --token abc123');
     process.exit(1);
   }
 
   if (!options.token) {
     console.error('Error: --token is required');
     console.error('');
-    console.error('Usage: ralph-tui remote add <alias> <host:port> --token <token>');
+    console.error('Usage: orbit remote add <alias> <host:port> --token <token>');
     process.exit(1);
   }
 
@@ -211,7 +211,7 @@ async function executeRemoteAdd(options: RemoteCommandOptions): Promise<void> {
   console.log(`  Host: ${parsed.host}`);
   console.log(`  Port: ${parsed.port}`);
   console.log('');
-  console.log(`To test: ralph-tui remote test ${options.alias}`);
+  console.log(`To test: orbit remote test ${options.alias}`);
   console.log('');
 }
 
@@ -226,7 +226,7 @@ async function executeRemoteList(): Promise<void> {
     console.log('No remotes configured.');
     console.log('');
     console.log('Add a remote with:');
-    console.log('  ralph-tui remote add <alias> <host:port> --token <token>');
+    console.log('  orbit remote add <alias> <host:port> --token <token>');
     console.log('');
     return;
   }
@@ -271,7 +271,7 @@ async function executeRemoteList(): Promise<void> {
  */
 async function executeRemoteRemove(options: RemoteCommandOptions): Promise<void> {
   if (!options.alias) {
-    console.error('Usage: ralph-tui remote remove <alias>');
+    console.error('Usage: orbit remote remove <alias>');
     process.exit(1);
   }
 
@@ -292,7 +292,7 @@ async function executeRemoteRemove(options: RemoteCommandOptions): Promise<void>
  */
 async function executeRemoteTest(options: RemoteCommandOptions): Promise<void> {
   if (!options.alias) {
-    console.error('Usage: ralph-tui remote test <alias>');
+    console.error('Usage: orbit remote test <alias>');
     process.exit(1);
   }
 
@@ -366,7 +366,7 @@ async function executeRemotePushConfig(options: RemoteCommandOptions): Promise<v
     console.error('No remotes configured.');
     console.error('');
     console.error('Add a remote with:');
-    console.error('  ralph-tui remote add <alias> <host:port> --token <token>');
+    console.error('  orbit remote add <alias> <host:port> --token <token>');
     console.error('');
     process.exit(1);
   }
@@ -388,16 +388,16 @@ async function executeRemotePushConfig(options: RemoteCommandOptions): Promise<v
     }
     targetRemotes = [[options.alias, remote]];
   } else {
-    console.error('Usage: ralph-tui remote push-config <alias> [options]');
-    console.error('       ralph-tui remote push-config --all [options]');
+    console.error('Usage: orbit remote push-config <alias> [options]');
+    console.error('       orbit remote push-config --all [options]');
     console.error('');
     console.error('Specify an alias or use --all to push to all remotes.');
     process.exit(1);
   }
 
   // Load local config
-  const globalConfigPath = join(homedir(), '.config', 'ralph-tui', 'config.toml');
-  const projectConfigPath = join(process.cwd(), '.ralph-tui', 'config.toml');
+  const globalConfigPath = join(homedir(), '.config', 'orbit', 'config.toml');
+  const projectConfigPath = join(process.cwd(), '.orbit', 'config.toml');
 
   let globalContent: string | null = null;
   let projectContent: string | null = null;
@@ -424,7 +424,7 @@ async function executeRemotePushConfig(options: RemoteCommandOptions): Promise<v
     console.error(`  Global: ${globalConfigPath}`);
     console.error(`  Project: ${projectConfigPath}`);
     console.error('');
-    console.error('Run "ralph-tui setup" to create a configuration.');
+    console.error('Run "orbit setup" to create a configuration.');
     process.exit(1);
   }
 
@@ -608,9 +608,9 @@ export async function executeRemoteCommand(args: string[]): Promise<void> {
  */
 export function printRemoteHelp(): void {
   console.log(`
-ralph-tui remote - Manage remote server configurations
+orbit remote - Manage remote server configurations
 
-Usage: ralph-tui remote <subcommand> [options]
+Usage: orbit remote <subcommand> [options]
 
 Subcommands:
   add <alias> <host:port> --token <token>   Add a remote server
@@ -630,31 +630,31 @@ Push-Config Options:
 
 Examples:
   # Add a remote server
-  ralph-tui remote add prod server.example.com:7890 --token abc123
+  orbit remote add prod server.example.com:7890 --token abc123
 
   # Add with default port (7890)
-  ralph-tui remote add staging staging.local --token xyz789
+  orbit remote add staging staging.local --token xyz789
 
   # List all remotes with connection status
-  ralph-tui remote list
+  orbit remote list
 
   # Test connectivity
-  ralph-tui remote test prod
+  orbit remote test prod
 
   # Remove a remote
-  ralph-tui remote remove prod
+  orbit remote remove prod
 
   # Push config to a remote
-  ralph-tui remote push-config prod
+  orbit remote push-config prod
 
   # Preview what would be pushed
-  ralph-tui remote push-config prod --preview
+  orbit remote push-config prod --preview
 
   # Push global config with force overwrite
-  ralph-tui remote push-config prod --scope global --force
+  orbit remote push-config prod --scope global --force
 
   # Push to all remotes
-  ralph-tui remote push-config --all --force
+  orbit remote push-config --all --force
 
 Configuration:
   Remotes are stored in: ${REMOTES_CONFIG_PATHS.file}

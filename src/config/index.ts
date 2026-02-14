@@ -1,7 +1,7 @@
 /**
- * ABOUTME: Configuration loading and validation for Ralph TUI.
+ * ABOUTME: Configuration loading and validation for Orbit TUI.
  * Handles loading global and project configs, merging them, and validating the result.
- * Supports: ~/.config/ralph-tui/config.toml (global) and .ralph-tui/config.toml (project).
+ * Supports: ~/.config/orbit/config.toml (global) and .orbit/config.toml (project).
  */
 
 import { homedir } from "node:os";
@@ -10,7 +10,7 @@ import { readFile, access, constants, mkdir } from "node:fs/promises";
 import { parse as parseToml, stringify as stringifyToml } from "smol-toml";
 import type {
   StoredConfig,
-  RalphConfig,
+  OrbitConfig,
   RuntimeOptions,
   ConfigValidationResult,
   SandboxConfig,
@@ -33,22 +33,22 @@ import {
 } from "./schema.js";
 
 /**
- * Global config file path (~/.config/ralph-tui/config.toml)
+ * Global config file path (~/.config/orbit/config.toml)
  */
 const GLOBAL_CONFIG_PATH = join(
   homedir(),
   ".config",
-  "ralph-tui",
+  "orbit",
   "config.toml",
 );
 
 /**
- * Project config directory name (.ralph-tui in project root)
+ * Project config directory name (.orbit in project root)
  */
-const PROJECT_CONFIG_DIR = ".ralph-tui";
+const PROJECT_CONFIG_DIR = ".orbit";
 
 /**
- * Project config file name (config.toml inside .ralph-tui directory)
+ * Project config file name (config.toml inside .orbit directory)
  */
 const PROJECT_CONFIG_FILENAME = "config.toml";
 
@@ -154,7 +154,7 @@ async function loadConfigFile(configPath: string): Promise<LoadConfigResult> {
 
 /**
  * Find the project config file by searching up from cwd.
- * Looks for .ralph-tui/config.toml in each directory up to root.
+ * Looks for .orbit/config.toml in each directory up to root.
  * @param startDir Directory to start searching from
  * @returns Path to project config if found, null otherwise
  */
@@ -279,7 +279,7 @@ function mergeConfigs(
 
 /**
  * Load stored configuration from global and project YAML files.
- * Project config (.ralph-tui/config.toml) overrides global config (~/.config/ralph-tui/config.toml).
+ * Project config (.orbit/config.toml) overrides global config (~/.config/orbit/config.toml).
  * @param cwd Working directory for finding project config
  * @param globalConfigPath Override global config path (for testing)
  * @returns Merged configuration
@@ -598,11 +598,11 @@ function getDefaultTrackerConfig(
 
 /**
  * Build runtime configuration by merging stored config with CLI options.
- * Loads both global (~/.config/ralph-tui/config.toml) and project (.ralph-tui/config.toml) configs.
+ * Loads both global (~/.config/orbit/config.toml) and project (.orbit/config.toml) configs.
  */
 export async function buildConfig(
   options: RuntimeOptions = {},
-): Promise<RalphConfig | null> {
+): Promise<OrbitConfig | null> {
   const cwd = options.cwd ?? process.cwd();
   const storedConfig = await loadStoredConfig(cwd);
 
@@ -621,7 +621,7 @@ export async function buildConfig(
   }
 
   // Auto-switch to JSON tracker when --prd specified without explicit --tracker
-  // This allows `ralph-tui run --prd ./prd.json` to work without needing `--tracker json`
+  // This allows `orbit run --prd ./prd.json` to work without needing `--tracker json`
   if (options.prdPath && !options.tracker) {
     const registry = getTrackerRegistry();
     if (registry.hasPlugin("json")) {
@@ -700,7 +700,7 @@ export async function buildConfig(
  * Validate configuration before starting
  */
 export async function validateConfig(
-  config: RalphConfig,
+  config: OrbitConfig,
 ): Promise<ConfigValidationResult> {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -802,7 +802,7 @@ export async function validateConfig(
 // Re-export types
 export type {
   StoredConfig,
-  RalphConfig,
+  OrbitConfig,
   RuntimeOptions,
   ConfigValidationResult,
   SubagentDetailLevel,
@@ -834,7 +834,7 @@ export type {
 } from "./schema.js";
 
 /**
- * Save configuration to the project config file (.ralph-tui/config.toml).
+ * Save configuration to the project config file (.orbit/config.toml).
  * Creates the directory and file if they don't exist, updates if they do.
  * @param config Configuration to save
  * @param cwd Working directory (config will be saved in this directory)
@@ -847,7 +847,7 @@ export async function saveProjectConfig(
   const configDir = join(cwd, PROJECT_CONFIG_DIR);
   const projectPath = join(configDir, PROJECT_CONFIG_FILENAME);
 
-  // Ensure the .ralph-tui directory exists
+  // Ensure the .orbit directory exists
   await mkdir(configDir, { recursive: true });
 
   const toml = serializeConfig(config);
@@ -903,7 +903,7 @@ export interface SetupCheckResult {
 }
 
 /**
- * Check if ralph-tui setup has been completed.
+ * Check if orbit setup has been completed.
  * Verifies that a config file exists and an agent is configured.
  * @param cwd Working directory for finding project config
  * @returns Setup check result
@@ -929,7 +929,7 @@ export async function checkSetupStatus(
       configExists: false,
       agentConfigured: false,
       configPath: null,
-      message: 'No configuration found. Run "ralph-tui setup" to configure.',
+      message: 'No configuration found. Run "orbit setup" to configure.',
     };
   }
 
@@ -940,7 +940,7 @@ export async function checkSetupStatus(
       agentConfigured: false,
       configPath,
       message:
-        'No agent configured. Run "ralph-tui setup" to configure an agent.',
+        'No agent configured. Run "orbit setup" to configure an agent.',
     };
   }
 
@@ -966,14 +966,14 @@ export async function requireSetup(
 
   if (!status.ready) {
     console.error("");
-    console.error(`${commandName} requires ralph-tui to be configured.`);
+    console.error(`${commandName} requires orbit to be configured.`);
     console.error("");
     if (status.message) {
       console.error(`  ${status.message}`);
     }
     console.error("");
     console.error("Quick setup:");
-    console.error("  ralph-tui setup");
+    console.error("  orbit setup");
     console.error("");
     process.exit(1);
   }

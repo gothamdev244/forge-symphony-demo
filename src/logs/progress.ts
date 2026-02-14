@@ -10,7 +10,7 @@ import { join, dirname } from 'node:path';
 /**
  * Default path for the progress file (relative to cwd).
  */
-export const PROGRESS_FILE = '.ralph-tui/progress.md';
+export const PROGRESS_FILE = '.orbit/progress.md';
 
 /**
  * Read the progress file content for inclusion in prompts.
@@ -74,7 +74,7 @@ export async function clearProgress(cwd: string): Promise<void> {
  * Includes a placeholder for the Codebase Patterns section.
  */
 function getDefaultProgressHeader(): string {
-  return `# Ralph Progress Log
+  return `# Orbit Progress Log
 
 This file tracks progress across iterations. Agents update this file
 after each iteration and it's included in prompts for context.

@@ -19,7 +19,7 @@ import {
   buildConfig,
   CONFIG_PATHS,
 } from './index.js';
-import type { StoredConfig, RalphConfig } from './types.js';
+import type { StoredConfig, OrbitConfig } from './types.js';
 import { registerBuiltinAgents } from '../plugins/agents/builtin/index.js';
 import { registerBuiltinTrackers } from '../plugins/trackers/builtin/index.js';
 
@@ -31,7 +31,7 @@ beforeAll(() => {
 
 // Helper to create a temp directory for each test
 async function createTempDir(): Promise<string> {
-  return await mkdtemp(join(tmpdir(), 'ralph-tui-config-test-'));
+  return await mkdtemp(join(tmpdir(), 'orbit-config-test-'));
 }
 
 // Helper to write TOML config file
@@ -71,7 +71,7 @@ describe('loadStoredConfig', () => {
   });
 
   test('loads project config file', async () => {
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), {
       maxIterations: 25,
@@ -92,7 +92,7 @@ describe('loadStoredConfig', () => {
     });
 
     // Write project config
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), {
       maxIterations: 30,  // Override
@@ -118,7 +118,7 @@ describe('loadStoredConfig', () => {
     const projectRoot = join(tempDir, 'my-project');
     await mkdir(projectRoot, { recursive: true });
     
-    const projectConfigDir = join(projectRoot, '.ralph-tui');
+    const projectConfigDir = join(projectRoot, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), {
       agent: 'droid',
@@ -139,7 +139,7 @@ describe('loadStoredConfig', () => {
       agentOptions: { model: 'claude-sonnet-4-20250514', temperature: 0.7 },
     });
 
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), {
       agentOptions: { temperature: 0.9, maxTokens: 4000 },
@@ -158,7 +158,7 @@ describe('loadStoredConfig', () => {
       ],
     });
 
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), {
       agents: [
@@ -176,7 +176,7 @@ describe('loadStoredConfig', () => {
       errorHandling: { strategy: 'retry', maxRetries: 3 },
     });
 
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), {
       errorHandling: { maxRetries: 5 },
@@ -192,7 +192,7 @@ describe('loadStoredConfig', () => {
       rateLimitHandling: { enabled: true, maxRetries: 3 },
     });
 
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), {
       rateLimitHandling: { baseBackoffMs: 10000 },
@@ -209,7 +209,7 @@ describe('loadStoredConfig', () => {
       notifications: { enabled: true },
     });
 
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), {
       notifications: { sound: 'ralph' },
@@ -221,7 +221,7 @@ describe('loadStoredConfig', () => {
   });
 
   test('promotes a misplaced defaultAgent from an agent options table', async () => {
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     const projectConfigPath = join(projectConfigDir, 'config.toml');
     await writeFile(
@@ -264,7 +264,7 @@ defaultAgent = "cc-claude-4.6"
       parallel: { mode: 'auto', maxWorkers: 2, worktreeDir: '.global/worktrees' },
     });
 
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), {
       parallel: { maxWorkers: 5, directMerge: true },
@@ -312,7 +312,7 @@ describe('loadStoredConfigWithSource', () => {
   });
 
   test('returns source info for project config only', async () => {
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     const projectConfigPath = join(projectConfigDir, 'config.toml');
     await writeTomlConfig(projectConfigPath, { tracker: 'json' });
@@ -328,7 +328,7 @@ describe('loadStoredConfigWithSource', () => {
   test('returns source info for both configs', async () => {
     await writeTomlConfig(globalConfigPath, { agent: 'claude' });
 
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     const projectConfigPath = join(projectConfigDir, 'config.toml');
     await writeTomlConfig(projectConfigPath, { tracker: 'json' });
@@ -403,20 +403,20 @@ describe('saveProjectConfig', () => {
 describe('getProjectConfigPath', () => {
   test('returns correct path', () => {
     const path = getProjectConfigPath('/some/project');
-    expect(path).toBe('/some/project/.ralph-tui/config.toml');
+    expect(path).toBe('/some/project/.orbit/config.toml');
   });
 });
 
 describe('getProjectConfigDir', () => {
   test('returns correct directory', () => {
     const dir = getProjectConfigDir('/some/project');
-    expect(dir).toBe('/some/project/.ralph-tui');
+    expect(dir).toBe('/some/project/.orbit');
   });
 });
 
 describe('CONFIG_PATHS', () => {
   test('contains expected paths', () => {
-    expect(CONFIG_PATHS.projectDir).toBe('.ralph-tui');
+    expect(CONFIG_PATHS.projectDir).toBe('.orbit');
     expect(CONFIG_PATHS.projectFilename).toBe('config.toml');
     expect(CONFIG_PATHS.global).toContain('config.toml');
   });
@@ -443,7 +443,7 @@ describe('checkSetupStatus', () => {
   });
 
   test('treats configured agents as ready even without defaultAgent', async () => {
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), {
       agents: [{ name: 'custom-agent', plugin: 'claude', options: {} }],
@@ -529,7 +529,7 @@ describe('Config merging - scalar overrides', () => {
   test('project overrides defaultAgent', async () => {
     await writeTomlConfig(globalConfigPath, { defaultAgent: 'global-default' });
     
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), { defaultAgent: 'project-default' });
 
@@ -540,7 +540,7 @@ describe('Config merging - scalar overrides', () => {
   test('project overrides defaultTracker', async () => {
     await writeTomlConfig(globalConfigPath, { defaultTracker: 'beads-bv' });
     
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), { defaultTracker: 'json' });
 
@@ -551,7 +551,7 @@ describe('Config merging - scalar overrides', () => {
   test('project overrides outputDir', async () => {
     await writeTomlConfig(globalConfigPath, { outputDir: '/global/output' });
     
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), { outputDir: '/project/output' });
 
@@ -562,7 +562,7 @@ describe('Config merging - scalar overrides', () => {
   test('project overrides autoCommit', async () => {
     await writeTomlConfig(globalConfigPath, { autoCommit: false });
     
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), { autoCommit: true });
 
@@ -573,7 +573,7 @@ describe('Config merging - scalar overrides', () => {
   test('project overrides prompt_template', async () => {
     await writeTomlConfig(globalConfigPath, { prompt_template: '/global/prompt.md' });
     
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), { prompt_template: '/project/prompt.md' });
 
@@ -584,7 +584,7 @@ describe('Config merging - scalar overrides', () => {
   test('project overrides skills_dir', async () => {
     await writeTomlConfig(globalConfigPath, { skills_dir: '/global/skills' });
     
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), { skills_dir: '/project/skills' });
 
@@ -595,7 +595,7 @@ describe('Config merging - scalar overrides', () => {
   test('project overrides subagentTracingDetail', async () => {
     await writeTomlConfig(globalConfigPath, { subagentTracingDetail: 'off' });
     
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), { subagentTracingDetail: 'full' });
 
@@ -606,7 +606,7 @@ describe('Config merging - scalar overrides', () => {
   test('project replaces fallbackAgents array', async () => {
     await writeTomlConfig(globalConfigPath, { fallbackAgents: ['claude', 'codex'] });
 
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), { fallbackAgents: ['droid'] });
 
@@ -617,7 +617,7 @@ describe('Config merging - scalar overrides', () => {
   test('project overrides command', async () => {
     await writeTomlConfig(globalConfigPath, { command: 'global-ccr code' });
 
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), { command: 'project-ccr code' });
 
@@ -631,7 +631,7 @@ describe('Config merging - scalar overrides', () => {
       command: 'ccr code',
     });
 
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), {
       maxIterations: 20,  // Other field, no command
@@ -645,14 +645,14 @@ describe('Config merging - scalar overrides', () => {
 
 describe('validateConfig', () => {
   test('validates valid configuration', async () => {
-    const config: RalphConfig = {
+    const config: OrbitConfig = {
       agent: { name: 'claude', plugin: 'claude', options: {} },
       tracker: { name: 'beads-bv', plugin: 'beads-bv', options: {} },
       maxIterations: 10,
       iterationDelay: 1000,
       cwd: process.cwd(),
-      outputDir: '.ralph-tui/iterations',
-      progressFile: '.ralph-tui/progress.md',
+      outputDir: '.orbit/iterations',
+      progressFile: '.orbit/progress.md',
       showTui: true,
       errorHandling: {
         strategy: 'skip',
@@ -668,14 +668,14 @@ describe('validateConfig', () => {
   });
 
   test('reports error for unknown agent plugin', async () => {
-    const config: RalphConfig = {
+    const config: OrbitConfig = {
       agent: { name: 'unknown', plugin: 'nonexistent-plugin', options: {} },
       tracker: { name: 'beads-bv', plugin: 'beads-bv', options: {} },
       maxIterations: 10,
       iterationDelay: 1000,
       cwd: process.cwd(),
-      outputDir: '.ralph-tui/iterations',
-      progressFile: '.ralph-tui/progress.md',
+      outputDir: '.orbit/iterations',
+      progressFile: '.orbit/progress.md',
       showTui: true,
       errorHandling: {
         strategy: 'skip',
@@ -691,14 +691,14 @@ describe('validateConfig', () => {
   });
 
   test('reports error for unknown tracker plugin', async () => {
-    const config: RalphConfig = {
+    const config: OrbitConfig = {
       agent: { name: 'claude', plugin: 'claude', options: {} },
       tracker: { name: 'unknown', plugin: 'nonexistent-tracker', options: {} },
       maxIterations: 10,
       iterationDelay: 1000,
       cwd: process.cwd(),
-      outputDir: '.ralph-tui/iterations',
-      progressFile: '.ralph-tui/progress.md',
+      outputDir: '.orbit/iterations',
+      progressFile: '.orbit/progress.md',
       showTui: true,
       errorHandling: {
         strategy: 'skip',
@@ -714,14 +714,14 @@ describe('validateConfig', () => {
   });
 
   test('reports error for negative iterations', async () => {
-    const config: RalphConfig = {
+    const config: OrbitConfig = {
       agent: { name: 'claude', plugin: 'claude', options: {} },
       tracker: { name: 'beads-bv', plugin: 'beads-bv', options: {} },
       maxIterations: -1,
       iterationDelay: 1000,
       cwd: process.cwd(),
-      outputDir: '.ralph-tui/iterations',
-      progressFile: '.ralph-tui/progress.md',
+      outputDir: '.orbit/iterations',
+      progressFile: '.orbit/progress.md',
       showTui: true,
       errorHandling: {
         strategy: 'skip',
@@ -737,14 +737,14 @@ describe('validateConfig', () => {
   });
 
   test('reports error for negative delay', async () => {
-    const config: RalphConfig = {
+    const config: OrbitConfig = {
       agent: { name: 'claude', plugin: 'claude', options: {} },
       tracker: { name: 'beads-bv', plugin: 'beads-bv', options: {} },
       maxIterations: 10,
       iterationDelay: -1000,
       cwd: process.cwd(),
-      outputDir: '.ralph-tui/iterations',
-      progressFile: '.ralph-tui/progress.md',
+      outputDir: '.orbit/iterations',
+      progressFile: '.orbit/progress.md',
       showTui: true,
       errorHandling: {
         strategy: 'skip',
@@ -760,14 +760,14 @@ describe('validateConfig', () => {
   });
 
   test('warns about missing epic ID for beads tracker in TUI mode', async () => {
-    const config: RalphConfig = {
+    const config: OrbitConfig = {
       agent: { name: 'claude', plugin: 'claude', options: {} },
       tracker: { name: 'beads-bv', plugin: 'beads-bv', options: {} },
       maxIterations: 10,
       iterationDelay: 1000,
       cwd: process.cwd(),
-      outputDir: '.ralph-tui/iterations',
-      progressFile: '.ralph-tui/progress.md',
+      outputDir: '.orbit/iterations',
+      progressFile: '.orbit/progress.md',
       showTui: true,
       errorHandling: {
         strategy: 'skip',
@@ -784,14 +784,14 @@ describe('validateConfig', () => {
   });
 
   test('warns about missing epic ID for beads-rust tracker in TUI mode', async () => {
-    const config: RalphConfig = {
+    const config: OrbitConfig = {
       agent: { name: 'claude', plugin: 'claude', options: {} },
       tracker: { name: 'beads-rust', plugin: 'beads-rust', options: {} },
       maxIterations: 10,
       iterationDelay: 1000,
       cwd: process.cwd(),
-      outputDir: '.ralph-tui/iterations',
-      progressFile: '.ralph-tui/progress.md',
+      outputDir: '.orbit/iterations',
+      progressFile: '.orbit/progress.md',
       showTui: true,
       errorHandling: {
         strategy: 'skip',
@@ -808,14 +808,14 @@ describe('validateConfig', () => {
   });
 
   test('warns about missing epic ID for beads tracker in headless mode', async () => {
-    const config: RalphConfig = {
+    const config: OrbitConfig = {
       agent: { name: 'claude', plugin: 'claude', options: {} },
       tracker: { name: 'beads', plugin: 'beads', options: {} },
       maxIterations: 10,
       iterationDelay: 1000,
       cwd: process.cwd(),
-      outputDir: '.ralph-tui/iterations',
-      progressFile: '.ralph-tui/progress.md',
+      outputDir: '.orbit/iterations',
+      progressFile: '.orbit/progress.md',
       showTui: false,
       errorHandling: {
         strategy: 'skip',
@@ -832,14 +832,14 @@ describe('validateConfig', () => {
   });
 
   test('reports warning for json tracker without prdPath (TUI will prompt)', async () => {
-    const config: RalphConfig = {
+    const config: OrbitConfig = {
       agent: { name: 'claude', plugin: 'claude', options: {} },
       tracker: { name: 'json', plugin: 'json', options: {} },
       maxIterations: 10,
       iterationDelay: 1000,
       cwd: process.cwd(),
-      outputDir: '.ralph-tui/iterations',
-      progressFile: '.ralph-tui/progress.md',
+      outputDir: '.orbit/iterations',
+      progressFile: '.orbit/progress.md',
       showTui: true,
       errorHandling: {
         strategy: 'skip',
@@ -869,7 +869,7 @@ describe('buildConfig - command shorthand', () => {
 
   test('applies command shorthand to agent config', async () => {
     // Create project config with command shorthand
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeFile(
       join(projectConfigDir, 'config.toml'),
@@ -888,7 +888,7 @@ command = "ccr code"
   });
 
   test('agent-level command takes precedence over top-level command', async () => {
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeFile(
       join(projectConfigDir, 'config.toml'),
@@ -913,7 +913,7 @@ default = true
   });
 
   test('command shorthand is not applied if agent already has command', async () => {
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeFile(
       join(projectConfigDir, 'config.toml'),
@@ -949,7 +949,7 @@ describe('buildConfig - envPassthrough shorthand', () => {
   });
 
   test('applies top-level envPassthrough to default agent', async () => {
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeFile(
       join(projectConfigDir, 'config.toml'),
@@ -968,7 +968,7 @@ envPassthrough = ["ANTHROPIC_API_KEY"]
   });
 
   test('applies top-level envExclude to default agent', async () => {
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeFile(
       join(projectConfigDir, 'config.toml'),
@@ -987,7 +987,7 @@ envExclude = ["*_TOKEN", "DATABASE_URL"]
   });
 
   test('agent-level envPassthrough takes precedence over top-level', async () => {
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeFile(
       join(projectConfigDir, 'config.toml'),
@@ -1011,7 +1011,7 @@ envPassthrough = ["AGENT_LEVEL_KEY"]
   });
 
   test('top-level envPassthrough not applied if agent already has it set', async () => {
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeFile(
       join(projectConfigDir, 'config.toml'),
@@ -1035,7 +1035,7 @@ envPassthrough = ["AGENT_SPECIFIC_KEY"]
   });
 
   test('applies both envExclude and envPassthrough shorthands', async () => {
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeFile(
       join(projectConfigDir, 'config.toml'),

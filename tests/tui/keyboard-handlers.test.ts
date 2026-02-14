@@ -10,7 +10,7 @@ import { describe, test, expect } from 'bun:test';
 
 /**
  * Type representing the TUI component status.
- * This mirrors RalphStatus from the actual component.
+ * This mirrors OrbitStatus from the actual component.
  */
 type TuiStatus =
   | 'ready'

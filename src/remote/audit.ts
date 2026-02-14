@@ -1,7 +1,7 @@
 /**
  * ABOUTME: Audit logging for remote listener actions.
  * All remote actions are logged with timestamp, client identifier, and action details.
- * Logs are stored in ~/.config/ralph-tui/audit.log as JSONL (one JSON object per line).
+ * Logs are stored in ~/.config/orbit/audit.log as JSONL (one JSON object per line).
  */
 
 import { homedir } from 'node:os';
@@ -12,7 +12,7 @@ import type { AuditLogEntry } from './types.js';
 /**
  * Path to the audit log file
  */
-const AUDIT_LOG_DIR = join(homedir(), '.config', 'ralph-tui');
+const AUDIT_LOG_DIR = join(homedir(), '.config', 'orbit');
 const AUDIT_LOG_PATH = join(AUDIT_LOG_DIR, 'audit.log');
 
 /**

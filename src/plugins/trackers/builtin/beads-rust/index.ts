@@ -203,7 +203,7 @@ function brTaskToTask(task: BrTaskJson): TrackerTask {
   }
 
   // Infer parentId from task ID if not provided.
-  // e.g., "ralph-tui-45r.37" -> parent is "ralph-tui-45r"
+  // e.g., "orbit-45r.37" -> parent is "orbit-45r"
   let parentId = task.parent;
   if (!parentId && task.id.includes('.')) {
     const lastDotIndex = task.id.lastIndexOf('.');
@@ -745,7 +745,7 @@ export class BeadsRustTrackerPlugin extends BaseTrackerPlugin {
   /**
    * Get the prompt template for the beads-rust tracker.
    * Returns the embedded template to avoid path resolution issues in bundled environments.
-   * See: https://github.com/subsy/ralph-tui/issues/248
+   * See: https://github.com/subsy/orbit/issues/248
    */
   override getTemplate(): string {
     return BEADS_RUST_TEMPLATE;

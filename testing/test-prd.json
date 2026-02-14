@@ -1,7 +1,7 @@
 {
-  "name": "Ralph-TUI Test Feature",
-  "description": "Test PRD for manually testing Ralph-TUI end-to-end workflow",
-  "branchName": "test/ralph-tui-e2e",
+  "name": "Orbit-TUI Test Feature",
+  "description": "Test PRD for manually testing Orbit-TUI end-to-end workflow",
+  "branchName": "test/orbit-e2e",
   "userStories": [
     {
       "id": "TEST-001",
@@ -92,6 +92,6 @@
   "metadata": {
     "createdAt": "2026-01-29T00:00:00.000Z",
     "version": "1.0.0",
-    "purpose": "Manual end-to-end testing of Ralph-TUI workflow"
+    "purpose": "Manual end-to-end testing of Orbit-TUI workflow"
   }
 }

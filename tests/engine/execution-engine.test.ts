@@ -12,7 +12,7 @@ import type {
   EngineStatus,
   IterationResult,
 } from '../../src/engine/types.js';
-import type { RalphConfig } from '../../src/config/types.js';
+import type { OrbitConfig } from '../../src/config/types.js';
 import type { TrackerTask, TrackerPlugin } from '../../src/plugins/trackers/types.js';
 import type { AgentPlugin, AgentExecutionHandle, AgentExecutionResult } from '../../src/plugins/agents/types.js';
 import { createTrackerTask, createTrackerTasks } from '../factories/tracker-task.js';
@@ -70,9 +70,9 @@ mock.module('../../src/session/index.js', () => ({
 // The real renderPrompt function works fine for execution-engine tests
 
 /**
- * Create a minimal RalphConfig for testing
+ * Create a minimal OrbitConfig for testing
  */
-function createTestConfig(overrides: Partial<RalphConfig> = {}): RalphConfig {
+function createTestConfig(overrides: Partial<OrbitConfig> = {}): OrbitConfig {
   return {
     cwd: '/test/project',
     maxIterations: 10,
@@ -94,12 +94,12 @@ function createTestConfig(overrides: Partial<RalphConfig> = {}): RalphConfig {
       continueOnNonZeroExit: false,
     },
     ...overrides,
-  } as RalphConfig;
+  } as OrbitConfig;
 }
 
 describe('ExecutionEngine', () => {
   let engine: ExecutionEngine;
-  let config: RalphConfig;
+  let config: OrbitConfig;
   let events: EngineEvent[];
 
   beforeEach(() => {
@@ -763,7 +763,7 @@ describe('ExecutionEngine', () => {
   });
 
   describe('task selection - getNextAvailableTask', () => {
-    // Tests for the fix in https://github.com/subsy/ralph-tui/issues/97
+    // Tests for the fix in https://github.com/subsy/orbit/issues/97
     // Engine should delegate to tracker.getNextTask() for dependency-aware ordering
 
     test('delegates to tracker.getNextTask for task selection', async () => {

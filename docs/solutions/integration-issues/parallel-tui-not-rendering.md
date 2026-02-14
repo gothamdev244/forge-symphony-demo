@@ -134,7 +134,7 @@ New function following the same pattern as `runWithTui()`:
 async function runParallelWithTui(
   parallelExecutor: ParallelExecutor,
   persistedState: PersistedSessionState,
-  config: RalphConfig,
+  config: OrbitConfig,
   initialTasks: TrackerTask[],
   storedConfig?: StoredConfig,
 ): Promise<PersistedSessionState> {

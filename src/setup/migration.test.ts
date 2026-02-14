@@ -32,12 +32,12 @@ let CURRENT_CONFIG_VERSION: string;
 
 // Helper to create a temp directory for each test
 async function createTempDir(): Promise<string> {
-  return await mkdtemp(join(tmpdir(), 'ralph-tui-migration-test-'));
+  return await mkdtemp(join(tmpdir(), 'orbit-migration-test-'));
 }
 
 // Helper to write a TOML config file
 async function writeConfig(dir: string, config: Record<string, unknown>): Promise<void> {
-  const configDir = join(dir, '.ralph-tui');
+  const configDir = join(dir, '.orbit');
   await mkdir(configDir, { recursive: true });
 
   // Simple TOML serialization for test purposes
@@ -55,7 +55,7 @@ async function writeConfig(dir: string, config: Record<string, unknown>): Promis
 
 // Helper to read and parse a TOML config file
 async function readConfig(dir: string): Promise<Record<string, string>> {
-  const content = await readFile(join(dir, '.ralph-tui', 'config.toml'), 'utf-8');
+  const content = await readFile(join(dir, '.orbit', 'config.toml'), 'utf-8');
   const result: Record<string, string> = {};
 
   for (const line of content.split('\n')) {

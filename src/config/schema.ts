@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Zod schemas for Ralph TUI configuration validation.
+ * ABOUTME: Zod schemas for Orbit TUI configuration validation.
  * Provides runtime validation with helpful error messages for config files.
  */
 
@@ -130,7 +130,7 @@ export const TrackerPluginConfigSchema = z.object({
 
 /**
  * Stored configuration schema (global or project config file)
- * Both global (~/.config/ralph-tui/config.toml) and project (.ralph-tui/config.toml)
+ * Both global (~/.config/orbit/config.toml) and project (.orbit/config.toml)
  * use this schema.
  */
 export const StoredConfigSchema = z

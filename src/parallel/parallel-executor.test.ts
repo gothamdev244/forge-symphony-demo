@@ -10,7 +10,7 @@ import { describe, test, expect } from 'bun:test';
 import { analyzeTaskGraph, shouldRunParallel } from './task-graph.js';
 import { ParallelExecutor } from './index.js';
 import type { TrackerTask, TrackerPlugin } from '../plugins/trackers/types.js';
-import type { RalphConfig } from '../config/types.js';
+import type { OrbitConfig } from '../config/types.js';
 import type { ParallelEvent } from './events.js';
 import type { AiResolverCallback } from './conflict-resolver.js';
 
@@ -154,8 +154,8 @@ function createMockTracker(): TrackerPlugin {
   };
 }
 
-/** Create a minimal RalphConfig for testing */
-function createMockConfig(): RalphConfig {
+/** Create a minimal OrbitConfig for testing */
+function createMockConfig(): OrbitConfig {
   return {
     cwd: '/tmp/test-project',
     maxIterations: 5,

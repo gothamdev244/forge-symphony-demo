@@ -6,7 +6,7 @@ import { describe, test, expect } from 'bun:test';
 import * as path from 'node:path';
 import { buildTemplateVariables } from './engine.js';
 import type { TrackerTask } from '../plugins/trackers/types.js';
-import type { RalphConfig } from '../config/types.js';
+import type { OrbitConfig } from '../config/types.js';
 
 describe('buildTemplateVariables', () => {
   const createMinimalTask = (overrides: Partial<TrackerTask> = {}): TrackerTask => ({
@@ -20,7 +20,7 @@ describe('buildTemplateVariables', () => {
   describe('beadsDbPath computation', () => {
     test('uses tracker workingDir when provided', () => {
       const task = createMinimalTask();
-      const config: Partial<RalphConfig> = {
+      const config: Partial<OrbitConfig> = {
         tracker: {
           name: 'default',
           plugin: 'beads',
@@ -38,7 +38,7 @@ describe('buildTemplateVariables', () => {
 
     test('uses custom beadsDir when provided', () => {
       const task = createMinimalTask();
-      const config: Partial<RalphConfig> = {
+      const config: Partial<OrbitConfig> = {
         tracker: {
           name: 'default',
           plugin: 'beads',
@@ -56,7 +56,7 @@ describe('buildTemplateVariables', () => {
 
     test('falls back to config.cwd when tracker workingDir not set', () => {
       const task = createMinimalTask();
-      const config: Partial<RalphConfig> = {
+      const config: Partial<OrbitConfig> = {
         tracker: {
           name: 'default',
           plugin: 'beads',
@@ -72,7 +72,7 @@ describe('buildTemplateVariables', () => {
 
     test('falls back to process.cwd when no paths configured', () => {
       const task = createMinimalTask();
-      const config: Partial<RalphConfig> = {
+      const config: Partial<OrbitConfig> = {
         tracker: {
           name: 'default',
           plugin: 'beads',
@@ -88,7 +88,7 @@ describe('buildTemplateVariables', () => {
 
     test('handles empty config gracefully', () => {
       const task = createMinimalTask();
-      const config: Partial<RalphConfig> = {};
+      const config: Partial<OrbitConfig> = {};
 
       const vars = buildTemplateVariables(task, config);
 
@@ -107,7 +107,7 @@ describe('buildTemplateVariables', () => {
         priority: 1,
         status: 'in_progress',
       });
-      const config: Partial<RalphConfig> = {
+      const config: Partial<OrbitConfig> = {
         tracker: { name: 'default', plugin: 'beads', options: {} },
         model: 'claude-sonnet',
         cwd: '/test/project',
@@ -128,7 +128,7 @@ describe('buildTemplateVariables', () => {
 
     test('handles optional fields with defaults', () => {
       const task = createMinimalTask();
-      const config: Partial<RalphConfig> = {};
+      const config: Partial<OrbitConfig> = {};
 
       const vars = buildTemplateVariables(task, config);
 
@@ -144,7 +144,7 @@ describe('buildTemplateVariables', () => {
 
     test('includes epic information when provided', () => {
       const task = createMinimalTask();
-      const config: Partial<RalphConfig> = {};
+      const config: Partial<OrbitConfig> = {};
       const epic = {
         id: 'epic-001',
         title: 'Big Feature Epic',
@@ -159,7 +159,7 @@ describe('buildTemplateVariables', () => {
 
     test('includes recent progress when provided', () => {
       const task = createMinimalTask();
-      const config: Partial<RalphConfig> = {};
+      const config: Partial<OrbitConfig> = {};
 
       const vars = buildTemplateVariables(task, config, undefined, 'Completed step 1 and 2');
 

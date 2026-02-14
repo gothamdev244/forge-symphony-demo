@@ -21,12 +21,12 @@ import { collectSystemInfo } from '../../src/commands/info.js'
 
 // Helper to create a temp directory for each test
 async function createTempDir(): Promise<string> {
-  return await mkdtemp(join(tmpdir(), 'ralph-tui-info-test-'))
+  return await mkdtemp(join(tmpdir(), 'orbit-info-test-'))
 }
 
 // Helper to write a TOML config file
 async function writeConfig(dir: string, config: Record<string, unknown>): Promise<void> {
-  const configDir = join(dir, '.ralph-tui')
+  const configDir = join(dir, '.orbit')
   await mkdir(configDir, { recursive: true })
 
   const lines: string[] = []
@@ -122,7 +122,7 @@ describe('collectSystemInfo', () => {
 
     const info = await collectSystemInfo(tempDir)
 
-    expect(info.config.projectPath).toBe(join(tempDir, '.ralph-tui', 'config.toml'))
+    expect(info.config.projectPath).toBe(join(tempDir, '.orbit', 'config.toml'))
     expect(info.config.projectExists).toBe(true)
   })
 

@@ -1,33 +1,33 @@
-# Ralph-TUI Manual Testing Guide
+# Orbit-TUI Manual Testing Guide
 
-This guide describes a **repeatable, idempotent** method for manually testing Ralph-TUI's end-to-end workflow, including the parallel task execution feature.
+This guide describes a **repeatable, idempotent** method for manually testing Orbit-TUI's end-to-end workflow, including the parallel task execution feature.
 
 ## Quick Start
 
 ```bash
-# One-time setup (creates workspace in ~/.cache/ralph-tui/test-workspace)
+# One-time setup (creates workspace in ~/.cache/orbit/test-workspace)
 ./testing/setup-test-workspace.sh
 
 # Run the test (uses PRD copy in workspace)
-bun run dev -- run --prd ~/.cache/ralph-tui/test-workspace/test-prd.json --cwd ~/.cache/ralph-tui/test-workspace
+bun run dev -- run --prd ~/.cache/orbit/test-workspace/test-prd.json --cwd ~/.cache/orbit/test-workspace
 
 # If something goes wrong, stop and reset
 ./testing/reset-test.sh
 
 # Run again
-bun run dev -- run --prd ~/.cache/ralph-tui/test-workspace/test-prd.json --cwd ~/.cache/ralph-tui/test-workspace
+bun run dev -- run --prd ~/.cache/orbit/test-workspace/test-prd.json --cwd ~/.cache/orbit/test-workspace
 ```
 
 ## Architecture
 
 ### Why External Workspace?
 
-The test workspace is created **outside** the ralph-tui repository to avoid:
+The test workspace is created **outside** the orbit repository to avoid:
 - Nested git repository issues
 - Accidental commits of test state
-- Conflicts with ralph-tui's own git history
+- Conflicts with orbit's own git history
 
-**Default location**: `~/.cache/ralph-tui/test-workspace`
+**Default location**: `~/.cache/orbit/test-workspace`
 
 You can override this by passing a path to setup:
 ```bash
@@ -38,10 +38,10 @@ You can override this by passing a path to setup:
 
 The source PRD (`testing/test-prd.json`) is a **template** that never gets modified:
 - Setup script copies it to the workspace
-- Ralph-TUI modifies the workspace copy during runs
+- Orbit-TUI modifies the workspace copy during runs
 - Reset script re-copies from source to restore clean state
 
-This prevents accidental commits of test state to the ralph-tui repo.
+This prevents accidental commits of test state to the orbit repo.
 
 ### What Gets Shared with Contributors
 
@@ -81,10 +81,10 @@ TEST-003 (P2) ──────────────────────
 | State Type | Location | Reset Method |
 |------------|----------|--------------|
 | Task completion | `<workspace>/test-prd.json` | Re-copied from source |
-| Session state | `<workspace>/.ralph-tui/session.json` | Deleted |
-| Session lock | `<workspace>/.ralph-tui/lock.json` | Deleted |
-| Progress context | `<workspace>/.ralph-tui/progress.md` | Deleted |
-| Iteration logs | `<workspace>/.ralph-tui/iterations/` | Directory cleared |
+| Session state | `<workspace>/.orbit/session.json` | Deleted |
+| Session lock | `<workspace>/.orbit/lock.json` | Deleted |
+| Progress context | `<workspace>/.orbit/progress.md` | Deleted |
+| Iteration logs | `<workspace>/.orbit/iterations/` | Directory cleared |
 | Generated files | `output-*.txt`, `merged-*.txt`, `summary.txt` | Deleted |
 | Git state | `<workspace>/.git/` | Optional: `git reset --hard test-start` |
 
@@ -97,7 +97,7 @@ TEST-003 (P2) ──────────────────────
 ```
 
 This creates:
-- `~/.cache/ralph-tui/test-workspace/` - Isolated git repo for testing
+- `~/.cache/orbit/test-workspace/` - Isolated git repo for testing
 - `test-prd.json` - Copy of the test PRD (modified during runs)
 - Initial commit with README and .gitignore
 - Git tag `test-start` for easy hard reset
@@ -106,20 +106,20 @@ This creates:
 ### 2. Running a Test
 
 ```bash
-bun run dev -- run --prd ~/.cache/ralph-tui/test-workspace/test-prd.json --cwd ~/.cache/ralph-tui/test-workspace
+bun run dev -- run --prd ~/.cache/orbit/test-workspace/test-prd.json --cwd ~/.cache/orbit/test-workspace
 ```
 
 The `--prd` flag points to the workspace copy (gets modified during runs).
-The `--cwd` flag tells ralph-tui to execute in the test workspace, where:
+The `--cwd` flag tells orbit to execute in the test workspace, where:
 - The agent will create output files
-- Session state (`.ralph-tui/`) will be stored
+- Session state (`.orbit/`) will be stored
 - Git operations will occur
 
 ### 3. Observing the Workflow
 
 Watch for these stages:
 
-1. **Task Selection**: Ralph should select TEST-001 or TEST-002 first (both P1, no deps)
+1. **Task Selection**: Orbit should select TEST-001 or TEST-002 first (both P1, no deps)
 2. **Prompt Building**: Check the prompt includes task details and acceptance criteria
 3. **Agent Execution**: Watch the agent create the output files
 4. **Completion Detection**: Agent should emit `<promise>COMPLETE</promise>`
@@ -144,7 +144,7 @@ TEST-004 should **not** be selected until both TEST-001 and TEST-002 are complet
 To test error handling:
 1. Start a test run
 2. Kill the agent mid-execution (Ctrl+C on the agent process)
-3. Run `ralph-tui resume`
+3. Run `orbit resume`
 4. Verify the task that was interrupted is retried
 
 ### 5. Resetting for Re-test
@@ -156,7 +156,7 @@ To test error handling:
 
 **Hard Reset** (full clean slate):
 ```bash
-cd ~/.cache/ralph-tui/test-workspace && git reset --hard test-start && git clean -fd
+cd ~/.cache/orbit/test-workspace && git reset --hard test-start && git clean -fd
 ./testing/reset-test.sh
 ```
 
@@ -177,31 +177,31 @@ cd ~/.cache/ralph-tui/test-workspace && git reset --hard test-start && git clean
 ### Test won't start
 ```bash
 # Check for stale lock
-cat ~/.cache/ralph-tui/test-workspace/.ralph-tui/lock.json
+cat ~/.cache/orbit/test-workspace/.orbit/lock.json
 
 # Remove if stale
-rm ~/.cache/ralph-tui/test-workspace/.ralph-tui/lock.json
+rm ~/.cache/orbit/test-workspace/.orbit/lock.json
 ```
 
 ### Task status won't reset
 ```bash
 # Manually verify workspace PRD
-cat ~/.cache/ralph-tui/test-workspace/test-prd.json | jq '.userStories[].passes'
+cat ~/.cache/orbit/test-workspace/test-prd.json | jq '.userStories[].passes'
 
 # Re-copy from source
-cp testing/test-prd.json ~/.cache/ralph-tui/test-workspace/test-prd.json
+cp testing/test-prd.json ~/.cache/orbit/test-workspace/test-prd.json
 ```
 
 ### Agent keeps failing
 Check the iteration logs:
 ```bash
-ls -la ~/.cache/ralph-tui/test-workspace/.ralph-tui/iterations/
-cat ~/.cache/ralph-tui/test-workspace/.ralph-tui/iterations/*.log | tail -100
+ls -la ~/.cache/orbit/test-workspace/.orbit/iterations/
+cat ~/.cache/orbit/test-workspace/.orbit/iterations/*.log | tail -100
 ```
 
 ### Git state is corrupted
 ```bash
-cd ~/.cache/ralph-tui/test-workspace
+cd ~/.cache/orbit/test-workspace
 git status
 git reset --hard test-start
 git clean -fd
@@ -225,14 +225,14 @@ For automated testing in CI, you can run:
 ./testing/setup-test-workspace.sh
 
 # Run headless with max iterations
-bun run dev -- run --prd ~/.cache/ralph-tui/test-workspace/test-prd.json --cwd ~/.cache/ralph-tui/test-workspace --headless --iterations 10
+bun run dev -- run --prd ~/.cache/orbit/test-workspace/test-prd.json --cwd ~/.cache/orbit/test-workspace --headless --iterations 10
 
 # Verify completion
-jq '.userStories | all(.passes)' ~/.cache/ralph-tui/test-workspace/test-prd.json
+jq '.userStories | all(.passes)' ~/.cache/orbit/test-workspace/test-prd.json
 # Should output: true
 
 # Verify output files exist
-test -f ~/.cache/ralph-tui/test-workspace/summary.txt && echo "PASS" || echo "FAIL"
+test -f ~/.cache/orbit/test-workspace/summary.txt && echo "PASS" || echo "FAIL"
 ```
 
 ## Testing AI Conflict Resolution
@@ -255,16 +255,16 @@ The conflict PRD has three parallel tasks (CONFLICT-001, 002, 003) that all modi
 ./testing/setup-test-workspace.sh
 
 # Copy the conflict PRD to workspace
-cp testing/test-conflict-prd.json ~/.cache/ralph-tui/test-workspace/test-conflict-prd.json
+cp testing/test-conflict-prd.json ~/.cache/orbit/test-workspace/test-conflict-prd.json
 
 # Run with parallel execution (use --parallel to force parallel mode)
-bun run dev -- run --prd ~/.cache/ralph-tui/test-workspace/test-conflict-prd.json \
-  --cwd ~/.cache/ralph-tui/test-workspace \
+bun run dev -- run --prd ~/.cache/orbit/test-workspace/test-conflict-prd.json \
+  --cwd ~/.cache/orbit/test-workspace \
   --parallel 3
 
 # Reset and try again
 ./testing/reset-test.sh
-cp testing/test-conflict-prd.json ~/.cache/ralph-tui/test-workspace/test-conflict-prd.json
+cp testing/test-conflict-prd.json ~/.cache/orbit/test-workspace/test-conflict-prd.json
 ```
 
 ### Expected Behavior
@@ -288,13 +288,13 @@ After a successful run:
 
 ```bash
 # Check that all features are present in the merged file
-cat ~/.cache/ralph-tui/test-workspace/FEATURES.md
+cat ~/.cache/orbit/test-workspace/FEATURES.md
 
 # Should contain sections for Feature A, B, and C
-grep -E "## Feature [ABC]" ~/.cache/ralph-tui/test-workspace/FEATURES.md
+grep -E "## Feature [ABC]" ~/.cache/orbit/test-workspace/FEATURES.md
 
 # Verify the summary was created
-cat ~/.cache/ralph-tui/test-workspace/SUMMARY.md
+cat ~/.cache/orbit/test-workspace/SUMMARY.md
 ```
 
 ### Debugging Conflict Resolution
@@ -303,13 +303,13 @@ If conflicts aren't being resolved:
 
 ```bash
 # Check iteration logs for conflict events
-grep -r "conflict" ~/.cache/ralph-tui/test-workspace/.ralph-tui/iterations/
+grep -r "conflict" ~/.cache/orbit/test-workspace/.orbit/iterations/
 
 # Look for AI resolver output
-grep -r "AI resolver" ~/.cache/ralph-tui/test-workspace/.ralph-tui/iterations/
+grep -r "AI resolver" ~/.cache/orbit/test-workspace/.orbit/iterations/
 
 # Check if fast-path was triggered (trivial conflicts)
-grep -r "fast-path" ~/.cache/ralph-tui/test-workspace/.ralph-tui/iterations/
+grep -r "fast-path" ~/.cache/orbit/test-workspace/.orbit/iterations/
 ```
 
 ### Disabling AI Resolution
@@ -318,14 +318,14 @@ To test fallback behavior when AI resolution is disabled:
 
 ```bash
 # Create a config that disables AI resolution
-cat > ~/.cache/ralph-tui/test-workspace/.ralph-tui/config.toml << 'EOF'
+cat > ~/.cache/orbit/test-workspace/.orbit/config.toml << 'EOF'
 [conflictResolution]
 enabled = false
 EOF
 
 # Run the test - conflicts should cause task failure or manual intervention
-bun run dev -- run --prd ~/.cache/ralph-tui/test-workspace/test-conflict-prd.json \
-  --cwd ~/.cache/ralph-tui/test-workspace \
+bun run dev -- run --prd ~/.cache/orbit/test-workspace/test-conflict-prd.json \
+  --cwd ~/.cache/orbit/test-workspace \
   --parallel 3
 ```
 

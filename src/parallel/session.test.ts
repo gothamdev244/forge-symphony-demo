@@ -283,7 +283,7 @@ describe('findOrphanedWorktrees', () => {
   });
 
   test('returns empty array when worktree directory is empty', () => {
-    const worktreeDir = '.ralph-tui/worktrees';
+    const worktreeDir = '.orbit/worktrees';
     fs.mkdirSync(path.join(tempDir, worktreeDir), { recursive: true });
 
     const orphans = findOrphanedWorktrees(tempDir, worktreeDir);
@@ -291,7 +291,7 @@ describe('findOrphanedWorktrees', () => {
   });
 
   test('detects orphaned worktree directories', () => {
-    const worktreeDir = '.ralph-tui/worktrees';
+    const worktreeDir = '.orbit/worktrees';
     const basePath = path.join(tempDir, worktreeDir);
     fs.mkdirSync(path.join(basePath, 'worker-1'), { recursive: true });
     fs.mkdirSync(path.join(basePath, 'worker-2'), { recursive: true });
@@ -305,7 +305,7 @@ describe('findOrphanedWorktrees', () => {
   });
 
   test('ignores files (only returns directories)', () => {
-    const worktreeDir = '.ralph-tui/worktrees';
+    const worktreeDir = '.orbit/worktrees';
     const basePath = path.join(tempDir, worktreeDir);
     fs.mkdirSync(basePath, { recursive: true });
     fs.writeFileSync(path.join(basePath, 'stale-file.txt'), 'content');
@@ -336,7 +336,7 @@ describe('cleanupOrphanedWorktrees', () => {
   });
 
   test('returns zero cleaned when worktree directory is empty', () => {
-    const worktreeDir = '.ralph-tui/worktrees';
+    const worktreeDir = '.orbit/worktrees';
     fs.mkdirSync(path.join(tempDir, worktreeDir), { recursive: true });
 
     const result = cleanupOrphanedWorktrees(tempDir, worktreeDir);
@@ -347,7 +347,7 @@ describe('cleanupOrphanedWorktrees', () => {
 
   test('reports errors for non-git directories it cannot clean', () => {
     // Create a fake worktree directory (not a real git worktree)
-    const worktreeDir = '.ralph-tui/worktrees';
+    const worktreeDir = '.orbit/worktrees';
     const basePath = path.join(tempDir, worktreeDir);
     const fakeWorktree = path.join(basePath, 'worker-1');
     fs.mkdirSync(fakeWorktree, { recursive: true });

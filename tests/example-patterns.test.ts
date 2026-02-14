@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Example test file demonstrating testing patterns for Ralph TUI.
+ * ABOUTME: Example test file demonstrating testing patterns for Orbit TUI.
  * This file serves as a reference for contributors writing new tests.
  * It showcases factories, mocks, spying, and common test patterns.
  */

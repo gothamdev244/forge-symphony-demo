@@ -349,7 +349,7 @@ describe('printRunHelp', () => {
 
       // Should contain usage info
       const fullOutput = output.join('\n');
-      expect(fullOutput).toContain('ralph-tui run');
+      expect(fullOutput).toContain('orbit run');
       expect(fullOutput).toContain('--task-range');
       expect(fullOutput).toContain('--parallel');
     } finally {

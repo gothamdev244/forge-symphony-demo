@@ -1,7 +1,7 @@
 # Issue #244 Analysis: Start does not work after refreshing
 
 ## Problem Summary
-Newly created issues cannot be started in ralph-tui after refreshing when those issues were created in a separate terminal session, and the engine had previously completed all tasks.
+Newly created issues cannot be started in orbit after refreshing when those issues were created in a separate terminal session, and the engine had previously completed all tasks.
 
 ## Root Cause
 The 's' key handler in `src/tui/components/RunApp.tsx` (lines 1418-1450) only handles these TUI statuses:
@@ -60,4 +60,4 @@ case 'tasks:refreshed':
 Option A is simpler and maintains the "s = keep going" mental model mentioned in the code comment. Option B is more automatic but adds complexity.
 
 ## Workaround
-Quitting and restarting ralph-tui resolves the issue by resetting all state.
+Quitting and restarting orbit resolves the issue by resetting all state.

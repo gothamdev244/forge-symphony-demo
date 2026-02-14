@@ -4,7 +4,7 @@
  */
 
 import type { TrackerTask } from '../plugins/trackers/types.js';
-import type { RalphConfig } from '../config/types.js';
+import type { OrbitConfig } from '../config/types.js';
 
 /**
  * Variables available for template substitution.
@@ -114,7 +114,7 @@ export interface TemplateContext {
   task: TrackerTask;
 
   /** The raw configuration for advanced template use */
-  config: Partial<RalphConfig>;
+  config: Partial<OrbitConfig>;
 
   /** Epic information if available */
   epic?: {

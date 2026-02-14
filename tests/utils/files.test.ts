@@ -3,7 +3,7 @@
  * Tests path operations, file discovery, and common file helpers.
  *
  * NOTE: These tests assume POSIX path semantics (forward slashes, absolute paths
- * starting with '/'). This is intentional as ralph-tui primarily targets Unix-like
+ * starting with '/'). This is intentional as orbit primarily targets Unix-like
  * systems. Cross-platform path handling would require refactoring both the
  * implementation in src/utils/files.ts and these tests.
  */

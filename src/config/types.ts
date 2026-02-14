@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Type definitions for Ralph TUI configuration.
+ * ABOUTME: Type definitions for Orbit TUI configuration.
  * Defines the structure of configuration files and runtime options.
  */
 
@@ -12,7 +12,7 @@ import type {
 
 /**
  * Rate limit handling configuration for agents.
- * Controls how ralph-tui responds when an agent hits API rate limits.
+ * Controls how orbit responds when an agent hits API rate limits.
  */
 export interface RateLimitHandlingConfig {
   /** Whether rate limit handling is enabled (default: true) */
@@ -51,7 +51,7 @@ export type SubagentDetailLevel = "off" | "minimal" | "moderate" | "full";
  * Sound mode for notifications.
  * - 'off': No sound (default)
  * - 'system': Use OS default notification sound
- * - 'ralph': Play random Ralph Wiggum sound clips
+ * - 'ralph': Play random Orbit Wiggum sound clips
  */
 export type NotificationSoundMode = "off" | "system" | "ralph";
 
@@ -67,7 +67,7 @@ export interface NotificationsConfig {
 
 /**
  * Image cleanup policy for attached images.
- * - 'on_exit': Clean up images when ralph-tui exits (default)
+ * - 'on_exit': Clean up images when orbit exits (default)
  * - 'manual': Keep images until manually deleted
  * - 'never': Never clean up images automatically
  */
@@ -128,7 +128,7 @@ export interface ParallelConfig {
   /** Maximum concurrent workers (default: 3) */
   maxWorkers?: number;
 
-  /** Directory for git worktrees relative to project root (default: '.ralph-tui/worktrees') */
+  /** Directory for git worktrees relative to project root (default: '.orbit/worktrees') */
   worktreeDir?: string;
 
   /**
@@ -341,7 +341,7 @@ export interface StoredConfig {
 /**
  * Merged runtime configuration (stored config + CLI options)
  */
-export interface RalphConfig {
+export interface OrbitConfig {
   /** Active agent configuration */
   agent: AgentPluginConfig;
 
@@ -427,12 +427,12 @@ export const DEFAULT_ERROR_HANDLING: ErrorHandlingConfig = {
 /**
  * Default configuration values
  */
-export const DEFAULT_CONFIG: Omit<RalphConfig, "agent" | "tracker"> = {
+export const DEFAULT_CONFIG: Omit<OrbitConfig, "agent" | "tracker"> = {
   maxIterations: 10,
   iterationDelay: 1000,
   cwd: process.cwd(),
-  outputDir: ".ralph-tui/iterations",
-  progressFile: ".ralph-tui/progress.md",
+  outputDir: ".orbit/iterations",
+  progressFile: ".orbit/progress.md",
   showTui: true,
   errorHandling: DEFAULT_ERROR_HANDLING,
   sandbox: DEFAULT_SANDBOX_CONFIG,

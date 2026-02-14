@@ -130,7 +130,7 @@ describe('BeadsTrackerPlugin', () => {
     test('uses --limit 0 to bypass default 50 result limit', async () => {
       // The --limit 0 flag is critical to bypass bd's default limit of 50 results.
       // Without it, epics with more than 50 tasks would have tasks truncated.
-      // See: https://github.com/subsy/ralph-tui/issues/233
+      // See: https://github.com/subsy/orbit/issues/233
       mockSpawnStdout = '[]';
       mockSpawnExitCode = 0;
 
@@ -149,7 +149,7 @@ describe('BeadsTrackerPlugin', () => {
   describe('getEpics', () => {
     test('uses --limit 0 to bypass default 50 result limit', async () => {
       // The --limit 0 flag is critical to bypass bd's default limit of 50 results.
-      // See: https://github.com/subsy/ralph-tui/issues/233
+      // See: https://github.com/subsy/orbit/issues/233
       mockSpawnStdout = '[]';
       mockSpawnExitCode = 0;
 

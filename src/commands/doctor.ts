@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Doctor command for ralph-tui.
+ * ABOUTME: Doctor command for orbit.
  * Runs diagnostics on the configured agent to verify it's fully operational.
  * Helps users identify and fix configuration issues before starting work.
  */
@@ -150,7 +150,7 @@ async function runDiagnostics(
  */
 function printHumanResult(result: DoctorResult, verbose = false): void {
   console.log('\n═══════════════════════════════════════════════════════════════');
-  console.log('                    Ralph TUI Doctor Report                     ');
+  console.log('                    Orbit TUI Doctor Report                     ');
   console.log('═══════════════════════════════════════════════════════════════\n');
 
   // Status
@@ -252,11 +252,11 @@ function printHumanResult(result: DoctorResult, verbose = false): void {
   if (result.healthy) {
     console.log('  ✓ Your agent is configured correctly and ready to use.');
     console.log('');
-    console.log('  Start working: ralph-tui run');
+    console.log('  Start working: orbit run');
   } else {
     console.log(`  ✗ ${result.message}`);
     console.log('');
-    console.log('  Please fix the issues above and run: ralph-tui doctor');
+    console.log('  Please fix the issues above and run: orbit doctor');
     if (!verbose) {
       console.log('');
       console.log('  Tip: Run with --verbose for more diagnostic details');
@@ -324,9 +324,9 @@ export async function executeDoctorCommand(args: string[]): Promise<void> {
  */
 export function printDoctorHelp(): void {
   console.log(`
-ralph-tui doctor - Diagnose agent configuration
+orbit doctor - Diagnose agent configuration
 
-Usage: ralph-tui doctor [options]
+Usage: orbit doctor [options]
 
 Options:
   --agent <name>    Check specific agent (default: configured agent)
@@ -355,10 +355,10 @@ Exit Codes:
   1    Agent has configuration issues
 
 Examples:
-  ralph-tui doctor                 # Check configured agent
-  ralph-tui doctor --agent claude  # Check specific agent
-  ralph-tui doctor --json          # JSON output for scripts
-  ralph-tui doctor --verbose       # Show detailed error output
+  orbit doctor                 # Check configured agent
+  orbit doctor --agent claude  # Check specific agent
+  orbit doctor --json          # JSON output for scripts
+  orbit doctor --verbose       # Show detailed error output
 
 Common Issues:
   OpenCode: Configure a default model in ~/.config/opencode/opencode.json

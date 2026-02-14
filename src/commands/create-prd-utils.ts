@@ -108,10 +108,10 @@ export function parseTrackerLabels(
  */
 export function printCreatePrdHelp(): void {
   console.log(`
-ralph-tui create-prd - Create a new PRD with AI assistance
+orbit create-prd - Create a new PRD with AI assistance
 
-Usage: ralph-tui create-prd [options]
-       ralph-tui prime [options]
+Usage: orbit create-prd [options]
+       orbit prime [options]
 
 Options:
   --cwd, -C <path>       Working directory (default: current directory)
@@ -125,24 +125,24 @@ Options:
 Description:
   Creates a Product Requirements Document (PRD) through an AI-powered conversation.
 
-  The AI agent (using the ralph-tui-prd skill):
+  The AI agent (using the orbit-prd skill):
   1. Asks about the feature you want to build
   2. Asks contextual follow-up questions about users, requirements, and scope
   3. Generates a markdown PRD with user stories and acceptance criteria
   4. Offers to create tracker tasks (prd.json or beads)
 
-  Requires an AI agent to be configured. Run 'ralph-tui setup' to configure one.
+  Requires an AI agent to be configured. Run 'orbit setup' to configure one.
 
 Examples:
-  ralph-tui create-prd                      # Start AI-powered PRD creation
-  ralph-tui prime                           # Alias for create-prd
-  ralph-tui create-prd --agent claude       # Use specific agent
-  ralph-tui create-prd --output ./docs      # Save PRD to custom directory
+  orbit create-prd                      # Start AI-powered PRD creation
+  orbit prime                           # Alias for create-prd
+  orbit create-prd --agent claude       # Use specific agent
+  orbit create-prd --output ./docs      # Save PRD to custom directory
 `);
 }
 
 /**
- * Try to load the bundled ralph-tui-prd skill from the agent's skills directory.
+ * Try to load the bundled orbit-prd skill from the agent's skills directory.
  * Returns the skill source if found, undefined otherwise.
  */
 export async function loadBundledPrdSkill(
@@ -153,7 +153,7 @@ export async function loadBundledPrdSkill(
 
   if (skillsPaths.personal) {
     const personalPath = skillsPaths.personal.replace(/^~/, process.env.HOME || "");
-    const skillFile = join(personalPath, "ralph-tui-prd", "SKILL.md");
+    const skillFile = join(personalPath, "orbit-prd", "SKILL.md");
     try {
       await access(skillFile, constants.R_OK);
       const content = await readFile(skillFile, "utf-8");
@@ -169,7 +169,7 @@ export async function loadBundledPrdSkill(
     const skillFile = join(
       process.cwd(),
       skillsPaths.repo,
-      "ralph-tui-prd",
+      "orbit-prd",
       "SKILL.md",
     );
     try {

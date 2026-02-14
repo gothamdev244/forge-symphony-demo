@@ -1,6 +1,6 @@
 /**
  * ABOUTME: Template commands for viewing and initializing prompt templates.
- * Provides ralph-tui template show and ralph-tui template init commands.
+ * Provides orbit template show and orbit template init commands.
  */
 
 import * as fs from 'node:fs';
@@ -73,7 +73,7 @@ export function printTemplateHelp(): void {
  */
 function showTemplateHelp(): void {
   console.log(`
-${BOLD}ralph-tui template${RESET} - Manage prompt templates
+${BOLD}orbit template${RESET} - Manage prompt templates
 
 ${BOLD}Commands:${RESET}
   ${CYAN}show${RESET}              Display the current template being used
@@ -87,21 +87,21 @@ ${BOLD}Show Options:${RESET}
 ${BOLD}Init Options:${RESET}
   ${DIM}--tracker <name>${RESET}   Use template for specific tracker (default, beads, beads-bv, json)
   ${DIM}--output <path>${RESET}    Custom output path (default: ./ralph-prompt.hbs)
-  ${DIM}--global${RESET}           Install all templates to ~/.config/ralph-tui/templates/
+  ${DIM}--global${RESET}           Install all templates to ~/.config/orbit/templates/
   ${DIM}--force${RESET}            Overwrite existing file
 
 ${BOLD}Examples:${RESET}
-  ralph-tui template show                    # Show current template
-  ralph-tui template show --tracker beads    # Show built-in beads template
-  ralph-tui template init                    # Copy default template for customization
-  ralph-tui template init --tracker beads    # Copy beads template
-  ralph-tui template init --global           # Install all templates to global config
+  orbit template show                    # Show current template
+  orbit template show --tracker beads    # Show built-in beads template
+  orbit template init                    # Copy default template for customization
+  orbit template init --tracker beads    # Copy beads template
+  orbit template init --global           # Install all templates to global config
 
 ${BOLD}Template Resolution Order:${RESET}
-  Ralph searches for templates in this order (first match wins):
+  Orbit searches for templates in this order (first match wins):
   1. Explicit --prompt <path> or prompt_template in config
-  2. Project templates: .ralph-tui/templates/{tracker}.hbs
-  3. Global templates: ~/.config/ralph-tui/templates/{tracker}.hbs
+  2. Project templates: .orbit/templates/{tracker}.hbs
+  3. Global templates: ~/.config/orbit/templates/{tracker}.hbs
   4. Tracker plugin bundled template
   5. Built-in fallback
 
@@ -171,7 +171,7 @@ async function handleShowTemplate(args: string[]): Promise<void> {
 /**
  * Handle the 'template init' command.
  * Copies a built-in template to a custom location for customization.
- * With --global flag, installs all templates to ~/.config/ralph-tui/templates/
+ * With --global flag, installs all templates to ~/.config/orbit/templates/
  */
 async function handleInitTemplate(args: string[]): Promise<void> {
   const cwd = process.cwd();
@@ -217,7 +217,7 @@ async function handleInitTemplate(args: string[]): Promise<void> {
     if (result.success) {
       console.log(`\n${GREEN}Done!${RESET}`);
       console.log(`\n${BOLD}Templates will be used as fallback for all projects.${RESET}`);
-      console.log(`${DIM}Override per-project in .ralph-tui/templates/${RESET}`);
+      console.log(`${DIM}Override per-project in .orbit/templates/${RESET}`);
     } else {
       console.log(`\n${RED}Some templates could not be created.${RESET}`);
       process.exit(1);
@@ -255,8 +255,8 @@ async function handleInitTemplate(args: string[]): Promise<void> {
   console.log(`${DIM}Template type: ${trackerType}${RESET}`);
   console.log(`\n${BOLD}Next steps:${RESET}`);
   console.log(`  1. Edit ${path.basename(outputPath)} to customize the prompt`);
-  console.log(`  2. Add to your ${CYAN}.ralph-tui/config.toml${RESET}:`);
+  console.log(`  2. Add to your ${CYAN}.orbit/config.toml${RESET}:`);
   console.log(`     ${DIM}prompt_template: ${path.relative(cwd, outputPath)}${RESET}`);
-  console.log(`\n${DIM}See 'ralph-tui template show' for available variables${RESET}`);
+  console.log(`\n${DIM}See 'orbit template show' for available variables${RESET}`);
 }
 

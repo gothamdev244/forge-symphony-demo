@@ -29,7 +29,7 @@ import type {
 import { ITERATIONS_DIR } from './types.js';
 import type { SubagentEvent, SubagentState } from '../plugins/agents/tracing/types.js';
 import type { IterationResult } from '../engine/types.js';
-import type { RalphConfig, SandboxConfig, SandboxMode } from '../config/types.js';
+import type { OrbitConfig, SandboxConfig, SandboxMode } from '../config/types.js';
 
 /**
  * Divider between metadata header and raw output in log files.
@@ -170,8 +170,8 @@ export async function ensureIterationsDir(cwd: string, customDir?: string): Prom
  * Options for building iteration metadata.
  */
 export interface BuildMetadataOptions {
-  /** Ralph config (for agent plugin, model, epicId) */
-  config?: Partial<RalphConfig>;
+  /** Orbit config (for agent plugin, model, epicId) */
+  config?: Partial<OrbitConfig>;
 
   /** Agent switches that occurred during this iteration */
   agentSwitches?: AgentSwitchEntry[];
@@ -194,10 +194,10 @@ export interface BuildMetadataOptions {
  */
 export function buildMetadata(
   result: IterationResult,
-  configOrOptions?: Partial<RalphConfig> | BuildMetadataOptions
+  configOrOptions?: Partial<OrbitConfig> | BuildMetadataOptions
 ): IterationLogMetadata {
   // Handle both old signature (config only) and new signature (options object)
-  let config: Partial<RalphConfig> | undefined;
+  let config: Partial<OrbitConfig> | undefined;
   let agentSwitches: AgentSwitchEntry[] | undefined;
   let completionSummary: string | undefined;
   let summary: IterationSummary | undefined;
@@ -224,7 +224,7 @@ export function buildMetadata(
     resolvedSandboxMode = opts.resolvedSandboxMode;
   } else {
     // Old config-only signature for backward compatibility
-    config = configOrOptions as Partial<RalphConfig> | undefined;
+    config = configOrOptions as Partial<OrbitConfig> | undefined;
   }
 
   return {
@@ -567,8 +567,8 @@ function parseMetadataHeader(header: string): IterationLogMetadata | null {
  * Options for saving iteration logs.
  */
 export interface SaveIterationLogOptions {
-  /** Ralph config (for output directory, agent plugin, model, epicId) */
-  config?: Partial<RalphConfig>;
+  /** Orbit config (for output directory, agent plugin, model, epicId) */
+  config?: Partial<OrbitConfig>;
 
   /** Session ID for unique log file naming */
   sessionId?: string;
@@ -617,12 +617,12 @@ export async function saveIterationLog(
   result: IterationResult,
   stdout: string,
   stderr: string,
-  options?: SaveIterationLogOptions | Partial<RalphConfig>
+  options?: SaveIterationLogOptions | Partial<OrbitConfig>
 ): Promise<string> {
   // Handle both old signature (config only) and new signature (options object)
   // Old signature: saveIterationLog(cwd, result, stdout, stderr, config)
   // New signature: saveIterationLog(cwd, result, stdout, stderr, options)
-  let config: Partial<RalphConfig> | undefined;
+  let config: Partial<OrbitConfig> | undefined;
   let sessionId: string | undefined;
   let subagentTrace: SubagentTrace | undefined;
   let agentSwitches: AgentSwitchEntry[] | undefined;
@@ -659,7 +659,7 @@ export async function saveIterationLog(
     rawStderrFilePath = saveOptions.rawStderrFilePath;
   } else {
     // Old config-only signature for backward compatibility
-    config = options as Partial<RalphConfig> | undefined;
+    config = options as Partial<OrbitConfig> | undefined;
   }
 
   const outputDir = config?.outputDir;

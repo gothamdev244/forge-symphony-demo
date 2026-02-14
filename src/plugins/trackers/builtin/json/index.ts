@@ -155,7 +155,7 @@ function validatePrdJsonSchema(data: unknown, filePath: string): PrdJson {
   ]
 }
 
-To fix: Regenerate the tasks using "ralph-tui convert --to json <prd-file.md>"
+To fix: Regenerate the tasks using "orbit convert --to json <prd-file.md>"
 or manually restructure the file to match the schema above.`
     );
   }
@@ -219,7 +219,7 @@ or manually restructure the file to match the schema above.`
     throw new PrdJsonSchemaError(
       `Invalid prd.json schema in ${filePath}`,
       errors,
-      'Run "ralph-tui convert --to json <prd-file.md>" to regenerate with correct schema, ' +
+      'Run "orbit convert --to json <prd-file.md>" to regenerate with correct schema, ' +
         'or manually fix the issues listed above.'
     );
   }
@@ -271,7 +271,7 @@ function statusToPasses(status: TrackerTaskStatus): boolean {
  * Convert a PrdUserStory to TrackerTask.
  */
 function storyToTask(story: PrdUserStory, parentName?: string): TrackerTask {
-  // Use notes or completionNotes (notes takes precedence as it's the Ralph standard)
+  // Use notes or completionNotes (notes takes precedence as it's the Orbit standard)
   const notes = story.notes || story.completionNotes;
 
   return {
@@ -702,7 +702,7 @@ export class JsonTrackerPlugin extends BaseTrackerPlugin {
   /**
    * Get the prompt template for the JSON tracker.
    * Returns the embedded template to avoid path resolution issues in bundled environments.
-   * See: https://github.com/subsy/ralph-tui/issues/248
+   * See: https://github.com/subsy/orbit/issues/248
    */
   override getTemplate(): string {
     return JSON_TEMPLATE;

@@ -71,7 +71,7 @@ New file: `src/parallel/ai-resolver.ts`
  */
 
 import { getAgentRegistry } from '../plugins/agents/registry.js';
-import type { RalphConfig } from '../config/types.js';
+import type { OrbitConfig } from '../config/types.js';
 import type { FileConflict } from './types.js';
 import type { AiResolverCallback } from './conflict-resolver.js';
 
@@ -85,7 +85,7 @@ export interface AiResolutionResult {
 /**
  * Creates an AI resolver callback that spawns the session's configured agent.
  */
-export function createAiResolver(config: RalphConfig): AiResolverCallback {
+export function createAiResolver(config: OrbitConfig): AiResolverCallback {
   const timeout = config.conflictResolution?.timeoutMs ?? 120000;
 
   return async (conflict, taskContext) => {

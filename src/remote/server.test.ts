@@ -5,11 +5,11 @@
 
 import { describe, test, expect } from 'bun:test';
 import { RemoteServer } from './server.js';
-import type { RalphConfig } from '../config/types.js';
+import type { OrbitConfig } from '../config/types.js';
 import type { TrackerPlugin } from '../plugins/trackers/types.js';
 
 /** Create a minimal mock config for testing */
-function createMockConfig(): RalphConfig {
+function createMockConfig(): OrbitConfig {
   return {
     cwd: '/tmp/test-project',
     maxIterations: 5,

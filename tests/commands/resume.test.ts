@@ -19,7 +19,7 @@ import * as sessionModule from '../../src/session/index.js';
 
 /**
  * Tests for tracker validation logic (shouldWarnAboutTrackerMismatch).
- * See: https://github.com/subsy/ralph-tui/issues/247
+ * See: https://github.com/subsy/orbit/issues/247
  *
  * When resuming a session, if the tracker returns no tasks but the session
  * has task history, we warn the user about the mismatch. This indicates
@@ -370,7 +370,7 @@ describe('resume command', () => {
 
       const output = logs.join('\n');
       expect(output).toContain('No resumable sessions found');
-      expect(output).toContain('ralph-tui run');
+      expect(output).toContain('orbit run');
     });
 
     test('lists sessions with proper formatting', async () => {
@@ -406,7 +406,7 @@ describe('resume command', () => {
       expect(output).toContain('b2c3d4e5');
       expect(output).toContain('/home/user/project1');
       expect(output).toContain('/home/user/project2');
-      expect(output).toContain('ralph-tui resume <session-id>');
+      expect(output).toContain('orbit resume <session-id>');
     });
   });
 
@@ -422,7 +422,7 @@ describe('resume command', () => {
       console.log = (...args: unknown[]) => {
         logs.push(args.map(String).join(' '));
       };
-      getRegistryFilePathSpy = spyOn(sessionModule, 'getRegistryFilePath').mockReturnValue('/home/user/.config/ralph-tui/sessions.json');
+      getRegistryFilePathSpy = spyOn(sessionModule, 'getRegistryFilePath').mockReturnValue('/home/user/.config/orbit/sessions.json');
     });
 
     afterEach(() => {
@@ -439,7 +439,7 @@ describe('resume command', () => {
       const output = logs.join('\n');
       expect(output).toContain('Cleaning up stale session registry entries');
       expect(output).toContain('No stale entries found');
-      expect(output).toContain('/home/user/.config/ralph-tui/sessions.json');
+      expect(output).toContain('/home/user/.config/orbit/sessions.json');
     });
 
     test('shows message when one stale entry cleaned', async () => {
@@ -701,7 +701,7 @@ describe('resume command', () => {
 
       expect(result).toBeNull();
       const output = errors.join('\n');
-      expect(output).toContain('ralph-tui run');
+      expect(output).toContain('orbit run');
     });
 
     test('truncates session list to 3 entries with count', async () => {
@@ -754,7 +754,7 @@ describe('resume command', () => {
       printResumeHelp();
       expect(logs.length).toBeGreaterThan(0);
       const output = logs.join('\n');
-      expect(output).toContain('ralph-tui resume');
+      expect(output).toContain('orbit resume');
     });
 
     test('includes list option documentation', () => {
@@ -798,7 +798,7 @@ describe('resume command', () => {
       printResumeHelp();
       const output = logs.join('\n');
       expect(output).toContain('Examples:');
-      expect(output).toContain('ralph-tui resume');
+      expect(output).toContain('orbit resume');
     });
 
     test('explains cross-directory resume', () => {

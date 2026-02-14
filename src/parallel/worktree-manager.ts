@@ -54,7 +54,7 @@ const DEFAULT_MIN_FREE_DISK_SPACE = 500 * 1024 * 1024;
  *
  * CRITICAL: Worktrees must be outside the project directory to prevent
  * Claude CLI's project detection from walking up and finding the parent's
- * .git directory. When worktrees were inside .ralph-tui/worktrees/, Claude
+ * .git directory. When worktrees were inside .orbit/worktrees/, Claude
  * would detect the parent project and write files there instead of the worktree.
  *
  * Standard practice: create worktrees as siblings of the main repo.
@@ -133,7 +133,7 @@ export class WorktreeManager {
     // Create the worktree with a new branch from HEAD
     this.git(['worktree', 'add', '-b', branchName, worktreePath, 'HEAD']);
 
-    // Copy ralph-tui config into the worktree so the agent has project context
+    // Copy orbit config into the worktree so the agent has project context
     await this.copyConfig(worktreePath);
 
     const info: WorktreeInfo = {
@@ -255,8 +255,8 @@ export class WorktreeManager {
    * This preserves logs so they can be viewed on session resume.
    */
   private preserveIterationLogs(worktreePath: string): void {
-    const worktreeLogsDir = path.join(worktreePath, '.ralph-tui', 'iterations');
-    const mainLogsDir = path.join(this.config.cwd, '.ralph-tui', 'iterations');
+    const worktreeLogsDir = path.join(worktreePath, '.orbit', 'iterations');
+    const mainLogsDir = path.join(this.config.cwd, '.orbit', 'iterations');
 
     // Skip if worktree has no logs
     if (!fs.existsSync(worktreeLogsDir)) {
@@ -351,11 +351,11 @@ export class WorktreeManager {
   }
 
   /**
-   * Copy ralph-tui configuration into a worktree.
+   * Copy orbit configuration into a worktree.
    */
   private async copyConfig(worktreePath: string): Promise<void> {
-    const configDir = path.join(this.config.cwd, '.ralph-tui');
-    const targetDir = path.join(worktreePath, '.ralph-tui');
+    const configDir = path.join(this.config.cwd, '.orbit');
+    const targetDir = path.join(worktreePath, '.orbit');
 
     // Copy config.toml if it exists
     const configFile = path.join(configDir, 'config.toml');

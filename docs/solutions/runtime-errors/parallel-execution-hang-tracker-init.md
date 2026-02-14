@@ -21,12 +21,12 @@ related_files:
 
 ## Problem
 
-Running `bun run dev --tracker beads-rust --cwd /tmp/ralph-tui/` would appear to hang after printing:
+Running `bun run dev --tracker beads-rust --cwd /tmp/orbit/` would appear to hang after printing:
 
 ```text
 Parallel execution enabled: 1 group(s), max parallelism 15
-error: branch 'ralph-parallel/ralph-tui-12m' not found
-Preparing worktree (new branch 'ralph-parallel/ralph-tui-12m')
+error: branch 'ralph-parallel/orbit-12m' not found
+Preparing worktree (new branch 'ralph-parallel/orbit-12m')
 ...
 ```
 
@@ -132,7 +132,7 @@ const isComplete = this.forcedTask
 Worker accepts tracker from executor and passes it to the engine:
 
 ```typescript
-async initialize(baseConfig: RalphConfig, tracker: TrackerPlugin): Promise<void> {
+async initialize(baseConfig: OrbitConfig, tracker: TrackerPlugin): Promise<void> {
   this.engine = new ExecutionEngine(workerConfig);
   await this.engine.initialize({
     tracker,

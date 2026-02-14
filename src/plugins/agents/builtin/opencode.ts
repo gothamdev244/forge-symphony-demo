@@ -553,7 +553,7 @@ export class OpenCodeAgentPlugin extends BaseAgentPlugin {
       '  1. Test OpenCode directly: opencode run "hello"\n' +
       '  2. Configure a default model in ~/.config/opencode/opencode.json\n' +
       '  3. Verify your API key is set for the chosen provider\n' +
-      '  4. Try specifying a model: ralph-tui run --model anthropic/claude-3-5-sonnet'
+      '  4. Try specifying a model: orbit run --model anthropic/claude-3-5-sonnet'
     );
   }
 

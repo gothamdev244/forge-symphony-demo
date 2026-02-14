@@ -43,7 +43,7 @@ export type InstanceStateChangeHandler = (tabs: InstanceTab[], selectedIndex: nu
 export type EngineEventHandler = (event: import('../engine/types.js').EngineEvent) => void;
 
 /**
- * Manages local and remote ralph-tui instances.
+ * Manages local and remote orbit instances.
  * Handles tab state, connection management, and instance selection.
  * US-5: Tracks connection metrics and emits toast notifications for reconnection events.
  */

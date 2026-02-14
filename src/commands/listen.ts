@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Listen command for ralph-tui remote listener.
+ * ABOUTME: Listen command for orbit remote listener.
  * Starts a WebSocket server for remote control without local TUI.
  * Supports daemon mode and token rotation.
  */
@@ -21,7 +21,7 @@ import { DEFAULT_LISTEN_OPTIONS, TOKEN_LIFETIMES } from '../remote/types.js';
 /**
  * Path to the daemon PID file
  */
-const DAEMON_PID_PATH = join(homedir(), '.config', 'ralph-tui', 'listen.pid');
+const DAEMON_PID_PATH = join(homedir(), '.config', 'orbit', 'listen.pid');
 
 /**
  * Parse listen command arguments.
@@ -106,7 +106,7 @@ async function displayToken(token: ServerToken, isNew: boolean): Promise<void> {
 
   if (isNew) {
     console.log('  To rotate this token later, run:');
-    console.log('    ralph-tui listen --rotate-token');
+    console.log('    orbit listen --rotate-token');
     console.log('');
   }
 
@@ -171,11 +171,11 @@ async function forkAsDaemon(port: number): Promise<void> {
   await writeFile(DAEMON_PID_PATH, child.pid?.toString() ?? '', 'utf-8');
 
   console.log('');
-  console.log(`Ralph remote listener started as daemon (PID: ${child.pid})`);
+  console.log(`Orbit remote listener started as daemon (PID: ${child.pid})`);
   console.log(`Port: ${port}`);
   console.log('');
-  console.log('To check token info: ralph-tui listen --help');
-  console.log('To stop: kill $(cat ~/.config/ralph-tui/listen.pid)');
+  console.log('To check token info: orbit listen --help');
+  console.log('To stop: kill $(cat ~/.config/orbit/listen.pid)');
   console.log('');
 }
 
@@ -295,9 +295,9 @@ export async function executeListenCommand(args: string[]): Promise<void> {
  */
 export function printListenHelp(): void {
   console.log(`
-ralph-tui listen - Start remote listener
+orbit listen - Start remote listener
 
-Usage: ralph-tui listen [options]
+Usage: orbit listen [options]
 
 Options:
   --port <port>     Port to bind to (default: 7890)
@@ -306,8 +306,8 @@ Options:
   -h, --help        Show this help message
 
 Description:
-  Starts a WebSocket server for remote control of ralph-tui instances.
-  This allows monitoring and controlling ralph-tui from a remote client.
+  Starts a WebSocket server for remote control of orbit instances.
+  This allows monitoring and controlling orbit from a remote client.
 
   On first run, a secure authentication token is generated and displayed.
   Store this token securely - you will need it to connect remote clients.
@@ -316,27 +316,27 @@ Security:
   - If no token is configured, the server binds only to localhost (127.0.0.1)
   - With a token configured, the server binds to all interfaces (0.0.0.0)
   - All connections must authenticate with the token
-  - All actions are logged to ~/.config/ralph-tui/audit.log
+  - All actions are logged to ~/.config/orbit/audit.log
 
 Token Management:
-  - Token is stored in ~/.config/ralph-tui/remote.json
+  - Token is stored in ~/.config/orbit/remote.json
   - Use --rotate-token to generate a new token
   - Old tokens are immediately invalidated on rotation
 
 Examples:
-  ralph-tui listen                    # Start on default port 7890
-  ralph-tui listen --port 8080        # Start on custom port
-  ralph-tui listen --daemon           # Start as background daemon
-  ralph-tui listen --rotate-token     # Rotate authentication token
+  orbit listen                    # Start on default port 7890
+  orbit listen --port 8080        # Start on custom port
+  orbit listen --daemon           # Start as background daemon
+  orbit listen --rotate-token     # Rotate authentication token
 
 Daemon Management:
   # Start daemon
-  ralph-tui listen --daemon
+  orbit listen --daemon
 
   # Stop daemon
-  kill $(cat ~/.config/ralph-tui/listen.pid)
+  kill $(cat ~/.config/orbit/listen.pid)
 
   # Check if running
-  ps -p $(cat ~/.config/ralph-tui/listen.pid) 2>/dev/null && echo "Running"
+  ps -p $(cat ~/.config/orbit/listen.pid) 2>/dev/null && echo "Running"
 `);
 }

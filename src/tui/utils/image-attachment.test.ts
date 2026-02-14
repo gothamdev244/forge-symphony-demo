@@ -76,7 +76,7 @@ describe('Image Storage', () => {
   let testDir: string;
 
   beforeEach(async () => {
-    testDir = join(tmpdir(), `ralph-tui-test-${Date.now()}`);
+    testDir = join(tmpdir(), `orbit-test-${Date.now()}`);
     await mkdir(testDir, { recursive: true });
   });
 

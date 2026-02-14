@@ -171,7 +171,7 @@ describe('printRemoteHelp', () => {
 
     // Verify help content
     const output = logs.join('\n');
-    expect(output).toContain('ralph-tui remote');
+    expect(output).toContain('orbit remote');
     expect(output).toContain('add');
     expect(output).toContain('list');
     expect(output).toContain('remove');
@@ -243,7 +243,7 @@ describe('Remote Config Storage', () => {
 
       expect(REMOTES_CONFIG_PATHS.file).toContain('remotes.toml');
       expect(REMOTES_CONFIG_PATHS.file).toContain('.config');
-      expect(REMOTES_CONFIG_PATHS.file).toContain('ralph-tui');
+      expect(REMOTES_CONFIG_PATHS.file).toContain('orbit');
     });
   });
 });

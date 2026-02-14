@@ -1,6 +1,6 @@
 # Investigation: Issue #247 - Session Resume Failures
 
-**Issue**: https://github.com/subsy/ralph-tui/issues/247
+**Issue**: https://github.com/subsy/orbit/issues/247
 **Reporter**: KarolCieslar
 **Date**: January 31, 2026
 
@@ -10,7 +10,7 @@ User reported multiple issues with session resume functionality:
 1. Session.json file deleted after quitting with "Q" and confirming save
 2. "No session available" when attempting to resume
 3. After manual session.json recovery, TUI shows metadata (108/130 tasks, iteration 118/50) but "No task loaded"
-4. Workaround: explicitly providing PRD file works (`ralph-tui --prd ./tasks/prd.json`)
+4. Workaround: explicitly providing PRD file works (`orbit --prd ./tasks/prd.json`)
 
 ## Root Cause Analysis
 
@@ -66,7 +66,7 @@ const allComplete = finalState.tasksCompleted >= finalState.totalTasks ||
 - Resolution depends on current working directory
 - If file not found at resolved path → no tasks loaded
 
-**Why Workaround Works**: `ralph-tui --prd ./tasks/prd.json` provides explicit path, overriding session state.
+**Why Workaround Works**: `orbit --prd ./tasks/prd.json` provides explicit path, overriding session state.
 
 ## Key Code Locations
 

@@ -1,6 +1,6 @@
-# Contributing to Ralph TUI
+# Contributing to Orbit
 
-Thank you for your interest in contributing to Ralph TUI! This document provides guidelines and information for contributors.
+Thank you for your interest in contributing to Orbit! This document provides guidelines and information for contributors.
 
 ## Getting Started
 
@@ -13,8 +13,8 @@ Thank you for your interest in contributing to Ralph TUI! This document provides
 
 ```bash
 # Clone the repository
-git clone https://github.com/subsy/ralph-tui.git
-cd ralph-tui
+git clone https://github.com/subsy/orbit.git
+cd orbit
 
 # Install dependencies
 bun install
@@ -300,7 +300,7 @@ Complete this checklist when adding a new agent plugin:
 
 ## Testing
 
-Ralph TUI uses [Bun's built-in test runner](https://bun.sh/docs/cli/test) for unit and integration tests.
+Orbit uses [Bun's built-in test runner](https://bun.sh/docs/cli/test) for unit and integration tests.
 
 ### Running Tests
 
@@ -487,13 +487,13 @@ When testing changes manually:
 
 When reporting issues, please include:
 
-1. **Ralph TUI version** (`ralph-tui --version` or check package.json)
+1. **Orbit version** (`orbit --version` or check package.json)
 2. **Bun version** (`bun --version`)
 3. **Operating system**
 4. **Steps to reproduce**
 5. **Expected behavior**
 6. **Actual behavior**
-7. **Relevant logs** (from `.ralph-tui/iterations/`)
+7. **Relevant logs** (from `.orbit/iterations/`)
 
 ## Questions?
 
@@ -501,4 +501,4 @@ If you have questions about contributing, feel free to:
 - Open a GitHub issue with the `question` label
 - Check existing issues for similar questions
 
-Thank you for contributing to Ralph TUI!
+Thank you for contributing to Orbit!

@@ -1,5 +1,5 @@
 /**
- * ABOUTME: WebSocket client for connecting to remote ralph-tui instances.
+ * ABOUTME: WebSocket client for connecting to remote orbit instances.
  * Manages connection lifecycle, authentication, and auto-reconnection with exponential backoff.
  * US-4: Extended with full remote control capabilities (pause, resume, cancel, state queries).
  * US-5: Extended with connection resilience (auto-reconnect, latency tracking, connection duration).
@@ -169,7 +169,7 @@ interface PendingRequest<T> {
 }
 
 /**
- * WebSocket client for connecting to a remote ralph-tui instance.
+ * WebSocket client for connecting to a remote orbit instance.
  * Handles authentication, message passing, and full remote control.
  * US-4: Extended with request/response correlation and engine control methods.
  * US-5: Extended with auto-reconnect and connection metrics.
@@ -757,7 +757,7 @@ export class RemoteClient {
 
   /**
    * Push configuration to the remote instance.
-   * @param scope - 'global' for ~/.config/ralph-tui or 'project' for .ralph-tui
+   * @param scope - 'global' for ~/.config/orbit or 'project' for .orbit
    * @param configContent - TOML configuration content
    * @param overwrite - If true, backup and overwrite existing config. If false, fail if exists.
    */

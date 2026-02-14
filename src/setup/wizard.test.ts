@@ -85,7 +85,7 @@ let formatTrackerUnavailableReason: typeof import('./wizard.js').formatTrackerUn
 
 // Helper to create a temp directory for each test
 async function createTempDir(): Promise<string> {
-  return await mkdtemp(join(tmpdir(), 'ralph-tui-wizard-test-'));
+  return await mkdtemp(join(tmpdir(), 'orbit-wizard-test-'));
 }
 
 describe('wizard', () => {
@@ -201,7 +201,7 @@ describe('wizard', () => {
   });
 
   test('returns true when config file exists', async () => {
-    const configDir = join(tempDir, '.ralph-tui');
+    const configDir = join(tempDir, '.orbit');
     await mkdir(configDir, { recursive: true });
     await writeFile(join(configDir, 'config.toml'), 'agent = "claude"', 'utf-8');
 
@@ -210,7 +210,7 @@ describe('wizard', () => {
   });
 
   test('returns false when directory exists but no config file', async () => {
-    const configDir = join(tempDir, '.ralph-tui');
+    const configDir = join(tempDir, '.orbit');
     await mkdir(configDir, { recursive: true });
 
     const exists = await projectConfigExists(tempDir);
@@ -253,10 +253,10 @@ describe('runSetupWizard', () => {
     expect(result.success).toBe(false);
     expect(result.error).toContain('interactive terminal');
     expect(result.error).toContain('TTY');
-    expect(result.error).toContain('.ralph-tui/config.toml');
+    expect(result.error).toContain('.orbit/config.toml');
   });
 
-  test('creates config file in .ralph-tui directory', async () => {
+  test('creates config file in .orbit directory', async () => {
     mockPromptSelect = (prompt) => {
       if (prompt.includes('tracker')) return Promise.resolve('json');
       if (prompt.includes('agent')) return Promise.resolve('claude');
@@ -266,7 +266,7 @@ describe('runSetupWizard', () => {
     const result = await runSetupWizard({ cwd: tempDir });
 
     expect(result.success).toBe(true);
-    expect(result.configPath).toBe(join(tempDir, '.ralph-tui', 'config.toml'));
+    expect(result.configPath).toBe(join(tempDir, '.orbit', 'config.toml'));
 
     // Verify file was created
     const configContent = await readFile(result.configPath!, 'utf-8');
@@ -310,8 +310,8 @@ describe('runSetupWizard', () => {
 
     // Check that PRD instructions were printed
     const output = capturedOutput.join('\n');
-    expect(output).toContain('ralph-tui create-prd');
-    expect(output).toContain('ralph-tui run --prd');
+    expect(output).toContain('orbit create-prd');
+    expect(output).toContain('orbit run --prd');
   });
 
   test('shows epic-specific instructions for beads tracker', async () => {
@@ -325,11 +325,11 @@ describe('runSetupWizard', () => {
 
     // Check that beads-specific epic instructions were printed
     const output = capturedOutput.join('\n');
-    expect(output).toContain('ralph-tui run');
+    expect(output).toContain('orbit run');
     expect(output).toContain('--epic');
     expect(output).toContain('Interactive epic selection');
-    expect(output).toContain('ralph-tui convert --to beads');
-    expect(output).not.toContain('ralph-tui run --prd');
+    expect(output).toContain('orbit convert --to beads');
+    expect(output).not.toContain('orbit run --prd');
   });
 
   test('shows epic-specific instructions for beads-bv tracker', async () => {
@@ -343,10 +343,10 @@ describe('runSetupWizard', () => {
 
     // Check that beads-specific instructions were printed
     const output = capturedOutput.join('\n');
-    expect(output).toContain('ralph-tui run');
+    expect(output).toContain('orbit run');
     expect(output).toContain('--epic');
-    expect(output).toContain('ralph-tui convert --to beads');
-    expect(output).not.toContain('ralph-tui run --prd');
+    expect(output).toContain('orbit convert --to beads');
+    expect(output).not.toContain('orbit run --prd');
   });
 
   test('shows epic-specific instructions for beads-rust tracker', async () => {
@@ -360,15 +360,15 @@ describe('runSetupWizard', () => {
 
     // Check that beads-specific instructions were printed
     const output = capturedOutput.join('\n');
-    expect(output).toContain('ralph-tui run');
+    expect(output).toContain('orbit run');
     expect(output).toContain('--epic');
-    expect(output).toContain('ralph-tui convert --to beads');
-    expect(output).not.toContain('ralph-tui run --prd');
+    expect(output).toContain('orbit convert --to beads');
+    expect(output).not.toContain('orbit run --prd');
   });
 
   test('fails when config exists without force flag', async () => {
     // Create existing config
-    const configDir = join(tempDir, '.ralph-tui');
+    const configDir = join(tempDir, '.orbit');
     await mkdir(configDir, { recursive: true });
     await writeFile(join(configDir, 'config.toml'), 'agent = "claude"', 'utf-8');
 
@@ -381,7 +381,7 @@ describe('runSetupWizard', () => {
 
   test('overwrites config when force flag is set', async () => {
     // Create existing config
-    const configDir = join(tempDir, '.ralph-tui');
+    const configDir = join(tempDir, '.orbit');
     await mkdir(configDir, { recursive: true });
     await writeFile(join(configDir, 'config.toml'), 'agent = "old-agent"', 'utf-8');
 
@@ -411,7 +411,7 @@ describe('runSetupWizard', () => {
     const result = await runSetupWizard({ cwd: tempDir });
 
     const configContent = await readFile(result.configPath!, 'utf-8');
-    expect(configContent).toContain('# Ralph TUI Configuration');
+    expect(configContent).toContain('# Orbit TUI Configuration');
     expect(configContent).toContain('# Generated by setup wizard');
   });
 });
@@ -440,7 +440,7 @@ describe('checkAndRunSetup', () => {
 
   test('returns null when config already exists', async () => {
     // Create existing config
-    const configDir = join(tempDir, '.ralph-tui');
+    const configDir = join(tempDir, '.orbit');
     await mkdir(configDir, { recursive: true });
     await writeFile(join(configDir, 'config.toml'), 'agent = "claude"', 'utf-8');
 
@@ -509,7 +509,7 @@ describe('wizard output messages', () => {
     await runSetupWizard({ cwd: tempDir });
 
     const output = capturedOutput.join('\n');
-    expect(output).toContain('Ralph TUI Setup Wizard');
+    expect(output).toContain('Orbit TUI Setup Wizard');
   });
 
   test('mentions config show command', async () => {
@@ -522,12 +522,12 @@ describe('wizard output messages', () => {
     await runSetupWizard({ cwd: tempDir });
 
     const output = capturedOutput.join('\n');
-    expect(output).toContain('ralph-tui config show');
+    expect(output).toContain('orbit config show');
   });
 
   test('installs skills via installViaAddSkill on success', async () => {
     mockBundledSkills = [
-      { name: 'ralph-tui-prd', description: 'PRD generator', path: '/skills/ralph-tui-prd' },
+      { name: 'orbit-prd', description: 'PRD generator', path: '/skills/orbit-prd' },
     ];
     mockInstallViaAddSkillResult = { success: true, output: '' };
 
@@ -542,12 +542,12 @@ describe('wizard output messages', () => {
 
     const output = capturedOutput.join('\n');
     expect(output).toContain('Installed');
-    expect(output).toContain('ralph-tui-prd');
+    expect(output).toContain('orbit-prd');
   });
 
   test('shows error when installViaAddSkill fails', async () => {
     mockBundledSkills = [
-      { name: 'ralph-tui-prd', description: 'PRD generator', path: '/skills/ralph-tui-prd' },
+      { name: 'orbit-prd', description: 'PRD generator', path: '/skills/orbit-prd' },
     ];
     mockInstallViaAddSkillResult = { success: false, output: 'ENOENT: not found' };
 

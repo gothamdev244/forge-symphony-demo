@@ -148,7 +148,7 @@ export interface WorktreeInfo {
  * Configuration for the worktree manager.
  */
 export interface WorktreeManagerConfig {
-  /** Base directory for worktrees (default: ".ralph-tui/worktrees") */
+  /** Base directory for worktrees (default: ".orbit/worktrees") */
   worktreeDir: string;
 
   /** Working directory of the main repository */
@@ -298,7 +298,7 @@ export interface ParallelExecutorConfig {
   /** Maximum number of concurrent workers (default: 3) */
   maxWorkers: number;
 
-  /** Base directory for worktrees (default: ".ralph-tui/worktrees") */
+  /** Base directory for worktrees (default: ".orbit/worktrees") */
   worktreeDir: string;
 
   /** Working directory of the main repository */

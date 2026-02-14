@@ -3,7 +3,7 @@
  * Implements two-tier token system:
  * - Server token: Long-lived (90 days), stored in config, used for initial auth
  * - Connection token: Short-lived (24 hours), issued on auth, auto-refreshed
- * Tokens are stored in ~/.config/ralph-tui/remote.json
+ * Tokens are stored in ~/.config/orbit/remote.json
  */
 
 import { homedir } from 'node:os';
@@ -16,7 +16,7 @@ import { TOKEN_LIFETIMES } from './types.js';
 /**
  * Path to the remote config file
  */
-const REMOTE_CONFIG_DIR = join(homedir(), '.config', 'ralph-tui');
+const REMOTE_CONFIG_DIR = join(homedir(), '.config', 'orbit');
 const REMOTE_CONFIG_PATH = join(REMOTE_CONFIG_DIR, 'remote.json');
 
 /**

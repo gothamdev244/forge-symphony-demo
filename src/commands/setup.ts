@@ -1,6 +1,6 @@
 /**
- * ABOUTME: Setup command for Ralph TUI.
- * Runs the interactive setup wizard to create .ralph-tui/config.toml.
+ * ABOUTME: Setup command for Orbit TUI.
+ * Runs the interactive setup wizard to create .orbit/config.toml.
  */
 
 import { runSetupWizard, printError } from '../setup/index.js';
@@ -39,9 +39,9 @@ export function parseSetupArgs(args: string[]): {
  */
 export function printSetupHelp(): void {
   console.log(`
-Ralph TUI Setup - Interactive Configuration Wizard
+Orbit TUI Setup - Interactive Configuration Wizard
 
-Usage: ralph-tui setup [options]
+Usage: orbit setup [options]
 
 Options:
   --force, -f     Overwrite existing configuration
@@ -49,7 +49,7 @@ Options:
   --help, -h      Show this help message
 
 Description:
-  The setup wizard guides you through configuring Ralph TUI for your project.
+  The setup wizard guides you through configuring Orbit TUI for your project.
   It will ask you to:
 
   1. Select an issue tracker (beads, json, etc.)
@@ -57,11 +57,11 @@ Description:
   3. Select an AI agent CLI (claude, opencode, etc.)
   4. Set iteration limits and auto-commit preferences
 
-  The configuration is saved to .ralph-tui/config.toml in your project root.
+  The configuration is saved to .orbit/config.toml in your project root.
 
 Examples:
-  ralph-tui setup              # Run interactive setup
-  ralph-tui setup --force      # Overwrite existing config
+  orbit setup              # Run interactive setup
+  orbit setup --force      # Overwrite existing config
 `);
 }
 

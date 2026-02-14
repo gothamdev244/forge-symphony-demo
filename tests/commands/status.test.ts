@@ -7,7 +7,7 @@ import { describe, test, expect, beforeEach, afterEach, mock } from 'bun:test';
 import { printStatusHelp } from '../../src/commands/status.js';
 
 // Import types for testing
-import type { RalphStatus, StatusExitCode, StatusJsonOutput } from '../../src/commands/status.js';
+import type { OrbitStatus, StatusExitCode, StatusJsonOutput } from '../../src/commands/status.js';
 
 // Mock the session module
 const mockHasPersistedSession = mock(() => Promise.resolve(false));
@@ -107,8 +107,8 @@ mock.module('../../src/session/index.js', () => ({
 
 describe('status command', () => {
   describe('status types', () => {
-    test('RalphStatus enum values are valid', () => {
-      const validStatuses: RalphStatus[] = [
+    test('OrbitStatus enum values are valid', () => {
+      const validStatuses: OrbitStatus[] = [
         'running',
         'paused',
         'completed',
@@ -206,7 +206,7 @@ describe('status command', () => {
   describe('exit code mapping', () => {
     test('completed status returns exit code 0', () => {
       // Test the exit code logic directly
-      const getExitCode = (status: RalphStatus): StatusExitCode => {
+      const getExitCode = (status: OrbitStatus): StatusExitCode => {
         switch (status) {
           case 'completed':
             return 0;
@@ -223,7 +223,7 @@ describe('status command', () => {
     });
 
     test('running status returns exit code 1', () => {
-      const getExitCode = (status: RalphStatus): StatusExitCode => {
+      const getExitCode = (status: OrbitStatus): StatusExitCode => {
         switch (status) {
           case 'completed':
             return 0;
@@ -240,7 +240,7 @@ describe('status command', () => {
     });
 
     test('paused status returns exit code 1', () => {
-      const getExitCode = (status: RalphStatus): StatusExitCode => {
+      const getExitCode = (status: OrbitStatus): StatusExitCode => {
         switch (status) {
           case 'completed':
             return 0;
@@ -257,7 +257,7 @@ describe('status command', () => {
     });
 
     test('failed status returns exit code 2', () => {
-      const getExitCode = (status: RalphStatus): StatusExitCode => {
+      const getExitCode = (status: OrbitStatus): StatusExitCode => {
         switch (status) {
           case 'completed':
             return 0;
@@ -274,7 +274,7 @@ describe('status command', () => {
     });
 
     test('no-session status returns exit code 2', () => {
-      const getExitCode = (status: RalphStatus): StatusExitCode => {
+      const getExitCode = (status: OrbitStatus): StatusExitCode => {
         switch (status) {
           case 'completed':
             return 0;
@@ -306,7 +306,7 @@ describe('status command', () => {
       const determineStatus = (
         session: PersistedSessionState | null,
         lockCheck: LockCheckResult
-      ): RalphStatus => {
+      ): OrbitStatus => {
         if (lockCheck.isLocked) {
           return 'running';
         }
@@ -346,7 +346,7 @@ describe('status command', () => {
       const determineStatus = (
         session: null,
         lockCheck: LockCheckResult
-      ): RalphStatus => {
+      ): OrbitStatus => {
         if (lockCheck.isLocked) {
           return 'running';
         }
@@ -377,7 +377,7 @@ describe('status command', () => {
       const determineStatus = (
         session: PersistedSessionState | null,
         lockCheck: LockCheckResult
-      ): RalphStatus => {
+      ): OrbitStatus => {
         if (lockCheck.isLocked) {
           return 'running';
         }
@@ -421,7 +421,7 @@ describe('status command', () => {
       const determineStatus = (
         session: PersistedSessionState | null,
         lockCheck: LockCheckResult
-      ): RalphStatus => {
+      ): OrbitStatus => {
         if (lockCheck.isLocked) {
           return 'running';
         }
@@ -459,7 +459,7 @@ describe('status command', () => {
       const determineStatus = (
         session: PersistedSessionState | null,
         lockCheck: LockCheckResult
-      ): RalphStatus => {
+      ): OrbitStatus => {
         if (lockCheck.isLocked) {
           return 'running';
         }
@@ -502,7 +502,7 @@ describe('status command', () => {
     test('prints help text', () => {
       printStatusHelp();
       const output = consoleOutput.join('\n');
-      expect(output).toContain('ralph-tui status');
+      expect(output).toContain('orbit status');
       expect(output).toContain('--json');
       expect(output).toContain('--cwd');
     });
@@ -520,8 +520,8 @@ describe('status command', () => {
       printStatusHelp();
       const output = consoleOutput.join('\n');
       expect(output).toContain('Examples:');
-      expect(output).toContain('ralph-tui status');
-      expect(output).toContain('ralph-tui status --json');
+      expect(output).toContain('orbit status');
+      expect(output).toContain('orbit status --json');
     });
 
     test('includes CI/Script usage examples', () => {

@@ -1,5 +1,5 @@
 /**
- * ABOUTME: RunApp component for the Ralph TUI execution view.
+ * ABOUTME: RunApp component for the Orbit TUI execution view.
  * Integrates with the execution engine to display real-time progress.
  * US-5: Extended with connection resilience toast notifications.
  * Handles graceful interruption with confirmation dialog.
@@ -10,7 +10,7 @@ import type { KeyEvent } from '@opentui/core';
 import type { ReactNode } from 'react';
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { colors, layout } from '../theme.js';
-import type { RalphStatus, TaskStatus } from '../theme.js';
+import type { OrbitStatus, TaskStatus } from '../theme.js';
 import type { TaskItem, BlockerInfo, DetailsViewMode, IterationTimingInfo, SubagentTreeNode } from '../types.js';
 import { Header } from './Header.js';
 import { Footer } from './Footer.js';
@@ -490,7 +490,7 @@ export function RunApp({
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
   // Start in 'ready' state if we have onStart callback (waiting for user to start)
-  const [status, setStatus] = useState<RalphStatus>(onStart ? 'ready' : 'running');
+  const [status, setStatus] = useState<OrbitStatus>(onStart ? 'ready' : 'running');
   const [currentIteration, setCurrentIteration] = useState(0);
   const [maxIterations, setMaxIterations] = useState(() => {
     // Initialize from engine if available (engine is absent in parallel mode)
@@ -511,7 +511,7 @@ export function RunApp({
     })
   );
   const [elapsedTime, setElapsedTime] = useState(0);
-  const [epicName] = useState('Ralph');
+  const [epicName] = useState('Orbit');
   // Derive agent/tracker names from config - these are displayed in the header
   const agentName = resolvedAgentName;
   // Use trackerType (from resolved config.tracker.plugin) as priority since it's the actual plugin in use
@@ -622,7 +622,7 @@ export function RunApp({
   // Remote viewing state
   const isViewingRemote = selectedTabIndex > 0;
   const [remoteTasks, setRemoteTasks] = useState<TaskItem[]>([]);
-  const [remoteStatus, setRemoteStatus] = useState<RalphStatus>('ready');
+  const [remoteStatus, setRemoteStatus] = useState<OrbitStatus>('ready');
   const [remoteOutput, setRemoteOutput] = useState('');
   const [remoteCurrentIteration, setRemoteCurrentIteration] = useState(0);
   const [remoteMaxIterations, setRemoteMaxIterations] = useState(10);
@@ -673,9 +673,9 @@ export function RunApp({
       // Get remote state
       const state = await instanceManager.getRemoteState();
       if (state) {
-        // Convert engine status to RalphStatus
+        // Convert engine status to OrbitStatus
         // Engine statuses: 'idle' | 'running' | 'pausing' | 'paused' | 'stopping'
-        const statusMap: Record<string, RalphStatus> = {
+        const statusMap: Record<string, OrbitStatus> = {
           idle: 'ready',
           running: 'running',
           pausing: 'pausing',
@@ -944,7 +944,7 @@ export function RunApp({
   // This allows restart gating to use actual worker completion state rather than stale local status.
   // Returns 'complete' if all workers finished successfully, 'running' if any are active,
   // 'idle' if no workers exist, null if not in parallel mode.
-  const parallelDerivedStatus = useMemo((): RalphStatus | null => {
+  const parallelDerivedStatus = useMemo((): OrbitStatus | null => {
     if (!isParallelMode) return null;
     if (!parallelWorkers || parallelWorkers.length === 0) return 'idle';
 
@@ -1844,8 +1844,8 @@ export function RunApp({
                 const { homedir } = await import('os');
                 const { join } = await import('path');
                 try {
-                  const globalPath = join(homedir(), '.config', 'ralph-tui', 'config.toml');
-                  const projectPath = join(cwd, '.ralph-tui', 'config.toml');
+                  const globalPath = join(homedir(), '.config', 'orbit', 'config.toml');
+                  const projectPath = join(cwd, '.orbit', 'config.toml');
 
                   let globalExists = false;
                   let globalContent: string | undefined;
@@ -2901,7 +2901,7 @@ export function RunApp({
       {/* Interrupt Confirmation Dialog */}
       <ConfirmationDialog
         visible={showInterruptDialog}
-        title="⚠ Interrupt Ralph?"
+        title="⚠ Interrupt Orbit?"
         message="Current iteration will be terminated."
         hint="[y] Yes  [n/Esc] No  [Ctrl+C] Force quit"
       />
@@ -2917,7 +2917,7 @@ export function RunApp({
       {/* Quit Confirmation Dialog */}
       <ConfirmationDialog
         visible={showQuitDialog}
-        title="Quit Ralph?"
+        title="Quit Orbit?"
         message="Session will be saved and can be resumed later."
         hint="[y] Yes  [n/Esc] Cancel"
       />

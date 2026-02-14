@@ -1,7 +1,7 @@
 /**
- * ABOUTME: Remote configuration management for ralph-tui.
+ * ABOUTME: Remote configuration management for orbit.
  * Handles storage and retrieval of remote server configurations in TOML format.
- * Configuration stored in ~/.config/ralph-tui/remotes.toml
+ * Configuration stored in ~/.config/orbit/remotes.toml
  */
 
 import { homedir } from 'node:os';
@@ -30,7 +30,7 @@ export interface RemoteServerConfig {
 }
 
 /**
- * Remotes configuration file structure (~/.config/ralph-tui/remotes.toml)
+ * Remotes configuration file structure (~/.config/orbit/remotes.toml)
  */
 export interface RemotesConfig {
   /** Configuration version for future migrations */
@@ -43,7 +43,7 @@ export interface RemotesConfig {
 /**
  * Path to the remotes configuration file
  */
-const REMOTES_CONFIG_DIR = join(homedir(), '.config', 'ralph-tui');
+const REMOTES_CONFIG_DIR = join(homedir(), '.config', 'orbit');
 const REMOTES_CONFIG_PATH = join(REMOTES_CONFIG_DIR, 'remotes.toml');
 
 /**

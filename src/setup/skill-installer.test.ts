@@ -69,9 +69,9 @@ describe('skill-installer', () => {
   });
 
   test('returns bundled path for typical dist location', () => {
-    const currentDir = '/Users/dev/ralph-tui/dist';
+    const currentDir = '/Users/dev/orbit/dist';
     const result = computeSkillsPath(currentDir);
-    expect(result).toBe('/Users/dev/ralph-tui/dist/skills');
+    expect(result).toBe('/Users/dev/orbit/dist/skills');
   });
 
   test('returns dev path when currentDir is in src/', () => {
@@ -137,14 +137,14 @@ describe('listBundledSkills', () => {
     }
   });
 
-  test('finds ralph-tui-prd skill', async () => {
+  test('finds orbit-prd skill', async () => {
     const skills = await listBundledSkills();
     // Skip assertion if no skills found (CI environment may not have skills dir accessible)
     if (skills.length === 0) {
       console.log('Skipping: No bundled skills found (expected in some CI environments)');
       return;
     }
-    const prdSkill = skills.find(s => s.name === 'ralph-tui-prd');
+    const prdSkill = skills.find(s => s.name === 'orbit-prd');
     expect(prdSkill).toBeDefined();
     expect(prdSkill?.description).toBeTruthy();
   });
@@ -249,7 +249,7 @@ describe('isSkillInstalledAt', () => {
   let tempDir: string;
 
   beforeEach(async () => {
-    tempDir = await mkdtemp(join(tmpdir(), 'ralph-tui-skill-test-'));
+    tempDir = await mkdtemp(join(tmpdir(), 'orbit-skill-test-'));
   });
 
   afterEach(async () => {
@@ -285,7 +285,7 @@ describe('AGENT_ID_MAP', () => {
 });
 
 describe('resolveAddSkillAgentId', () => {
-  test('maps known ralph-tui IDs', () => {
+  test('maps known orbit IDs', () => {
     expect(resolveAddSkillAgentId('claude')).toBe('claude-code');
     expect(resolveAddSkillAgentId('opencode')).toBe('opencode');
   });
@@ -302,16 +302,16 @@ describe('buildAddSkillInstallArgs', () => {
       agentId: 'claude',
       global: true,
     });
-    expect(args).toEqual(['add-skill', 'subsy/ralph-tui', '-a', 'claude-code', '-g', '-y']);
+    expect(args).toEqual(['add-skill', 'subsy/orbit', '-a', 'claude-code', '-g', '-y']);
   });
 
   test('builds args for specific skill', () => {
     const args = buildAddSkillInstallArgs({
       agentId: 'opencode',
-      skillName: 'ralph-tui-prd',
+      skillName: 'orbit-prd',
       global: true,
     });
-    expect(args).toEqual(['add-skill', 'subsy/ralph-tui', '-s', 'ralph-tui-prd', '-a', 'opencode', '-g', '-y']);
+    expect(args).toEqual(['add-skill', 'subsy/orbit', '-s', 'orbit-prd', '-a', 'opencode', '-g', '-y']);
   });
 
   test('omits -g flag when global is false', () => {
@@ -319,7 +319,7 @@ describe('buildAddSkillInstallArgs', () => {
       agentId: 'claude',
       global: false,
     });
-    expect(args).toEqual(['add-skill', 'subsy/ralph-tui', '-a', 'claude-code', '-y']);
+    expect(args).toEqual(['add-skill', 'subsy/orbit', '-a', 'claude-code', '-y']);
   });
 
   test('defaults to global when not specified', () => {
@@ -365,8 +365,8 @@ describe('isEloopOnlyFailure', () => {
   });
 
   test('returns true for real add-skill ELOOP output', () => {
-    const output = `Installing skill ralph-tui-prd for claude-code...
-Error: ELOOP: too many levels of symbolic links, mkdir '/home/user/.claude/skills/ralph-tui-prd'
+    const output = `Installing skill orbit-prd for claude-code...
+Error: ELOOP: too many levels of symbolic links, mkdir '/home/user/.claude/skills/orbit-prd'
 24 installs failed`;
     expect(isEloopOnlyFailure(output)).toBe(true);
   });

@@ -19,7 +19,7 @@ import type { AgentPlugin, AgentExecuteOptions } from '../plugins/agents/types.j
 /**
  * Default system prompt for PRD generation.
  */
-export const DEFAULT_PRD_SKILL = 'ralph-tui-prd';
+export const DEFAULT_PRD_SKILL = 'orbit-prd';
 
 export function buildPrdSystemPrompt(skillName: string): string {
   return `You are helping create a Product Requirements Document (PRD) using the ${skillName} skill.

@@ -1,10 +1,10 @@
 /**
- * ABOUTME: Type definitions for the ralph-tui remote listener feature.
+ * ABOUTME: Type definitions for the orbit remote listener feature.
  * Defines configuration, authentication tokens, and WebSocket message types.
  */
 
 /**
- * Server token stored in ~/.config/ralph-tui/remote.json
+ * Server token stored in ~/.config/orbit/remote.json
  * Long-lived (default 90 days), used to authenticate and obtain connection tokens.
  */
 export interface ServerToken {
@@ -40,7 +40,7 @@ export interface ConnectionToken {
 }
 
 /**
- * Remote listener configuration stored in ~/.config/ralph-tui/remote.json
+ * Remote listener configuration stored in ~/.config/orbit/remote.json
  */
 export interface RemoteConfig {
   /** Server authentication token (long-lived, 90 days default) */
@@ -317,7 +317,7 @@ export interface RemoteSandboxConfig {
  * Git repository information for remote display
  */
 export interface RemoteGitInfo {
-  /** Repository name (e.g., "ralph-tui") */
+  /** Repository name (e.g., "orbit") */
   repoName?: string;
   /** Current branch name */
   branch?: string;
@@ -460,9 +460,9 @@ export interface CheckConfigMessage extends WSMessage {
  */
 export interface CheckConfigResponseMessage extends WSMessage {
   type: 'check_config_response';
-  /** Whether global config (~/.config/ralph-tui/config.toml) exists */
+  /** Whether global config (~/.config/orbit/config.toml) exists */
   globalExists: boolean;
-  /** Whether project config (.ralph-tui/config.toml) exists */
+  /** Whether project config (.orbit/config.toml) exists */
   projectExists: boolean;
   /** Path to global config (if exists) */
   globalPath?: string;
@@ -481,7 +481,7 @@ export interface CheckConfigResponseMessage extends WSMessage {
  */
 export interface PushConfigMessage extends WSMessage {
   type: 'push_config';
-  /** Scope: 'global' for ~/.config/ralph-tui, 'project' for .ralph-tui */
+  /** Scope: 'global' for ~/.config/orbit, 'project' for .orbit */
   scope: 'global' | 'project';
   /** The TOML configuration content to push */
   configContent: string;

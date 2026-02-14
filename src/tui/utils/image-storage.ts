@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Image storage manager for ralph-tui.
+ * ABOUTME: Image storage manager for orbit.
  * Stores attached images in a predictable location accessible to agents.
  * Uses content-based hashing for deduplication and provides cleanup utilities.
  */
@@ -22,7 +22,7 @@ const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp'] as const;
 type ImageExtension = (typeof IMAGE_EXTENSIONS)[number];
 
 /** Default storage directory relative to cwd */
-const STORAGE_DIR_NAME = '.ralph-tui';
+const STORAGE_DIR_NAME = '.orbit';
 const IMAGES_DIR_NAME = 'images';
 
 /**
@@ -434,7 +434,7 @@ export async function listStoredImages(
  * @example
  * ```typescript
  * // Delete by full path
- * await deleteStoredImage('/path/to/.ralph-tui/images/img-abc123def456.png');
+ * await deleteStoredImage('/path/to/.orbit/images/img-abc123def456.png');
  *
  * // Delete by filename only
  * await deleteStoredImage('img-abc123def456.png');
@@ -452,7 +452,7 @@ export async function deleteStoredImage(
     if (absoluteInput && !baseDir) {
       fullPath = resolve(pathOrFilename);
       // For absolute paths without baseDir, only allow files directly inside
-      // a recognized ".ralph-tui/images" storage directory.
+      // a recognized ".orbit/images" storage directory.
       storageDir = dirname(fullPath);
       const ralphDir = dirname(storageDir);
       if (

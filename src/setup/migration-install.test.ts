@@ -46,7 +46,7 @@ mock.module('../plugins/agents/registry.js', () => ({
 mock.module('../config/index.js', () => ({
   loadProjectConfigOnly: () => Promise.resolve({ configVersion: '1.0', agent: 'claude' }),
   saveProjectConfig: () => Promise.resolve(),
-  getProjectConfigPath: (cwd: string) => join(cwd, '.ralph-tui', 'config.toml'),
+  getProjectConfigPath: (cwd: string) => join(cwd, '.orbit', 'config.toml'),
 }));
 
 const { migrateConfig } = await import('./migration.js');
@@ -59,8 +59,8 @@ describe('migration skill installation', () => {
     mockAgentAvailable = true;
 
     // Create a real temp directory with a config file so access() passes
-    tempDir = await mkdtemp(join(tmpdir(), 'ralph-tui-migration-test-'));
-    const configDir = join(tempDir, '.ralph-tui');
+    tempDir = await mkdtemp(join(tmpdir(), 'orbit-migration-test-'));
+    const configDir = join(tempDir, '.orbit');
     await mkdir(configDir, { recursive: true });
     await writeFile(join(configDir, 'config.toml'), 'configVersion = "1.0"\nagent = "claude"\n');
   });

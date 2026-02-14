@@ -31,13 +31,13 @@ describe('formatSystemInfo', () => {
       arch: 'x64',
     },
     config: {
-      globalPath: '/home/user/.config/ralph-tui/config.toml',
+      globalPath: '/home/user/.config/orbit/config.toml',
       globalExists: true,
-      projectPath: '/project/.ralph-tui/config.toml',
+      projectPath: '/project/.orbit/config.toml',
       projectExists: true,
     },
     templates: {
-      globalDir: '/home/user/.config/ralph-tui/templates',
+      globalDir: '/home/user/.config/orbit/templates',
       installed: ['default.hbs', 'beads.hbs'],
     },
     agent: {
@@ -49,7 +49,7 @@ describe('formatSystemInfo', () => {
       name: 'beads',
     },
     skills: {
-      bundled: ['ralph-tui-prd', 'ralph-tui-create-beads'],
+      bundled: ['orbit-prd', 'orbit-create-beads'],
       customDir: null,
       customSkills: [],
       agents: [
@@ -59,7 +59,7 @@ describe('formatSystemInfo', () => {
           available: true,
           personalDir: '/home/user/.claude/skills',
           repoDir: '.claude/skills',
-          personalSkills: ['ralph-tui-prd'],
+          personalSkills: ['orbit-prd'],
         },
       ],
     },
@@ -72,7 +72,7 @@ describe('formatSystemInfo', () => {
   test('includes version info', () => {
     const output = formatSystemInfo(mockInfo);
 
-    expect(output).toContain('ralph-tui version: 0.2.1');
+    expect(output).toContain('orbit version: 0.2.1');
     expect(output).toContain('Runtime: bun 1.3.5');
   });
 
@@ -85,8 +85,8 @@ describe('formatSystemInfo', () => {
   test('includes config paths', () => {
     const output = formatSystemInfo(mockInfo);
 
-    expect(output).toContain('Global config: /home/user/.config/ralph-tui/config.toml');
-    expect(output).toContain('Project config: /project/.ralph-tui/config.toml');
+    expect(output).toContain('Global config: /home/user/.config/orbit/config.toml');
+    expect(output).toContain('Project config: /project/.orbit/config.toml');
   });
 
   test('shows config existence status', () => {
@@ -119,10 +119,10 @@ describe('formatSystemInfo', () => {
     const output = formatSystemInfo(mockInfo);
 
     expect(output).toContain('Skills:');
-    expect(output).toContain('Bundled: ralph-tui-prd, ralph-tui-create-beads');
+    expect(output).toContain('Bundled: orbit-prd, orbit-create-beads');
     expect(output).toContain('Claude Code:');
     expect(output).toContain('Path: /home/user/.claude/skills');
-    expect(output).toContain('Installed: ralph-tui-prd');
+    expect(output).toContain('Installed: orbit-prd');
   });
 
   test('shows no project config when missing', () => {
@@ -250,13 +250,13 @@ describe('formatForBugReport', () => {
       arch: 'x64',
     },
     config: {
-      globalPath: '/home/user/.config/ralph-tui/config.toml',
+      globalPath: '/home/user/.config/orbit/config.toml',
       globalExists: true,
-      projectPath: '/project/.ralph-tui/config.toml',
+      projectPath: '/project/.orbit/config.toml',
       projectExists: true,
     },
     templates: {
-      globalDir: '/home/user/.config/ralph-tui/templates',
+      globalDir: '/home/user/.config/orbit/templates',
       installed: ['default.hbs', 'beads.hbs'],
     },
     agent: {
@@ -268,7 +268,7 @@ describe('formatForBugReport', () => {
       name: 'beads',
     },
     skills: {
-      bundled: ['ralph-tui-prd', 'ralph-tui-create-beads'],
+      bundled: ['orbit-prd', 'orbit-create-beads'],
       customDir: null,
       customSkills: [],
       agents: [
@@ -278,7 +278,7 @@ describe('formatForBugReport', () => {
           available: true,
           personalDir: '/home/user/.claude/skills',
           repoDir: '.claude/skills',
-          personalSkills: ['ralph-tui-prd'],
+          personalSkills: ['orbit-prd'],
         },
       ],
     },
@@ -298,7 +298,7 @@ describe('formatForBugReport', () => {
   test('includes key-value pairs', () => {
     const output = formatForBugReport(mockInfo);
 
-    expect(output).toContain('ralph-tui: 0.2.1');
+    expect(output).toContain('orbit: 0.2.1');
     expect(output).toContain('runtime: bun 1.3.5');
     expect(output).toContain('os: linux 6.0.0 (x64)');
     expect(output).toContain('agent: claude v2.1.0');

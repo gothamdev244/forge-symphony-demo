@@ -1,47 +1,47 @@
-# Ralph TUI
+# Orbit
 
-[![npm version](https://img.shields.io/npm/v/ralph-tui.svg)](https://www.npmjs.com/package/ralph-tui)
-[![CI](https://github.com/subsy/ralph-tui/actions/workflows/ci.yml/badge.svg)](https://github.com/subsy/ralph-tui/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/subsy/ralph-tui/graph/badge.svg)](https://codecov.io/gh/subsy/ralph-tui)
+[![npm version](https://img.shields.io/npm/v/orbit.svg)](https://www.npmjs.com/package/orbit)
+[![CI](https://github.com/subsy/orbit/actions/workflows/ci.yml/badge.svg)](https://github.com/subsy/orbit/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/subsy/orbit/graph/badge.svg)](https://codecov.io/gh/subsy/orbit)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Built with Bun](https://img.shields.io/badge/Built%20with-Bun-f9f1e1.svg)](https://bun.sh)
 
 **AI Agent Loop Orchestrator** - A terminal UI for orchestrating AI coding agents to work through task lists autonomously.
 
-Ralph TUI connects your AI coding assistant (Claude Code, OpenCode, Factory Droid, Gemini CLI, Codex, Kiro CLI) to your task tracker and runs them in an autonomous loop, completing tasks one-by-one with intelligent selection, error handling, and full visibility.
+Orbit connects your AI coding assistant (Claude Code, OpenCode, Factory Droid, Gemini CLI, Codex, Kiro CLI) to your task tracker and runs them in an autonomous loop, completing tasks one-by-one with intelligent selection, error handling, and full visibility.
 
-![Ralph TUI Screenshot](docs/images/ralph-tui.png)
+![Orbit Screenshot](docs/images/orbit.png)
 
 ## Quick Start
 
 ```bash
 # Install
-bun install -g ralph-tui
+bun install -g orbit
 
 # Setup your project
 cd your-project
-ralph-tui setup
+orbit setup
 
 # Create a PRD with AI assistance
-ralph-tui create-prd --chat
+orbit create-prd --chat
 
-# Run Ralph!
-ralph-tui run --prd ./prd.json
+# Run Orbit!
+orbit run --prd ./prd.json
 ```
 
-That's it! Ralph will work through your tasks autonomously.
+That's it! Orbit will work through your tasks autonomously.
 
 ## Documentation
 
-**[ralph-tui.com](https://ralph-tui.com)** - Full documentation, guides, and examples.
+**[orbit.com](https://orbit.com)** - Full documentation, guides, and examples.
 
 ### Quick Links
 
-- **[Quick Start Guide](https://ralph-tui.com/docs/getting-started/quick-start)** - Get running in 2 minutes
-- **[Installation](https://ralph-tui.com/docs/getting-started/installation)** - All installation options
-- **[CLI Reference](https://ralph-tui.com/docs/cli/overview)** - Complete command reference
-- **[Configuration](https://ralph-tui.com/docs/configuration/overview)** - Customize Ralph for your workflow
-- **[Troubleshooting](https://ralph-tui.com/docs/troubleshooting/common-issues)** - Common issues and solutions
+- **[Quick Start Guide](https://orbit.com/docs/getting-started/quick-start)** - Get running in 2 minutes
+- **[Installation](https://orbit.com/docs/getting-started/installation)** - All installation options
+- **[CLI Reference](https://orbit.com/docs/cli/overview)** - Complete command reference
+- **[Configuration](https://orbit.com/docs/configuration/overview)** - Customize Orbit for your workflow
+- **[Troubleshooting](https://orbit.com/docs/troubleshooting/common-issues)** - Common issues and solutions
 
 ## How It Works
 
@@ -62,7 +62,7 @@ That's it! Ralph will work through your tasks autonomously.
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-Ralph selects the highest-priority task, builds a prompt, executes your AI agent, detects completion, and repeats until all tasks are done.
+Orbit selects the highest-priority task, builds a prompt, executes your AI agent, detects completion, and repeats until all tasks are done.
 
 ## Features
 
@@ -73,69 +73,69 @@ Ralph selects the highest-priority task, builds a prompt, executes your AI agent
 - **Subagent Tracing**: See nested agent calls in real-time
 - **Cross-iteration Context**: Automatic progress tracking between tasks
 - **Flexible Skills**: Use PRD/task skills directly in your agent or via the TUI
-- **Remote Instances**: Monitor and control ralph-tui running on multiple machines from a single TUI
+- **Remote Instances**: Monitor and control orbit running on multiple machines from a single TUI
 
 ## CLI Commands
 
 | Command | Description |
 |---------|-------------|
-| `ralph-tui` | Launch the interactive TUI |
-| `ralph-tui run [options]` | Start Ralph execution |
-| `ralph-tui resume` | Resume an interrupted session |
-| `ralph-tui status` | Check session status |
-| `ralph-tui logs` | View iteration output logs |
-| `ralph-tui setup` | Run interactive project setup |
-| `ralph-tui create-prd` | Create a new PRD interactively |
-| `ralph-tui convert` | Convert PRD to tracker format |
-| `ralph-tui config show` | Display merged configuration |
-| `ralph-tui template show` | Display current prompt template |
-| `ralph-tui plugins agents` | List available agent plugins |
-| `ralph-tui plugins trackers` | List available tracker plugins |
-| `ralph-tui run --listen` | Run with remote listener enabled |
-| `ralph-tui remote <cmd>` | Manage remote server connections |
+| `orbit` | Launch the interactive TUI |
+| `orbit run [options]` | Start Orbit execution |
+| `orbit resume` | Resume an interrupted session |
+| `orbit status` | Check session status |
+| `orbit logs` | View iteration output logs |
+| `orbit setup` | Run interactive project setup |
+| `orbit create-prd` | Create a new PRD interactively |
+| `orbit convert` | Convert PRD to tracker format |
+| `orbit config show` | Display merged configuration |
+| `orbit template show` | Display current prompt template |
+| `orbit plugins agents` | List available agent plugins |
+| `orbit plugins trackers` | List available tracker plugins |
+| `orbit run --listen` | Run with remote listener enabled |
+| `orbit remote <cmd>` | Manage remote server connections |
 
 ### Common Options
 
 ```bash
 # Run with a PRD file
-ralph-tui run --prd ./prd.json
+orbit run --prd ./prd.json
 
 # Run with a Beads epic
-ralph-tui run --epic my-epic-id
+orbit run --epic my-epic-id
 
 # Override agent or model
-ralph-tui run --agent claude --model sonnet
-ralph-tui run --agent opencode --model anthropic/claude-3-5-sonnet
+orbit run --agent claude --model sonnet
+orbit run --agent opencode --model anthropic/claude-3-5-sonnet
 
 # Limit iterations
-ralph-tui run --iterations 5
+orbit run --iterations 5
 
 # Run headless (no TUI)
-ralph-tui run --headless
+orbit run --headless
 
 # Run agent in isolated sandbox (bwrap on Linux, sandbox-exec on macOS)
 # Requires bwrap to be installed and on PATH (Linux) or uses built-in sandbox-exec (macOS)
-ralph-tui run --sandbox
+orbit run --sandbox
 
 # Use a bundled color theme by name
-ralph-tui run --theme dracula
+orbit run --theme dracula
 ```
 
 ### Create PRD Options
 
 ```bash
 # Create a PRD with AI assistance (default chat mode)
-ralph-tui create-prd
-ralph-tui prime  # Alias
+orbit create-prd
+orbit prime  # Alias
 
 # Use a custom PRD skill from skills_dir
-ralph-tui create-prd --prd-skill my-custom-skill
+orbit create-prd --prd-skill my-custom-skill
 
 # Override agent
-ralph-tui create-prd --agent claude
+orbit create-prd --agent claude
 
 # Output to custom directory
-ralph-tui create-prd --output ./docs
+orbit create-prd --output ./docs
 ```
 
 ### TUI Keyboard Shortcuts
@@ -167,69 +167,69 @@ ralph-tui create-prd --output ./docs
 - Auto-commit setting (✓ auto, ✗ manual)
 - Remote connection info (when viewing remote tabs)
 
-See the [full CLI reference](https://ralph-tui.com/docs/cli/overview) for all options.
+See the [full CLI reference](https://orbit.com/docs/cli/overview) for all options.
 
 ### Custom Themes
 
-Ralph TUI supports custom color themes via the `--theme` option:
+Orbit supports custom color themes via the `--theme` option:
 
 ```bash
 # Use a bundled theme by name
-ralph-tui run --theme dracula
+orbit run --theme dracula
 
 # Or use a custom theme file
-ralph-tui run --theme ./my-custom-theme.json
+orbit run --theme ./my-custom-theme.json
 ```
 
 ![Custom Theme Example](docs/images/theme-example.png)
 
 Bundled themes: `bright`, `catppuccin`, `dracula`, `high-contrast`, `solarized-light`
 
-See the [Themes documentation](https://ralph-tui.com/docs/configuration/themes) for the full theme schema and creating custom themes.
+See the [Themes documentation](https://orbit.com/docs/configuration/themes) for the full theme schema and creating custom themes.
 
 ### Using Skills Directly in Your Agent
 
-Install ralph-tui skills to your agent using [add-skill](https://github.com/vercel-labs/add-skill):
+Install orbit skills to your agent using [add-skill](https://github.com/vercel-labs/add-skill):
 
 ```bash
 # Install all skills to all detected agents globally
-bunx add-skill subsy/ralph-tui --all
+bunx add-skill subsy/orbit --all
 
 # Install to a specific agent
-bunx add-skill subsy/ralph-tui -a claude-code -g -y
+bunx add-skill subsy/orbit -a claude-code -g -y
 
-# Or use the ralph-tui wrapper (maps agent IDs automatically)
-ralph-tui skills install
-ralph-tui skills install --agent claude
+# Or use the orbit wrapper (maps agent IDs automatically)
+orbit skills install
+orbit skills install --agent claude
 ```
 
 Use these slash commands in your agent:
 
 ```bash
-/ralph-tui-prd           # Create a PRD interactively
-/ralph-tui-create-json   # Convert PRD to prd.json
-/ralph-tui-create-beads  # Convert PRD to Beads issues
+/orbit-prd           # Create a PRD interactively
+/orbit-create-json   # Convert PRD to prd.json
+/orbit-create-beads  # Convert PRD to Beads issues
 ```
 
-This lets you create PRDs while referencing source files (`@filename`) and using your full conversation context—then use `ralph-tui run` for autonomous execution.
+This lets you create PRDs while referencing source files (`@filename`) and using your full conversation context—then use `orbit run` for autonomous execution.
 
 ### Custom Skills Directory
 
 You can configure a custom `skills_dir` in your config file to use custom PRD skills:
 
 ```bash
-# In .ralph-tui/config.toml or ~/.config/ralph-tui/config.toml
+# In .orbit/config.toml or ~/.config/orbit/config.toml
 skills_dir = "/path/to/my-skills"
 
 # Then use custom skills
-ralph-tui create-prd --prd-skill my-custom-skill
+orbit create-prd --prd-skill my-custom-skill
 ```
 
 Skills must be folders inside `skills_dir` containing a `SKILL.md` file.
 
 ## Remote Instance Management
 
-Control multiple ralph-tui instances running on different machines (VPS servers, CI/CD environments, development boxes) from a single TUI.
+Control multiple orbit instances running on different machines (VPS servers, CI/CD environments, development boxes) from a single TUI.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -246,7 +246,7 @@ Control multiple ralph-tui instances running on different machines (VPS servers,
 **On the remote machine (server):**
 ```bash
 # Start ralph with remote listener enabled
-ralph-tui run --listen --prd ./prd.json
+orbit run --listen --prd ./prd.json
 
 # First run generates a secure token - save it!
 # ═══════════════════════════════════════════════════════════════
@@ -262,13 +262,13 @@ ralph-tui run --listen --prd ./prd.json
 **On your local machine (client):**
 ```bash
 # Add the remote server
-ralph-tui remote add prod server.example.com:7890 --token OGQwNTcxMjM0NTY3...
+orbit remote add prod server.example.com:7890 --token OGQwNTcxMjM0NTY3...
 
 # Test the connection
-ralph-tui remote test prod
+orbit remote test prod
 
 # Launch TUI - you'll see tabs for local + remote instances
-ralph-tui
+orbit
 ```
 
 ### Remote Listener Commands
@@ -276,65 +276,65 @@ ralph-tui
 **Recommended: Use `run --listen`** (runs engine with remote access):
 ```bash
 # Start with remote listener on default port (7890)
-ralph-tui run --listen --prd ./prd.json
+orbit run --listen --prd ./prd.json
 
 # Start with custom port
-ralph-tui run --listen --listen-port 8080 --epic my-epic
+orbit run --listen --listen-port 8080 --epic my-epic
 ```
 
 **Token management:**
 ```bash
 # Rotate authentication token (invalidates old token immediately)
-ralph-tui run --listen --rotate-token --prd ./prd.json
+orbit run --listen --rotate-token --prd ./prd.json
 
 # View remote listener options
-ralph-tui run --help
+orbit run --help
 ```
 
 ### Remote Configuration Commands
 
 ```bash
 # Add a remote server
-ralph-tui remote add <alias> <host:port> --token <token>
+orbit remote add <alias> <host:port> --token <token>
 
 # List all remotes with connection status
-ralph-tui remote list
+orbit remote list
 
 # Test connectivity to a specific remote
-ralph-tui remote test <alias>
+orbit remote test <alias>
 
 # Remove a remote
-ralph-tui remote remove <alias>
+orbit remote remove <alias>
 
 # Push config to a remote (propagate your local settings)
-ralph-tui remote push-config <alias>
-ralph-tui remote push-config --all  # Push to all remotes
+orbit remote push-config <alias>
+orbit remote push-config --all  # Push to all remotes
 ```
 
 ### Push Configuration to Remotes
 
-When managing multiple ralph-tui instances, you typically want them all to use the same configuration. The `push-config` command lets you propagate your local config to remote instances:
+When managing multiple orbit instances, you typically want them all to use the same configuration. The `push-config` command lets you propagate your local config to remote instances:
 
 ```bash
 # Push config to a specific remote
-ralph-tui remote push-config prod
+orbit remote push-config prod
 
 # Preview what would be pushed (without applying)
-ralph-tui remote push-config prod --preview
+orbit remote push-config prod --preview
 
 # Push to all configured remotes
-ralph-tui remote push-config --all
+orbit remote push-config --all
 
 # Force overwrite existing config without confirmation
-ralph-tui remote push-config prod --force
+orbit remote push-config prod --force
 
 # Push specific scope (global or project config)
-ralph-tui remote push-config prod --scope global
-ralph-tui remote push-config prod --scope project
+orbit remote push-config prod --scope global
+orbit remote push-config prod --scope project
 ```
 
 **How it works:**
-1. Reads your local config (`~/.config/ralph-tui/config.toml` or `.ralph-tui/config.toml`)
+1. Reads your local config (`~/.config/orbit/config.toml` or `.orbit/config.toml`)
 2. Connects to the remote instance
 3. Checks what config exists on the remote
 4. Creates a backup if overwriting (e.g., `config.toml.backup.2026-01-19T12-30-00-000Z`)
@@ -342,13 +342,13 @@ ralph-tui remote push-config prod --scope project
 6. Triggers auto-migration to install skills/templates
 
 **Scope selection:**
-- `--scope global`: Push to `~/.config/ralph-tui/config.toml` on remote
-- `--scope project`: Push to `.ralph-tui/config.toml` in remote's working directory
+- `--scope global`: Push to `~/.config/orbit/config.toml` on remote
+- `--scope project`: Push to `.orbit/config.toml` in remote's working directory
 - Without `--scope`: Auto-detects based on what exists locally and remotely
 
 ### Security Model
 
-Ralph uses a two-tier token system for secure remote access:
+Orbit uses a two-tier token system for secure remote access:
 
 | Token Type | Lifetime | Purpose |
 |------------|----------|---------|
@@ -359,7 +359,7 @@ Ralph uses a two-tier token system for secure remote access:
 - Without a token configured, the listener binds only to localhost (127.0.0.1)
 - With a token configured, the listener binds to all interfaces (0.0.0.0)
 - All connections require authentication
-- All remote actions are logged to `~/.config/ralph-tui/audit.log`
+- All remote actions are logged to `~/.config/orbit/audit.log`
 - Tokens are shown only once at generation time
 
 ### Connection Resilience
@@ -419,18 +419,18 @@ All operations work identically to local control with <100ms perceived latency.
 
 | File | Purpose |
 |------|---------|
-| `~/.config/ralph-tui/remote.json` | Server token storage |
-| `~/.config/ralph-tui/remotes.toml` | Remote server configurations |
-| `~/.config/ralph-tui/audit.log` | Audit log of all remote actions |
-| `~/.config/ralph-tui/listen.pid` | Daemon PID file |
+| `~/.config/orbit/remote.json` | Server token storage |
+| `~/.config/orbit/remotes.toml` | Remote server configurations |
+| `~/.config/orbit/audit.log` | Audit log of all remote actions |
+| `~/.config/orbit/listen.pid` | Daemon PID file |
 
 ## Contributing
 
 ### Development Setup
 
 ```bash
-git clone https://github.com/subsy/ralph-tui.git
-cd ralph-tui
+git clone https://github.com/subsy/orbit.git
+cd orbit
 bun install
 bun run dev
 ```
@@ -470,7 +470,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md#pull-request-guidelines) for full PR guide
 ### Project Structure
 
 ```
-ralph-tui/
+orbit/
 ├── src/
 │   ├── cli.tsx           # CLI entry point
 │   ├── commands/         # CLI commands (run, resume, status, logs, listen, remote, etc.)
@@ -497,9 +497,9 @@ ralph-tui/
 │   └── tui/              # Terminal UI components (OpenTUI/React)
 │       └── components/   # React components (TabBar, Toast, etc.)
 ├── skills/               # Bundled skills for PRD/task creation
-│   ├── ralph-tui-prd/
-│   ├── ralph-tui-create-json/
-│   └── ralph-tui-create-beads/
+│   ├── orbit-prd/
+│   ├── orbit-create-json/
+│   └── orbit-create-beads/
 ├── website/              # Documentation website (Next.js)
 └── docs/                 # Images and static assets
 ```
@@ -514,7 +514,7 @@ See [CLAUDE.md](CLAUDE.md) for detailed development guidelines.
 
 ## Credits
 
-Thanks to Geoffrey Huntley for the [original Ralph Wiggum loop concept](https://ghuntley.com/ralph/).
+Thanks to Geoffrey Huntley for the [original Orbit Wiggum loop concept](https://ghuntley.com/ralph/).
 
 ## License
 

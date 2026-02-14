@@ -192,7 +192,7 @@ export interface AgentSetupQuestion {
 
 /**
  * Rate limit handling configuration for agents.
- * Controls how ralph-tui responds when an agent hits API rate limits.
+ * Controls how orbit responds when an agent hits API rate limits.
  */
 export interface RateLimitHandlingConfig {
   /** Whether rate limit handling is enabled (default: true) */
@@ -450,7 +450,7 @@ export interface AgentPlugin {
 
   /**
    * Clean up resources when the plugin is unloaded.
-   * Called when Ralph TUI shuts down. Should interrupt any running executions.
+   * Called when Orbit TUI shuts down. Should interrupt any running executions.
    */
   dispose(): Promise<void>;
 }

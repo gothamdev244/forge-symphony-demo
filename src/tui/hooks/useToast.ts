@@ -1,5 +1,5 @@
 /**
- * ABOUTME: React hook for managing toast notifications in the Ralph TUI.
+ * ABOUTME: React hook for managing toast notifications in the Orbit TUI.
  * Provides a simple API for showing transient, auto-dismissing notifications
  * with support for success, error, info, and warning variants.
  */

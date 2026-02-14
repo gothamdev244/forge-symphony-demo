@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Exit cleanup handler for ralph-tui.
+ * ABOUTME: Exit cleanup handler for orbit.
  * Handles cleaning up stored images on exit based on configuration settings.
  * By default, images are automatically cleaned up on exit.
  * Users can set cleanup_policy to 'manual' or 'never' to keep images.

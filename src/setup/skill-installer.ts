@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Skill installation utility for ralph-tui.
+ * ABOUTME: Skill installation utility for orbit.
  * Provides functions to list bundled skills, check installation status,
  * and install skills via Vercel's add-skill CLI.
  */
@@ -11,7 +11,7 @@ import { homedir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 
 /**
- * Mapping from ralph-tui agent IDs to add-skill agent IDs.
+ * Mapping from orbit agent IDs to add-skill agent IDs.
  */
 export const AGENT_ID_MAP: Record<string, string> = {
   claude: 'claude-code',
@@ -33,7 +33,7 @@ export interface SkillInfo {
   /** Skill description */
   description: string;
 
-  /** Path to the skill in the ralph-tui package */
+  /** Path to the skill in the orbit package */
   sourcePath: string;
 }
 
@@ -41,7 +41,7 @@ export interface SkillInfo {
  * Options for installing skills via add-skill CLI.
  */
 export interface AddSkillInstallOptions {
-  /** Ralph-tui agent ID (e.g., 'claude', 'opencode') */
+  /** Orbit-tui agent ID (e.g., 'claude', 'opencode') */
   agentId: string;
   /** Specific skill to install (if not set, installs all) */
   skillName?: string;
@@ -115,7 +115,7 @@ export function computeSkillsPath(currentDir: string): string {
 }
 
 /**
- * Get the path to the bundled skills in the ralph-tui package.
+ * Get the path to the bundled skills in the orbit package.
  * This function handles both development (running from src/) and production
  * (running from bundled dist/) environments.
  */
@@ -180,7 +180,7 @@ export async function isSkillInstalledAt(skillName: string, targetDir: string): 
 }
 
 /**
- * Resolve the add-skill agent ID from a ralph-tui agent ID.
+ * Resolve the add-skill agent ID from a orbit agent ID.
  * Returns the original ID if no mapping exists (add-skill may support it directly).
  */
 export function resolveAddSkillAgentId(ralphTuiId: string): string {
@@ -191,7 +191,7 @@ export function resolveAddSkillAgentId(ralphTuiId: string): string {
  * Build the bunx add-skill command arguments from install options.
  */
 export function buildAddSkillInstallArgs(options: AddSkillInstallOptions): string[] {
-  const args = ['add-skill', 'subsy/ralph-tui'];
+  const args = ['add-skill', 'subsy/orbit'];
 
   // Skill selection
   if (options.skillName) {

@@ -1,6 +1,6 @@
 /**
  * ABOUTME: Session registry for cross-directory session discovery.
- * Maintains a global registry of active sessions at ~/.config/ralph-tui/sessions.json
+ * Maintains a global registry of active sessions at ~/.config/orbit/sessions.json
  * allowing users to resume sessions from any directory.
  *
  * Security: Uses restrictive file permissions (0o700 for dir, 0o600 for file).
@@ -25,7 +25,7 @@ import type { SessionStatus } from './types.js';
 /**
  * Registry file location in user's config directory
  */
-const REGISTRY_DIR = join(homedir(), '.config', 'ralph-tui');
+const REGISTRY_DIR = join(homedir(), '.config', 'orbit');
 const REGISTRY_FILE = 'sessions.json';
 const LOCK_FILE = 'sessions.lock';
 

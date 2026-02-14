@@ -1,5 +1,5 @@
 /**
- * ABOUTME: IterationDetailView component for the Ralph TUI.
+ * ABOUTME: IterationDetailView component for the Orbit TUI.
  * Displays detailed information about a single iteration including
  * status, timing, events timeline, subagent tree, and scrollable agent output with syntax highlighting.
  */

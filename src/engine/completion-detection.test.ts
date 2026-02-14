@@ -1,7 +1,7 @@
 /**
  * ABOUTME: Tests for task completion detection logic.
  * Verifies that tasks are only marked complete with explicit <promise>COMPLETE</promise> signal.
- * See: https://github.com/subsy/ralph-tui/issues/259
+ * See: https://github.com/subsy/orbit/issues/259
  */
 
 import { describe, test, expect } from 'bun:test';
@@ -195,7 +195,7 @@ describe('Task Completion Detection (Issue #259)', () => {
       // Scenario from issue #259: agent updates metadata but does no real work
       const stdout = `
         Updated task metadata.
-        Committed changes to .ralph-tui/tasks.json
+        Committed changes to .orbit/tasks.json
 
         Task status has been updated.
       `;

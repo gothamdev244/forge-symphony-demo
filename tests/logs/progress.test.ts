@@ -38,7 +38,7 @@ describe('progress.ts', () => {
 
     test('readProgress returns file content', async () => {
       const testContent = '# Test Progress\n\nSome content here.';
-      await mkdir(join(testDir, '.ralph-tui'), { recursive: true });
+      await mkdir(join(testDir, '.orbit'), { recursive: true });
       await writeFile(join(testDir, PROGRESS_FILE), testContent);
 
       const content = await readProgress(testDir);
@@ -49,13 +49,13 @@ describe('progress.ts', () => {
       await clearProgress(testDir);
 
       const content = await readProgress(testDir);
-      expect(content).toContain('# Ralph Progress Log');
+      expect(content).toContain('# Orbit Progress Log');
       expect(content).toContain('## Codebase Patterns');
     });
 
     test('getRecentProgressSummary returns last N entries', async () => {
       // Write a progress file with multiple entries (simulating agent-written progress)
-      const progressContent = `# Ralph Progress Log
+      const progressContent = `# Orbit Progress Log
 
 ## Codebase Patterns (Study These First)
 
@@ -93,7 +93,7 @@ Completed fifth task.
 
 ---
 `;
-      await mkdir(join(testDir, '.ralph-tui'), { recursive: true });
+      await mkdir(join(testDir, '.orbit'), { recursive: true });
       await writeFile(join(testDir, PROGRESS_FILE), progressContent);
 
       const summary = await getRecentProgressSummary(testDir, 3);
@@ -117,7 +117,7 @@ Completed fifth task.
     });
 
     test('extractCodebasePatterns extracts bullet points', async () => {
-      const content = `# Ralph Progress Log
+      const content = `# Orbit Progress Log
 
 ## Codebase Patterns (Study These First)
 
@@ -129,7 +129,7 @@ Completed fifth task.
 
 ## ✓ Iteration 1
 `;
-      await mkdir(join(testDir, '.ralph-tui'), { recursive: true });
+      await mkdir(join(testDir, '.orbit'), { recursive: true });
       await writeFile(join(testDir, PROGRESS_FILE), content);
 
       const patterns = await extractCodebasePatterns(testDir);
@@ -152,7 +152,7 @@ Completed fifth task.
     });
 
     test('getCodebasePatternsForPrompt returns formatted markdown', async () => {
-      const content = `# Ralph Progress Log
+      const content = `# Orbit Progress Log
 
 ## Codebase Patterns (Study These First)
 
@@ -161,7 +161,7 @@ Completed fifth task.
 
 ---
 `;
-      await mkdir(join(testDir, '.ralph-tui'), { recursive: true });
+      await mkdir(join(testDir, '.orbit'), { recursive: true });
       await writeFile(join(testDir, PROGRESS_FILE), content);
 
       const formatted = await getCodebasePatternsForPrompt(testDir);

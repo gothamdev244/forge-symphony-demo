@@ -156,7 +156,7 @@ describe('BeadsRustTrackerPlugin', () => {
     test('executes br list --json --all with --limit 0 to bypass default limit', async () => {
       // The --limit 0 flag is critical to bypass br's default limit of 50 results.
       // Without it, epics with more than 50 tasks would have tasks truncated.
-      // See: https://github.com/subsy/ralph-tui/issues/233
+      // See: https://github.com/subsy/orbit/issues/233
       mockSpawnResponses = [
         { exitCode: 0, stdout: 'br version 0.4.1\n' },
         {

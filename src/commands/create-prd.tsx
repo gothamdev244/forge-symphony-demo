@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Create-PRD command for ralph-tui.
+ * ABOUTME: Create-PRD command for orbit.
  * Uses AI-powered conversation to create Product Requirements Documents.
  * After PRD generation, shows split view with PRD preview and tracker options.
  */
@@ -170,7 +170,7 @@ async function runChatMode(
   if (!agent) {
     console.error("");
     console.error("Chat mode requires an AI agent. Options:");
-    console.error('  1. Run "ralph-tui setup" to configure an agent');
+    console.error('  1. Run "orbit setup" to configure an agent');
     console.error(
       '  2. Use "--agent claude" or "--agent opencode" to specify one',
     );
@@ -226,7 +226,7 @@ async function runChatMode(
       }
     }
     console.error("");
-    console.error('Run "ralph-tui doctor" to diagnose agent issues.');
+    console.error('Run "orbit doctor" to diagnose agent issues.');
     process.exit(1);
   }
 
@@ -237,7 +237,7 @@ async function runChatMode(
     const bundledSkill = await loadBundledPrdSkill(agent);
     if (bundledSkill) {
       parsedArgs.prdSkillSource = bundledSkill;
-      console.log("✓ Loaded ralph-tui-prd skill");
+      console.log("✓ Loaded orbit-prd skill");
     }
   }
 
@@ -315,14 +315,14 @@ async function runChatMode(
 /**
  * Execute the create-prd command.
  * Always uses AI-powered chat mode for conversational PRD creation.
- * If a tracker format is selected, launches ralph-tui run with the tasks loaded.
+ * If a tracker format is selected, launches orbit run with the tasks loaded.
  */
 export async function executeCreatePrdCommand(args: string[]): Promise<void> {
   const parsedArgs = parseCreatePrdArgs(args);
   const cwd = parsedArgs.cwd || process.cwd();
 
   // Verify setup is complete before running
-  await requireSetup(cwd, "ralph-tui prime");
+  await requireSetup(cwd, "orbit prime");
 
   const storedConfig = await loadStoredConfig(cwd);
 
@@ -334,7 +334,7 @@ export async function executeCreatePrdCommand(args: string[]): Promise<void> {
         "Error: --prd-skill requires skills_dir to be set in config.",
       );
       console.error(
-        "Set skills_dir in ~/.config/ralph-tui/config.toml or .ralph-tui/config.toml.",
+        "Set skills_dir in ~/.config/orbit/config.toml or .orbit/config.toml.",
       );
       process.exit(1);
     }
@@ -353,10 +353,10 @@ export async function executeCreatePrdCommand(args: string[]): Promise<void> {
     process.exit(0);
   }
 
-  // If a tracker format was selected, launch ralph-tui with the tasks loaded
+  // If a tracker format was selected, launch orbit with the tasks loaded
   if (result.selectedTracker) {
     console.log("");
-    console.log("Launching Ralph TUI with your new tasks...");
+    console.log("Launching Orbit TUI with your new tasks...");
     console.log("");
 
     const runArgs: string[] = [];

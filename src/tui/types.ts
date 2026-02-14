@@ -1,9 +1,9 @@
 /**
- * ABOUTME: Type definitions for Ralph TUI components.
+ * ABOUTME: Type definitions for Orbit TUI components.
  * Defines the data structures and props used across the TUI layout components.
  */
 
-import type { TaskStatus, RalphStatus } from './theme.js';
+import type { TaskStatus, OrbitStatus } from './theme.js';
 import type { IterationResult, SubagentTreeNode, ActiveAgentState, RateLimitState } from '../engine/types.js';
 import type { TaskPriority } from '../plugins/trackers/types.js';
 import type { SubagentDetailLevel, SandboxConfig, SandboxMode } from '../config/types.js';
@@ -75,8 +75,8 @@ export interface TaskItem {
  * Also displays selected agent and tracker plugin names for configuration visibility.
  */
 export interface HeaderProps {
-  /** Current Ralph execution status */
-  status: RalphStatus;
+  /** Current Orbit execution status */
+  status: OrbitStatus;
   /** Elapsed time in seconds */
   elapsedTime: number;
   /** Current task ID being worked on (if any) */

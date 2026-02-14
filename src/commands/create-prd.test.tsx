@@ -51,7 +51,7 @@ import { parseCreatePrdArgs, parseTrackerLabels, printCreatePrdHelp } from './cr
 
 // Helper to create temp directory
 async function createTempDir(): Promise<string> {
-  return await mkdtemp(join(tmpdir(), 'ralph-tui-create-prd-test-'));
+  return await mkdtemp(join(tmpdir(), 'orbit-create-prd-test-'));
 }
 
 // Clean up mocks after all tests
@@ -137,7 +137,7 @@ describe('printCreatePrdHelp', () => {
   test('prints usage information', () => {
     printCreatePrdHelp();
     const output = capturedOutput.join('\n');
-    expect(output).toContain('ralph-tui create-prd');
+    expect(output).toContain('orbit create-prd');
     expect(output).toContain('Usage:');
   });
 

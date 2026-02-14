@@ -1,5 +1,5 @@
 /**
- * ABOUTME: PRD creation module for ralph-tui.
+ * ABOUTME: PRD creation module for orbit.
  * Exports types, questions, generator, and wizard for PRD creation.
  */
 

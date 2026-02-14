@@ -44,8 +44,8 @@ describe('DEFAULT_CONFIG', () => {
   });
 
   test('has expected file paths', () => {
-    expect(DEFAULT_CONFIG.outputDir).toBe('.ralph-tui/iterations');
-    expect(DEFAULT_CONFIG.progressFile).toBe('.ralph-tui/progress.md');
+    expect(DEFAULT_CONFIG.outputDir).toBe('.orbit/iterations');
+    expect(DEFAULT_CONFIG.progressFile).toBe('.orbit/progress.md');
   });
 
   test('shows TUI by default', () => {

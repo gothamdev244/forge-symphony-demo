@@ -79,7 +79,7 @@ import type { DoctorResult } from './doctor.js';
 
 // Helper to create temp directory
 async function createTempDir(): Promise<string> {
-  return await mkdtemp(join(tmpdir(), 'ralph-tui-doctor-test-'));
+  return await mkdtemp(join(tmpdir(), 'orbit-doctor-test-'));
 }
 
 // Clean up mocks after all tests to prevent leakage to other test files
@@ -130,7 +130,7 @@ describe('doctor command', () => {
       printDoctorHelp();
 
       const output = capturedOutput.join('\n');
-      expect(output).toContain('ralph-tui doctor');
+      expect(output).toContain('orbit doctor');
       expect(output).toContain('Usage:');
       expect(output).toContain('--agent');
       expect(output).toContain('--json');
@@ -161,7 +161,7 @@ describe('doctor command', () => {
       await executeDoctorCommand(['--help']);
 
       const output = capturedOutput.join('\n');
-      expect(output).toContain('ralph-tui doctor');
+      expect(output).toContain('orbit doctor');
       expect(output).toContain('Usage:');
     });
 
@@ -169,7 +169,7 @@ describe('doctor command', () => {
       await executeDoctorCommand(['-h']);
 
       const output = capturedOutput.join('\n');
-      expect(output).toContain('ralph-tui doctor');
+      expect(output).toContain('orbit doctor');
     });
 
     test('outputs JSON when --json flag is provided', async () => {
@@ -409,7 +409,7 @@ describe('doctor config propagation', () => {
 
   test('passes envExclude from config to agent getInstance', async () => {
     // Create project config with envExclude
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), {
       agent: 'claude',
@@ -430,7 +430,7 @@ describe('doctor config propagation', () => {
 
   test('passes command from config to agent getInstance', async () => {
     // Create project config with command
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), {
       agent: 'claude',
@@ -451,7 +451,7 @@ describe('doctor config propagation', () => {
 
   test('handles config without envExclude', async () => {
     // Create project config without envExclude
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeTomlConfig(join(projectConfigDir, 'config.toml'), {
       agent: 'claude',
@@ -472,7 +472,7 @@ describe('doctor config propagation', () => {
   test('uses agent from [[agents]] array with default=true and custom command', async () => {
     // Create project config with agents array containing a default agent with custom command
     // This tests that getDefaultAgentConfig properly resolves agents from the array
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeFile(
       join(projectConfigDir, 'config.toml'),
@@ -506,7 +506,7 @@ envPassthrough = ["CUSTOM_VAR"]
 
   test('agent-level command in [[agents]] takes precedence over top-level command', async () => {
     // Test that agent-specific command overrides top-level command shorthand
-    const projectConfigDir = join(tempDir, '.ralph-tui');
+    const projectConfigDir = join(tempDir, '.orbit');
     await mkdir(projectConfigDir, { recursive: true });
     await writeFile(
       join(projectConfigDir, 'config.toml'),

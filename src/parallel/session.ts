@@ -10,7 +10,7 @@ import { execFileSync } from 'node:child_process';
 import type { ParallelSessionState, TaskGraphAnalysis } from './types.js';
 
 /** File name for persisted parallel session state */
-const SESSION_FILE = '.ralph-tui/parallel-session.json';
+const SESSION_FILE = '.orbit/parallel-session.json';
 
 /**
  * Options for creating a parallel session.
@@ -169,7 +169,7 @@ export function markTaskRequeued(
  */
 export function findOrphanedWorktrees(
   cwd: string,
-  worktreeDir: string = '.ralph-tui/worktrees'
+  worktreeDir: string = '.orbit/worktrees'
 ): string[] {
   const basePath = path.resolve(cwd, worktreeDir);
 
@@ -193,7 +193,7 @@ export function findOrphanedWorktrees(
  */
 export function cleanupOrphanedWorktrees(
   cwd: string,
-  worktreeDir: string = '.ralph-tui/worktrees'
+  worktreeDir: string = '.orbit/worktrees'
 ): { cleaned: number; errors: string[] } {
   const orphans = findOrphanedWorktrees(cwd, worktreeDir);
   const errors: string[] = [];

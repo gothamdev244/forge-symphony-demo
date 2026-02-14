@@ -1,12 +1,12 @@
-# Sample Ralph TUI configuration for testing
+# Sample Orbit TUI configuration for testing
 defaultAgent: claude
 defaultTracker: json
 
 maxIterations: 5
 iterationDelay: 1000
 
-outputDir: .ralph-tui/iterations
-progressFile: .ralph-tui/progress.md
+outputDir: .orbit/iterations
+progressFile: .orbit/progress.md
 
 agents:
   - name: claude

@@ -696,7 +696,7 @@ export class BeadsBvTrackerPlugin extends BeadsTrackerPlugin {
   /**
    * Get the prompt template for the Beads+bv tracker.
    * Returns the embedded template to avoid path resolution issues in bundled environments.
-   * See: https://github.com/subsy/ralph-tui/issues/248
+   * See: https://github.com/subsy/orbit/issues/248
    */
   override getTemplate(): string {
     return BEADS_BV_TEMPLATE;

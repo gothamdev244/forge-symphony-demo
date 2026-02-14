@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Run command implementation for ralph-tui.
+ * ABOUTME: Run command implementation for orbit.
  * Handles CLI argument parsing, configuration loading, session management,
  * and starting the execution engine with TUI.
  * Implements graceful interruption with Ctrl+C confirmation dialog.
@@ -58,7 +58,7 @@ import { getTrackerRegistry } from '../plugins/trackers/registry.js';
 import { RunApp } from '../tui/components/RunApp.js';
 import { EpicSelectionApp } from '../tui/components/EpicSelectionApp.js';
 import type { TrackerPlugin, TrackerTask } from '../plugins/trackers/types.js';
-import type { RalphConfig } from '../config/types.js';
+import type { OrbitConfig } from '../config/types.js';
 import { projectConfigExists, runSetupWizard, checkAndMigrate } from '../setup/index.js';
 import { createInterruptHandler } from '../interruption/index.js';
 import type { InterruptHandler } from '../interruption/types.js';
@@ -110,7 +110,7 @@ export function applyParallelFailureState(
  *
  * Note: The engine status is always 'idle' after runLoop exits (set in finally block),
  * so completion must be determined by task counts, not engine status.
- * See: https://github.com/subsy/ralph-tui/issues/247
+ * See: https://github.com/subsy/orbit/issues/247
  *
  * @param parallelAllComplete - Completion flag from parallel mode, or null for sequential
  * @param tasksCompleted - Number of tasks completed
@@ -467,9 +467,9 @@ export function parseRunArgs(args: string[]): ExtendedRuntimeOptions {
  */
 export function printRunHelp(): void {
   console.log(`
-ralph-tui run - Start Ralph execution
+orbit run - Start Orbit execution
 
-Usage: ralph-tui run [options]
+Usage: orbit run [options]
 
 Options:
   --epic <id>         Epic ID for beads tracker (if omitted, shows epic selection)
@@ -479,8 +479,8 @@ Options:
   --variant <level>   Model variant/reasoning effort (minimal, high, max)
   --tracker <name>    Override tracker plugin (e.g., beads, beads-bv, json)
   --prompt <path>     Custom prompt file (default: based on tracker mode)
-  --output-dir <path> Directory for iteration logs (default: .ralph-tui/iterations)
-  --progress-file <path> Progress file for cross-iteration context (default: .ralph-tui/progress.md)
+  --output-dir <path> Directory for iteration logs (default: .orbit/iterations)
+  --progress-file <path> Progress file for cross-iteration context (default: .orbit/progress.md)
   --theme <name|path> Theme name (bright, catppuccin, dracula, high-contrast, solarized-light) or path to custom JSON theme file
   --iterations <n>    Maximum iterations (0 = unlimited)
   --delay <ms>        Delay between iterations in milliseconds
@@ -514,21 +514,21 @@ Log Output Format (--no-tui mode):
   Components: progress, agent, engine, tracker, session, system
 
   Example output:
-    [10:42:15] [INFO] [engine] Ralph started. Total tasks: 5
+    [10:42:15] [INFO] [engine] Orbit started. Total tasks: 5
     [10:42:15] [INFO] [progress] Iteration 1/10: Working on US-001 - Add login
     [10:42:15] [INFO] [agent] Building prompt for task...
     [10:42:30] [INFO] [progress] Iteration 1 finished. Task US-001: COMPLETED. Duration: 15s
 
 Examples:
-  ralph-tui run                              # Start with defaults
-  ralph-tui run --epic ralph-tui-45r         # Run with specific epic
-  ralph-tui run --prd ./prd.json             # Run with PRD file
-  ralph-tui run --agent claude --model opus  # Override agent settings
-  ralph-tui run --tracker beads-bv           # Use beads-bv tracker
-  ralph-tui run --iterations 20              # Limit to 20 iterations
-  ralph-tui run --resume                     # Resume previous session
-  ralph-tui run --no-tui                     # Run headless for CI/scripts
-  ralph-tui run --listen --prd ./prd.json    # Run with remote listener enabled
+  orbit run                              # Start with defaults
+  orbit run --epic orbit-45r         # Run with specific epic
+  orbit run --prd ./prd.json             # Run with PRD file
+  orbit run --agent claude --model opus  # Override agent settings
+  orbit run --tracker beads-bv           # Use beads-bv tracker
+  orbit run --iterations 20              # Limit to 20 iterations
+  orbit run --resume                     # Resume previous session
+  orbit run --no-tui                     # Run headless for CI/scripts
+  orbit run --listen --prd ./prd.json    # Run with remote listener enabled
 `);
 }
 
@@ -760,7 +760,7 @@ async function detectAndHandleStaleTasks(
   console.log('');
   console.log('⚠️  Stale in_progress tasks detected');
   console.log('');
-  console.log('A previous Ralph session did not exit cleanly.');
+  console.log('A previous Orbit session did not exit cleanly.');
   console.log(`Found ${activeTaskIds.length} task(s) stuck in "in_progress" status:`);
   console.log('');
   for (const task of taskDetails) {
@@ -878,11 +878,11 @@ async function promptResumeOrNew(cwd: string): Promise<'resume' | 'new' | 'abort
   if (resumable) {
     console.log('This session can be resumed.');
     console.log('');
-    console.log('  To resume:  ralph-tui resume');
-    console.log('  To start fresh: ralph-tui run --force');
+    console.log('  To resume:  orbit resume');
+    console.log('  To start fresh: orbit run --force');
     console.log('');
     console.log('Starting fresh session...');
-    console.log('(Use --resume flag or "ralph-tui resume" command to continue)');
+    console.log('(Use --resume flag or "orbit resume" command to continue)');
     return 'new';
   } else {
     console.log('This session has completed and cannot be resumed.');
@@ -1330,7 +1330,7 @@ interface NotificationRunOptions {
 async function runWithTui(
   engine: ExecutionEngine,
   persistedState: PersistedSessionState,
-  config: RalphConfig,
+  config: OrbitConfig,
   initialTasks: TrackerTask[],
   storedConfig?: StoredConfig,
   notificationOptions?: NotificationRunOptions
@@ -1583,7 +1583,7 @@ async function runWithTui(
 async function runParallelWithTui(
   parallelExecutor: ParallelExecutor,
   persistedState: PersistedSessionState,
-  config: RalphConfig,
+  config: OrbitConfig,
   initialTasks: TrackerTask[],
   storedConfig?: StoredConfig,
 ): Promise<PersistedSessionState> {
@@ -2052,7 +2052,7 @@ interface HeadlessOptions {
 async function runHeadless(
   engine: ExecutionEngine,
   persistedState: PersistedSessionState,
-  config: RalphConfig,
+  config: OrbitConfig,
   headlessOptions?: HeadlessOptions
 ): Promise<PersistedSessionState> {
   const notificationOptions = headlessOptions?.notificationOptions;
@@ -2352,8 +2352,8 @@ export async function executeRunCommand(args: string[]): Promise<void> {
     console.error('');
     console.error('To convert your markdown PRD, use one of these commands:');
     console.error('');
-    console.error(`  ralph-tui convert --to json --input ${options.prdPath}`);
-    console.error(`  ralph-tui convert --to beads --input ${options.prdPath}`);
+    console.error(`  orbit convert --to json --input ${options.prdPath}`);
+    console.error(`  orbit convert --to beads --input ${options.prdPath}`);
     console.error('');
     console.error('The "json" format creates a prd.json file for the JSON tracker.');
     console.error('The "beads" format imports tasks directly into your .beads database.');
@@ -2367,7 +2367,7 @@ export async function executeRunCommand(args: string[]): Promise<void> {
   if (!configExists && !options.noSetup) {
     // No config found - offer to run setup
     console.log('');
-    console.log('No .ralph-tui/config.toml configuration found in this project.');
+    console.log('No .orbit/config.toml configuration found in this project.');
     console.log('');
 
     // Run the setup wizard
@@ -2375,8 +2375,8 @@ export async function executeRunCommand(args: string[]): Promise<void> {
 
     if (!result.success) {
       if (result.cancelled) {
-        console.log('Run "ralph-tui setup" to configure later,');
-        console.log('or use "ralph-tui run --no-setup" to skip setup.');
+        console.log('Run "orbit setup" to configure later,');
+        console.log('or use "orbit run --no-setup" to skip setup.');
         return;
       }
       console.error('Setup failed:', result.error);
@@ -2385,10 +2385,10 @@ export async function executeRunCommand(args: string[]): Promise<void> {
 
     // Setup completed, continue with run
     console.log('');
-    console.log('Setup complete! Starting Ralph...');
+    console.log('Setup complete! Starting Orbit...');
     console.log('');
   } else if (!configExists && options.noSetup) {
-    console.log('No .ralph-tui/config.toml found. Using default configuration.');
+    console.log('No .orbit/config.toml found. Using default configuration.');
   }
 
   // Check for config migrations (auto-upgrade on version changes)
@@ -2399,7 +2399,7 @@ export async function executeRunCommand(args: string[]): Promise<void> {
     }
   }
 
-  console.log('Initializing Ralph TUI...');
+  console.log('Initializing Orbit TUI...');
 
   // Initialize theme before any TUI components render
   // This must happen early to ensure colors are available when components load
@@ -2495,7 +2495,7 @@ export async function executeRunCommand(args: string[]): Promise<void> {
         }
       }
       console.error('');
-      console.error('Run "ralph-tui doctor" for detailed diagnostics.');
+      console.error('Run "orbit doctor" for detailed diagnostics.');
       process.exit(1);
     }
   }
@@ -2753,7 +2753,7 @@ export async function executeRunCommand(args: string[]): Promise<void> {
       }
       console.log('');
       console.log('  Connect from another machine:');
-      console.log(`    ralph-tui remote add <alias> <this-host>:${actualPort} --token <token>`);
+      console.log(`    orbit remote add <alias> <this-host>:${actualPort} --token <token>`);
       console.log('');
       console.log('═══════════════════════════════════════════════════════════════');
       console.log('');
@@ -2909,7 +2909,7 @@ export async function executeRunCommand(args: string[]): Promise<void> {
       // Wire up AI conflict resolution if enabled (default: true)
       const conflictResolutionEnabled = storedConfig?.conflictResolution?.enabled !== false;
       if (conflictResolutionEnabled) {
-        // Pass conflict resolution config to RalphConfig for the resolver
+        // Pass conflict resolution config to OrbitConfig for the resolver
         const configWithConflictRes = {
           ...config,
           conflictResolution: storedConfig?.conflictResolution,
@@ -3099,7 +3099,7 @@ export async function executeRunCommand(args: string[]): Promise<void> {
     await savePersistedSession(persistedState);
     // Update registry with current status
     await updateRegistryStatus(session.id, persistedState.status);
-    console.log('\nSession state saved. Use "ralph-tui resume" to continue.');
+    console.log('\nSession state saved. Use "orbit resume" to continue.');
   }
 
   // Stop remote server if running
@@ -3111,7 +3111,7 @@ export async function executeRunCommand(args: string[]): Promise<void> {
   await endSession(config.cwd, allComplete ? 'completed' : 'interrupted');
   await releaseLockNew(config.cwd);
   cleanupLockHandlers();
-  console.log('\nRalph TUI finished.');
+  console.log('\nOrbit TUI finished.');
 
   // Explicitly exit - event listeners may keep process alive otherwise
   process.exit(0);

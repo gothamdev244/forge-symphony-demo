@@ -282,7 +282,7 @@ describe('AgentRegistry', () => {
     test('returns expected path structure', () => {
       const dir = AgentRegistry.getUserPluginsDir();
       expect(dir).toContain('.config');
-      expect(dir).toContain('ralph-tui');
+      expect(dir).toContain('orbit');
       expect(dir).toContain('plugins');
       expect(dir).toContain('agents');
     });

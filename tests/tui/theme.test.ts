@@ -25,7 +25,7 @@ import {
   isValidHexColor,
   resolveThemePath,
   BUNDLED_THEMES,
-  type RalphStatus,
+  type OrbitStatus,
   type TaskStatus,
   type ThemeColors,
   type PartialThemeColors,

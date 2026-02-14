@@ -1,5 +1,5 @@
 {
-  "name": "Ralph-TUI Conflict Resolution Test",
+  "name": "Orbit-TUI Conflict Resolution Test",
   "description": "Test PRD specifically designed to trigger merge conflicts for testing AI conflict resolution in parallel execution",
   "branchName": "test/conflict-resolution",
   "userStories": [

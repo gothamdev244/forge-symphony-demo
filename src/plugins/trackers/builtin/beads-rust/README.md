@@ -1,10 +1,10 @@
 # Beads-Rust Tracker Plugin
 
-A tracker plugin for ralph-tui that integrates with **beads-rust** (`br` CLI) - the Rust rewrite of the beads issue tracker.
+A tracker plugin for orbit that integrates with **beads-rust** (`br` CLI) - the Rust rewrite of the beads issue tracker.
 
 ## Overview
 
-This plugin enables ralph-tui to use beads-rust as its task source. It provides:
+This plugin enables orbit to use beads-rust as its task source. It provides:
 
 - **Task discovery** via `br list` and `br ready`
 - **Dependency-aware task selection** - respects `blocks`/`depends-on` relationships
@@ -29,20 +29,20 @@ The plugin auto-detects when:
 ### Basic Usage
 
 ```bash
-# Let ralph-tui select the best available task
-ralph-tui run --tracker beads-rust
+# Let orbit select the best available task
+orbit run --tracker beads-rust
 
 # Work on tasks within a specific epic
-ralph-tui run --tracker beads-rust --epic ralph-tui-123
+orbit run --tracker beads-rust --epic orbit-123
 ```
 
-### Creating Tasks for ralph-tui
+### Creating Tasks for orbit
 
-Use the `ralph-tui-create-beads-rust` skill (via Claude Code) to convert PRDs into beads:
+Use the `orbit-create-beads-rust` skill (via Claude Code) to convert PRDs into beads:
 
 ```bash
 # In Claude Code
-/ralph-tui-create-beads-rust
+/orbit-create-beads-rust
 ```
 
 Or create tasks manually:
@@ -66,19 +66,19 @@ br dep add <task-id> <blocker-id>
 
 ## Configuration
 
-The plugin can be configured in `ralph-tui.yaml`:
+The plugin can be configured in `orbit.yaml`:
 
 ```yaml
 tracker:
   plugin: beads-rust
   # Optional: specify epic to work within
-  epic: ralph-tui-123
+  epic: orbit-123
 ```
 
 Or via CLI flags:
 
 ```bash
-ralph-tui run --tracker beads-rust --epic ralph-tui-123
+orbit run --tracker beads-rust --epic orbit-123
 ```
 
 ## Task Selection
@@ -157,5 +157,5 @@ br dep cycles        # Check for circular dependencies
 ## Related
 
 - [beads-rust CLI documentation](https://github.com/Dicklesworthstone/beads_rust)
-- [ralph-tui documentation](../../../README.md)
-- [Creating beads from PRDs](../../../../skills/ralph-tui-create-beads-rust/SKILL.md)
+- [orbit documentation](../../../README.md)
+- [Creating beads from PRDs](../../../../skills/orbit-create-beads-rust/SKILL.md)

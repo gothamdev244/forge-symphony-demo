@@ -43,7 +43,7 @@ describe('WorktreeManager', () => {
     repoDir = createTempRepo();
     manager = new WorktreeManager({
       cwd: repoDir,
-      worktreeDir: '.ralph-tui/worktrees',
+      worktreeDir: '.orbit/worktrees',
       maxWorktrees: 4,
     });
   });
@@ -85,7 +85,7 @@ describe('WorktreeManager', () => {
       const minFreeDiskSpace = 500 * 1024 * 1024;
       manager = new WorktreeManager({
         cwd: repoDir,
-        worktreeDir: '.ralph-tui/worktrees',
+        worktreeDir: '.orbit/worktrees',
         maxWorktrees: 4,
         minFreeDiskSpace,
       });
@@ -109,7 +109,7 @@ describe('WorktreeManager', () => {
       const minFreeDiskSpace = 500 * 1024 * 1024;
       manager = new WorktreeManager({
         cwd: repoDir,
-        worktreeDir: '.ralph-tui/worktrees',
+        worktreeDir: '.orbit/worktrees',
         maxWorktrees: 4,
         minFreeDiskSpace,
       });
@@ -153,7 +153,7 @@ describe('WorktreeManager', () => {
     });
 
     test('creates the worktree base directory', async () => {
-      const worktreeBaseDir = path.join(repoDir, '.ralph-tui/worktrees');
+      const worktreeBaseDir = path.join(repoDir, '.orbit/worktrees');
       expect(fs.existsSync(worktreeBaseDir)).toBe(false);
 
       await manager.acquire('w1', 'task-001');
@@ -163,7 +163,7 @@ describe('WorktreeManager', () => {
 
     test('copies config.toml into the worktree', async () => {
       // Create a config file in the main repo
-      const configDir = path.join(repoDir, '.ralph-tui');
+      const configDir = path.join(repoDir, '.orbit');
       fs.mkdirSync(configDir, { recursive: true });
       fs.writeFileSync(
         path.join(configDir, 'config.toml'),
@@ -172,7 +172,7 @@ describe('WorktreeManager', () => {
 
       const info = await manager.acquire('w1', 'task-001');
 
-      const worktreeConfig = path.join(info.path, '.ralph-tui', 'config.toml');
+      const worktreeConfig = path.join(info.path, '.orbit', 'config.toml');
       expect(fs.existsSync(worktreeConfig)).toBe(true);
       expect(fs.readFileSync(worktreeConfig, 'utf-8')).toBe('agent = "claude"\n');
     });
@@ -303,7 +303,7 @@ describe('WorktreeManager', () => {
 
     test('removes empty worktree base directory', async () => {
       await manager.acquire('w1', 'task-001');
-      const worktreeBaseDir = path.join(repoDir, '.ralph-tui/worktrees');
+      const worktreeBaseDir = path.join(repoDir, '.orbit/worktrees');
       expect(fs.existsSync(worktreeBaseDir)).toBe(true);
 
       await manager.cleanupAll();

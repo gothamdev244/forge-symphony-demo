@@ -23,7 +23,7 @@ mock.module('../../src/config/index.js', () => ({
   loadStoredConfigWithSource: mockLoadStoredConfigWithSource,
   serializeConfig: mockSerializeConfig,
   CONFIG_PATHS: {
-    global: '~/.config/ralph-tui/config.toml',
+    global: '~/.config/orbit/config.toml',
   },
 }));
 
@@ -46,8 +46,8 @@ describe('config command', () => {
     test('prints help text', () => {
       printConfigHelp();
       const output = consoleOutput.join('\n');
-      expect(output).toContain('Ralph TUI Configuration');
-      expect(output).toContain('ralph-tui config');
+      expect(output).toContain('Orbit TUI Configuration');
+      expect(output).toContain('orbit config');
     });
 
     test('includes commands documentation', () => {
@@ -110,14 +110,14 @@ describe('config command', () => {
       const result = await executeConfigCommand(['help']);
       expect(result).toBe(true);
       const output = consoleOutput.join('\n');
-      expect(output).toContain('Ralph TUI Configuration');
+      expect(output).toContain('Orbit TUI Configuration');
     });
 
     test('handles --help flag', async () => {
       const result = await executeConfigCommand(['--help']);
       expect(result).toBe(true);
       const output = consoleOutput.join('\n');
-      expect(output).toContain('Ralph TUI Configuration');
+      expect(output).toContain('Orbit TUI Configuration');
     });
 
     test('handles no subcommand as help', async () => {
@@ -203,13 +203,13 @@ describe('config command', () => {
 
     test('global source only', () => {
       const source: ConfigSource = {
-        globalPath: '~/.config/ralph-tui/config.toml',
+        globalPath: '~/.config/orbit/config.toml',
         projectPath: null,
         globalLoaded: true,
         projectLoaded: false,
       };
 
-      expect(source.globalPath).toBe('~/.config/ralph-tui/config.toml');
+      expect(source.globalPath).toBe('~/.config/orbit/config.toml');
       expect(source.projectPath).toBeNull();
       expect(source.globalLoaded).toBe(true);
       expect(source.projectLoaded).toBe(false);
@@ -218,27 +218,27 @@ describe('config command', () => {
     test('project source only', () => {
       const source: ConfigSource = {
         globalPath: null,
-        projectPath: '/home/user/project/.ralph-tui/config.toml',
+        projectPath: '/home/user/project/.orbit/config.toml',
         globalLoaded: false,
         projectLoaded: true,
       };
 
       expect(source.globalPath).toBeNull();
-      expect(source.projectPath).toBe('/home/user/project/.ralph-tui/config.toml');
+      expect(source.projectPath).toBe('/home/user/project/.orbit/config.toml');
       expect(source.globalLoaded).toBe(false);
       expect(source.projectLoaded).toBe(true);
     });
 
     test('both sources found', () => {
       const source: ConfigSource = {
-        globalPath: '~/.config/ralph-tui/config.toml',
-        projectPath: '/home/user/project/.ralph-tui/config.toml',
+        globalPath: '~/.config/orbit/config.toml',
+        projectPath: '/home/user/project/.orbit/config.toml',
         globalLoaded: true,
         projectLoaded: true,
       };
 
-      expect(source.globalPath).toBe('~/.config/ralph-tui/config.toml');
-      expect(source.projectPath).toBe('/home/user/project/.ralph-tui/config.toml');
+      expect(source.globalPath).toBe('~/.config/orbit/config.toml');
+      expect(source.projectPath).toBe('/home/user/project/.orbit/config.toml');
       expect(source.globalLoaded).toBe(true);
       expect(source.projectLoaded).toBe(true);
     });

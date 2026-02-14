@@ -130,7 +130,7 @@ describe('buildMetadata', () => {
   test('handles old config-only signature for backward compatibility', () => {
     const result = createTestIterationResult();
 
-    // Old signature: buildMetadata(result, config) where config is RalphConfig directly
+    // Old signature: buildMetadata(result, config) where config is OrbitConfig directly
     const metadata = buildMetadata(result, {
       agent: { name: 'claude', plugin: 'claude', options: {} },
       model: 'claude-sonnet-4-20250514',
@@ -686,7 +686,7 @@ describe('parseMetadataHeader', () => {
 describe('getIterationsDir', () => {
   test('returns default directory when no custom dir specified', () => {
     const dir = getIterationsDir('/project');
-    expect(dir).toBe('/project/.ralph-tui/iterations');
+    expect(dir).toBe('/project/.orbit/iterations');
   });
 
   test('joins relative custom dir with cwd', () => {

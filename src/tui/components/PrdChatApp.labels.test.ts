@@ -24,9 +24,9 @@ describe('buildBeadsLabelsInstruction', () => {
   });
 
   test('deduplicates ralph case-insensitively', () => {
-    const result = buildBeadsLabelsInstruction(['Ralph', 'frontend']);
+    const result = buildBeadsLabelsInstruction(['Orbit', 'frontend']);
     expect(result).toContain('--labels "ralph,frontend"');
-    expect(result).not.toContain('Ralph');
+    expect(result).not.toContain('Orbit');
   });
 
   test('deduplicates RALPH uppercase variant', () => {

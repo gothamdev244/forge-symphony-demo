@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Config migration utility for ralph-tui.
+ * ABOUTME: Config migration utility for orbit.
  * Handles automatic upgrades when users update to new versions.
  * Ensures skills and templates are updated while preserving user customizations.
  * Supports multi-agent skill installation (Claude Code, OpenCode, Factory Droid).
@@ -150,7 +150,7 @@ export async function migrateConfig(
     }
 
     log('');
-    log('📦 Upgrading ralph-tui configuration...');
+    log('📦 Upgrading orbit configuration...');
 
     // 1. Install/update bundled skills for all detected agents via add-skill
     log('   Installing bundled skills for detected agents...');
@@ -246,9 +246,9 @@ export async function migrateConfig(
 }
 
 /**
- * Install builtin templates to the global config directory (~/.config/ralph-tui/templates/).
+ * Install builtin templates to the global config directory (~/.config/orbit/templates/).
  * Templates are only written if they don't already exist (preserves user customizations).
- * Project-level templates (.ralph-tui/templates/) take precedence over global templates.
+ * Project-level templates (.orbit/templates/) take precedence over global templates.
  *
  * @param quiet Suppress output
  * @returns true if any templates were installed

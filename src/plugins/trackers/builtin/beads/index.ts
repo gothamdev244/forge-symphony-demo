@@ -175,7 +175,7 @@ function beadToTask(bead: BeadJson): TrackerTask {
   }
 
   // Infer parentId from bead ID if not provided (bd list --json bug)
-  // e.g., "ralph-tui-45r.37" -> parent is "ralph-tui-45r"
+  // e.g., "orbit-45r.37" -> parent is "orbit-45r"
   let parentId = bead.parent;
   if (!parentId && bead.id.includes('.')) {
     const lastDotIndex = bead.id.lastIndexOf('.');
@@ -561,7 +561,7 @@ export class BeadsTrackerPlugin extends BaseTrackerPlugin {
    * Get the next task to work on using bd ready.
    * Overrides base implementation to leverage bd's server-side dependency filtering,
    * since bd list --json doesn't include dependency data needed for client-side filtering.
-   * See: https://github.com/subsy/ralph-tui/issues/97
+   * See: https://github.com/subsy/orbit/issues/97
    */
   override async getNextTask(filter?: TaskFilter): Promise<TrackerTask | undefined> {
     // Check if plugin is ready before making CLI calls
@@ -673,7 +673,7 @@ export class BeadsTrackerPlugin extends BaseTrackerPlugin {
   /**
    * Get the prompt template for the Beads tracker.
    * Returns the embedded template to avoid path resolution issues in bundled environments.
-   * See: https://github.com/subsy/ralph-tui/issues/248
+   * See: https://github.com/subsy/orbit/issues/248
    */
   override getTemplate(): string {
     return BEADS_TEMPLATE;

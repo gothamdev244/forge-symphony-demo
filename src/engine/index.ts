@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Execution engine for Ralph TUI agent loop.
+ * ABOUTME: Execution engine for Orbit TUI agent loop.
  * Handles the iteration cycle: select task → inject prompt → run agent → check result → update tracker.
  * Supports configurable error handling strategies: retry, skip, abort.
  */
@@ -29,7 +29,7 @@ import type {
   TaskAutoCommitFailedEvent,
 } from './types.js';
 import { toEngineSubagentState } from './types.js';
-import type { RalphConfig, RateLimitHandlingConfig } from '../config/types.js';
+import type { OrbitConfig, RateLimitHandlingConfig } from '../config/types.js';
 import { DEFAULT_RATE_LIMIT_HANDLING } from '../config/types.js';
 import { RateLimitDetector, type RateLimitDetectionResult } from './rate-limit-detector.js';
 import type { TrackerPlugin, TrackerTask } from '../plugins/trackers/types.js';
@@ -138,7 +138,7 @@ function toMemorySafeAgentResult(agentResult: AgentExecutionResult): AgentExecut
  */
 async function buildPrompt(
   task: TrackerTask,
-  config: RalphConfig,
+  config: OrbitConfig,
   tracker?: TrackerPlugin
 ): Promise<string> {
   // Load recent progress for context (last 5 iterations)
@@ -207,7 +207,7 @@ export interface WorkerModeOptions {
  * Execution engine for the agent loop
  */
 export class ExecutionEngine {
-  private config: RalphConfig;
+  private config: OrbitConfig;
   private agent: AgentPlugin | null = null;
   private tracker: TrackerPlugin | null = null;
   private listeners: EngineEventListener[] = [];
@@ -237,7 +237,7 @@ export class ExecutionEngine {
   /** Track if the forced task has been processed (prevents infinite loop on skip/fail) */
   private forcedTaskProcessed = false;
 
-  constructor(config: RalphConfig) {
+  constructor(config: OrbitConfig) {
     this.config = config;
     this.state = {
       status: 'idle',
@@ -628,7 +628,7 @@ export class ExecutionEngine {
   /**
    * Get the next available task, excluding skipped ones.
    * Delegates to the tracker's getNextTask() for proper dependency-aware ordering.
-   * See: https://github.com/subsy/ralph-tui/issues/97
+   * See: https://github.com/subsy/orbit/issues/97
    *
    * In worker mode (forcedTask set), returns the forced task until it's completed,
    * then returns null to stop the engine.
@@ -1253,14 +1253,14 @@ export class ExecutionEngine {
       // IMPORTANT: Only use the explicit <promise>COMPLETE</promise> signal.
       // Exit code 0 alone does NOT indicate task completion - an agent may exit
       // cleanly after asking clarification questions or hitting a blocker.
-      // See: https://github.com/subsy/ralph-tui/issues/259
+      // See: https://github.com/subsy/orbit/issues/259
       const taskCompleted = promiseComplete;
 
       // Update tracker if task completed
       // In worker mode (forcedTask set), skip tracker update — the ParallelExecutor
       // will call completeTask after the merge succeeds. This avoids race conditions
       // when multiple workers try to update the tracker concurrently.
-      // See: https://github.com/subsy/ralph-tui/issues/275
+      // See: https://github.com/subsy/orbit/issues/275
       if (taskCompleted) {
         if (!this.forcedTask) {
           await this.tracker!.completeTask(task.id, 'Completed by agent');
@@ -1304,7 +1304,7 @@ export class ExecutionEngine {
         endedAt: endedAt.toISOString(),
       };
 
-      // Save iteration output to .ralph-tui/iterations/ directory
+      // Save iteration output to .orbit/iterations/ directory
       // Include subagent trace if any subagents were spawned
       const events = this.subagentParser.getEvents();
       const states = this.subagentParser.getAllSubagents();

@@ -87,7 +87,7 @@ describe('installViaAddSkill', () => {
 
     expect(mockSpawnArgs[0].cmd).toBe('bunx');
     expect(mockSpawnArgs[0].args).toContain('add-skill');
-    expect(mockSpawnArgs[0].args).toContain('subsy/ralph-tui');
+    expect(mockSpawnArgs[0].args).toContain('subsy/orbit');
     expect(mockSpawnArgs[0].args).toContain('-a');
     expect(mockSpawnArgs[0].args).toContain('claude-code');
     expect(mockSpawnArgs[0].args).toContain('-g');
@@ -157,10 +157,10 @@ describe('installViaAddSkill', () => {
   test('passes skill name when specified', async () => {
     mockSpawnExitCode = 0;
 
-    await installViaAddSkill({ agentId: 'claude', skillName: 'ralph-tui-prd', global: true });
+    await installViaAddSkill({ agentId: 'claude', skillName: 'orbit-prd', global: true });
 
     expect(mockSpawnArgs[0].args).toContain('-s');
-    expect(mockSpawnArgs[0].args).toContain('ralph-tui-prd');
+    expect(mockSpawnArgs[0].args).toContain('orbit-prd');
   });
 
   test('handles null exit code as failure', async () => {

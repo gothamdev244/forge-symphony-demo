@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Desktop notification module for ralph-tui.
+ * ABOUTME: Desktop notification module for orbit.
  * Provides cross-platform desktop notifications using node-notifier.
  * Notifications are used to alert users when long-running tasks complete.
  * Also provides configuration resolution for notification settings.
@@ -131,7 +131,7 @@ export interface CompletionNotificationOptions {
  * Sends a desktop notification when all tasks complete.
  *
  * The notification has:
- * - Title: "Ralph-TUI Complete"
+ * - Title: "Orbit-TUI Complete"
  * - Body: Includes duration (Xm Ys format) and task count
  *
  * @param options - The completion notification options
@@ -141,7 +141,7 @@ export function sendCompletionNotification(options: CompletionNotificationOption
   const durationStr = formatDuration(durationMs);
 
   sendNotification({
-    title: 'Ralph-TUI Complete',
+    title: 'Orbit-TUI Complete',
     body: `Completed ${taskCount} task${taskCount !== 1 ? 's' : ''} in ${durationStr}`,
     sound,
   });
@@ -167,7 +167,7 @@ export interface MaxIterationsNotificationOptions {
  * Sends a desktop notification when max iterations limit is reached.
  *
  * The notification has:
- * - Title: "Ralph-TUI Max Iterations"
+ * - Title: "Orbit-TUI Max Iterations"
  * - Body: Includes iterations run, tasks completed vs remaining, duration
  *
  * @param options - The max iterations notification options
@@ -180,7 +180,7 @@ export function sendMaxIterationsNotification(options: MaxIterationsNotification
     `Completed ${tasksCompleted}, ${tasksRemaining} remaining. Duration: ${durationStr}`;
 
   sendNotification({
-    title: 'Ralph-TUI Max Iterations',
+    title: 'Orbit-TUI Max Iterations',
     body,
     sound,
   });
@@ -204,7 +204,7 @@ export interface ErrorNotificationOptions {
  * Sends a desktop notification when execution stops due to a fatal error.
  *
  * The notification has:
- * - Title: "Ralph-TUI Error"
+ * - Title: "Orbit-TUI Error"
  * - Body: Includes brief error summary, tasks completed before failure, duration
  *
  * @param options - The error notification options
@@ -223,7 +223,7 @@ export function sendErrorNotification(options: ErrorNotificationOptions): void {
     `Completed ${tasksCompleted} task${tasksCompleted !== 1 ? 's' : ''} before failure. Duration: ${durationStr}`;
 
   sendNotification({
-    title: 'Ralph-TUI Error',
+    title: 'Orbit-TUI Error',
     body,
     sound,
   });

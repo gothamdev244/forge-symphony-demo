@@ -1,5 +1,5 @@
 /**
- * ABOUTME: System info command for ralph-tui.
+ * ABOUTME: System info command for orbit.
  * Outputs diagnostic information useful for bug reports.
  * Collects version info, config paths, environment details, and skills.
  */
@@ -45,7 +45,7 @@ async function getPackageVersion(): Promise<string> {
     const packageJsonPath = computePackageJsonPath(currentDir);
     const pkg = await readFile(packageJsonPath, 'utf-8');
     const parsed = JSON.parse(pkg);
-    if (parsed.name === 'ralph-tui' && parsed.version) {
+    if (parsed.name === 'orbit' && parsed.version) {
       return parsed.version;
     }
   } catch {
@@ -90,7 +90,7 @@ export interface SkillsInfo {
  * System info result
  */
 export interface SystemInfo {
-  /** ralph-tui version */
+  /** orbit version */
   version: string;
 
   /** Runtime info */
@@ -365,12 +365,12 @@ export async function collectSystemInfo(cwd: string = process.cwd()): Promise<Sy
 export function formatSystemInfo(info: SystemInfo): string {
   const lines: string[] = [];
 
-  lines.push('ralph-tui System Information');
+  lines.push('orbit System Information');
   lines.push('============================');
   lines.push('');
 
   // Version info
-  lines.push(`ralph-tui version: ${info.version}`);
+  lines.push(`orbit version: ${info.version}`);
   lines.push(`Runtime: ${info.runtime.name} ${info.runtime.version}`);
   lines.push(`OS: ${info.os.platform} ${info.os.release} (${info.os.arch})`);
   lines.push('');
@@ -450,7 +450,7 @@ export function formatForBugReport(info: SystemInfo): string {
   const lines: string[] = [];
 
   lines.push('```');
-  lines.push(`ralph-tui: ${info.version}`);
+  lines.push(`orbit: ${info.version}`);
   lines.push(`runtime: ${info.runtime.name} ${info.runtime.version}`);
   lines.push(`os: ${info.os.platform} ${info.os.release} (${info.os.arch})`);
   lines.push(`agent: ${info.agent.name}${info.agent.version ? ` v${info.agent.version}` : ''}${info.agent.available ? '' : ' (unavailable)'}`);
@@ -511,9 +511,9 @@ export async function executeInfoCommand(args: string[]): Promise<void> {
 
   if (args.includes('--help') || args.includes('-h')) {
     console.log(`
-${BOLD}ralph-tui info${RESET} - Display system information for bug reports
+${BOLD}orbit info${RESET} - Display system information for bug reports
 
-${BOLD}Usage:${RESET} ralph-tui info [options]
+${BOLD}Usage:${RESET} orbit info [options]
 
 ${BOLD}Options:${RESET}
   ${DIM}--json${RESET}            Output in JSON format
@@ -522,11 +522,11 @@ ${BOLD}Options:${RESET}
   ${DIM}-h, --help${RESET}        Show this help message
 
 ${BOLD}Description:${RESET}
-  Collects and displays diagnostic information about your ralph-tui
+  Collects and displays diagnostic information about your orbit
   installation. This is useful for including in bug reports.
 
   Information collected:
-  - ralph-tui version
+  - orbit version
   - Runtime (Bun/Node) version
   - Operating system details
   - Configuration file locations and status
@@ -536,9 +536,9 @@ ${BOLD}Description:${RESET}
   - Installed skills (per agent and custom directory)
 
 ${BOLD}Examples:${RESET}
-  ${CYAN}ralph-tui info${RESET}              # Display system info
-  ${CYAN}ralph-tui info --json${RESET}       # JSON output for scripts
-  ${CYAN}ralph-tui info -c${RESET}           # Copyable format for bug reports
+  ${CYAN}orbit info${RESET}              # Display system info
+  ${CYAN}orbit info --json${RESET}       # JSON output for scripts
+  ${CYAN}orbit info -c${RESET}           # Copyable format for bug reports
 `);
     return;
   }
@@ -554,7 +554,7 @@ ${BOLD}Examples:${RESET}
       console.log();
       console.log(formatSystemInfo(info));
       console.log();
-      console.log(`${DIM}Tip: Use ${CYAN}ralph-tui info -c${RESET}${DIM} for a copyable bug report format${RESET}`);
+      console.log(`${DIM}Tip: Use ${CYAN}orbit info -c${RESET}${DIM} for a copyable bug report format${RESET}`);
       console.log();
     }
   } catch (error) {

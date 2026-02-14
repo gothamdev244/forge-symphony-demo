@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Image detection utility for ralph-tui.
+ * ABOUTME: Image detection utility for orbit.
  * Detects images from multiple sources:
  * - File paths (validates existence on disk)
  * - OSC 52 escape sequences (iTerm2, Kitty, WezTerm terminals)

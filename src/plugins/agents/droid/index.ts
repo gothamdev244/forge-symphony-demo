@@ -1,6 +1,6 @@
 /**
  * ABOUTME: Factory Droid agent plugin implementation.
- * Runs the droid CLI in non-interactive mode for Ralph task execution.
+ * Runs the droid CLI in non-interactive mode for Orbit task execution.
  */
 
 import { spawn } from 'node:child_process';

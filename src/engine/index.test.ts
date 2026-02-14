@@ -9,7 +9,7 @@
 
 import { describe, test, expect } from 'bun:test';
 import type { TrackerPlugin, TrackerTask, TaskFilter } from '../plugins/trackers/types.js';
-import type { RalphConfig } from '../config/types.js';
+import type { OrbitConfig } from '../config/types.js';
 import { ExecutionEngine } from './index.js';
 
 /**
@@ -54,11 +54,11 @@ function createMockTask(overrides: Partial<TrackerTask> = {}): TrackerTask {
 }
 
 /**
- * Creates a minimal RalphConfig for testing.
+ * Creates a minimal OrbitConfig for testing.
  * Uses /tmp paths that don't exist to ensure filesystem functions
  * gracefully return empty strings.
  */
-function createMockConfig(): RalphConfig {
+function createMockConfig(): OrbitConfig {
   return {
     cwd: '/tmp/ralph-test-nonexistent',
     model: 'test-model',

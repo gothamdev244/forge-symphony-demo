@@ -1,6 +1,6 @@
 /**
  * ABOUTME: Skills command for managing agent skills.
- * Provides ralph-tui skills list and ralph-tui skills install commands.
+ * Provides orbit skills list and orbit skills install commands.
  * Install delegates to Vercel's add-skill CLI for ecosystem compatibility.
  */
 
@@ -118,7 +118,7 @@ export async function executeSkillsCommand(args: string[]): Promise<void> {
  */
 export function printSkillsHelp(): void {
   console.log(`
-${BOLD}ralph-tui skills${RESET} - Manage agent skills
+${BOLD}orbit skills${RESET} - Manage agent skills
 
 ${BOLD}Commands:${RESET}
   ${CYAN}list${RESET}              List bundled skills and installation status per agent
@@ -132,15 +132,15 @@ ${BOLD}Install Options:${RESET}
   ${DIM}--global${RESET}           Install to personal/global directory (default)
 
 ${BOLD}Examples:${RESET}
-  ralph-tui skills list                    # List all skills per agent
-  ralph-tui skills install                 # Install all skills globally
-  ralph-tui skills install --local         # Install all skills to local project
-  ralph-tui skills install ralph-tui-prd   # Install specific skill
-  ralph-tui skills install --agent claude  # Install only to Claude Code
+  orbit skills list                    # List all skills per agent
+  orbit skills install                 # Install all skills globally
+  orbit skills install --local         # Install all skills to local project
+  orbit skills install orbit-prd   # Install specific skill
+  orbit skills install --agent claude  # Install only to Claude Code
 
 ${BOLD}Direct add-skill usage:${RESET}
-  bunx add-skill subsy/ralph-tui --all     # Install to all agents globally
-  bunx add-skill subsy/ralph-tui -s ralph-tui-prd -a claude-code -g -y
+  bunx add-skill subsy/orbit --all     # Install to all agents globally
+  bunx add-skill subsy/orbit -s orbit-prd -a claude-code -g -y
 
 ${BOLD}Supported Agents:${RESET}
   claude (claude-code), opencode, codex, gemini, kiro, and any agent
@@ -208,7 +208,7 @@ async function handleListSkills(): Promise<void> {
   }
 
   console.log(`${DIM}${'─'.repeat(70)}${RESET}`);
-  console.log(`${DIM}Use 'ralph-tui skills install' for global, '--local' for project-local${RESET}`);
+  console.log(`${DIM}Use 'orbit skills install' for global, '--local' for project-local${RESET}`);
 }
 
 /**
@@ -264,7 +264,7 @@ export function buildAddSkillArgs(options: {
   local: boolean;
   global: boolean;
 }): string[] {
-  const args = ['add-skill', 'subsy/ralph-tui'];
+  const args = ['add-skill', 'subsy/orbit'];
 
   // Skill selection
   if (options.skillName) {
@@ -400,5 +400,5 @@ async function handleInstallSkills(args: string[]): Promise<void> {
     console.log(`${DIM}Run directly for details: bunx ${addSkillArgs.join(' ')}${RESET}`);
   }
 
-  console.log(`\n${DIM}Verify with: ralph-tui skills list${RESET}`);
+  console.log(`\n${DIM}Verify with: orbit skills list${RESET}`);
 }

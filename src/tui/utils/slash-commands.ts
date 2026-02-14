@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Slash command handler for ralph-tui.
+ * ABOUTME: Slash command handler for orbit.
  * Provides utilities for detecting and executing slash commands in chat input.
  * Currently supports /clear-images for manual image cleanup.
  */

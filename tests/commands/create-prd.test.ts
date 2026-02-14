@@ -147,11 +147,11 @@ describe('create-prd command', () => {
 
     test('loads skill from personal skills directory', async () => {
       // Create mock skill directory structure
-      const skillsDir = join(tempDir, '.kiro', 'skills', 'ralph-tui-prd');
+      const skillsDir = join(tempDir, '.kiro', 'skills', 'orbit-prd');
       await mkdir(skillsDir, { recursive: true });
       await writeFile(
         join(skillsDir, 'SKILL.md'),
-        '---\nname: ralph-tui-prd\n---\n# Test Skill Content'
+        '---\nname: orbit-prd\n---\n# Test Skill Content'
       );
 
       // Create mock agent with skillsPaths
@@ -200,14 +200,14 @@ describe('create-prd command', () => {
 
     test('prefers personal skills over repo skills', async () => {
       // Create both personal and repo skill directories
-      const personalSkillsDir = join(tempDir, '.kiro', 'skills', 'ralph-tui-prd');
+      const personalSkillsDir = join(tempDir, '.kiro', 'skills', 'orbit-prd');
       await mkdir(personalSkillsDir, { recursive: true });
       await writeFile(
         join(personalSkillsDir, 'SKILL.md'),
         '# Personal Skill'
       );
 
-      const repoSkillsDir = join(tempDir, 'project', '.kiro', 'skills', 'ralph-tui-prd');
+      const repoSkillsDir = join(tempDir, 'project', '.kiro', 'skills', 'orbit-prd');
       await mkdir(repoSkillsDir, { recursive: true });
       await writeFile(
         join(repoSkillsDir, 'SKILL.md'),
@@ -231,7 +231,7 @@ describe('create-prd command', () => {
 
     test('falls back to repo skills when personal not found', async () => {
       // Create only repo skill directory (no personal)
-      const repoSkillsDir = join(tempDir, 'project', '.kiro', 'skills', 'ralph-tui-prd');
+      const repoSkillsDir = join(tempDir, 'project', '.kiro', 'skills', 'orbit-prd');
       await mkdir(repoSkillsDir, { recursive: true });
       await writeFile(
         join(repoSkillsDir, 'SKILL.md'),

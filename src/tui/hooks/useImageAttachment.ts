@@ -484,8 +484,8 @@ export function useImageAttachment(
    * Example output:
    * ```
    * [Image References]
-   * [Image 1]: /path/to/.ralph-tui/images/img-abc123.png
-   * [Image 2]: /path/to/.ralph-tui/images/img-def456.png
+   * [Image 1]: /path/to/.orbit/images/img-abc123.png
+   * [Image 2]: /path/to/.orbit/images/img-def456.png
    * ```
    */
   const getPromptSuffix = useCallback((): string => {

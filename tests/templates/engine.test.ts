@@ -35,7 +35,7 @@ import {
   JSON_TEMPLATE,
 } from '../../src/templates/builtin.js';
 import type { TrackerTask } from '../../src/plugins/trackers/types.js';
-import type { RalphConfig } from '../../src/config/types.js';
+import type { OrbitConfig } from '../../src/config/types.js';
 
 // ============================================================================
 // Helper Functions
@@ -45,7 +45,7 @@ import type { RalphConfig } from '../../src/config/types.js';
  * Create a unique temporary directory for test isolation.
  */
 async function createTestDir(): Promise<string> {
-  const testDir = join(tmpdir(), `ralph-tui-test-${randomUUID()}`);
+  const testDir = join(tmpdir(), `orbit-test-${randomUUID()}`);
   await mkdir(testDir, { recursive: true });
   return testDir;
 }
@@ -81,7 +81,7 @@ function createMockTask(overrides: Partial<TrackerTask> = {}): TrackerTask {
 /**
  * Create a mock config for testing.
  */
-function createMockConfig(overrides: Partial<RalphConfig> = {}): RalphConfig {
+function createMockConfig(overrides: Partial<OrbitConfig> = {}): OrbitConfig {
   return {
     tracker: {
       plugin: 'beads',
@@ -95,7 +95,7 @@ function createMockConfig(overrides: Partial<RalphConfig> = {}): RalphConfig {
     cwd: process.cwd(),
     maxIterations: 10,
     ...overrides,
-  } as RalphConfig;
+  } as OrbitConfig;
 }
 
 // ============================================================================
@@ -165,7 +165,7 @@ describe('Template Engine - Pure Functions', () => {
     test('returns path under home directory', () => {
       const configDir = getUserConfigDir();
       expect(configDir).toContain('.config');
-      expect(configDir).toContain('ralph-tui');
+      expect(configDir).toContain('orbit');
       expect(configDir.startsWith(homedir())).toBe(true);
     });
   });
@@ -193,21 +193,21 @@ describe('Template Engine - Pure Functions', () => {
   });
 
   describe('getProjectTemplatePath', () => {
-    test('returns path under .ralph-tui/templates/', () => {
+    test('returns path under .orbit/templates/', () => {
       const path = getProjectTemplatePath('/my/project', 'beads');
-      expect(path).toBe('/my/project/.ralph-tui/templates/beads.hbs');
+      expect(path).toBe('/my/project/.orbit/templates/beads.hbs');
     });
 
     test('handles different tracker types', () => {
-      expect(getProjectTemplatePath('/proj', 'json')).toBe('/proj/.ralph-tui/templates/json.hbs');
-      expect(getProjectTemplatePath('/proj', 'beads-bv')).toBe('/proj/.ralph-tui/templates/beads-bv.hbs');
+      expect(getProjectTemplatePath('/proj', 'json')).toBe('/proj/.orbit/templates/json.hbs');
+      expect(getProjectTemplatePath('/proj', 'beads-bv')).toBe('/proj/.orbit/templates/beads-bv.hbs');
     });
   });
 
   describe('getGlobalTemplatePath', () => {
-    test('returns path under ~/.config/ralph-tui/templates/', () => {
+    test('returns path under ~/.config/orbit/templates/', () => {
       const path = getGlobalTemplatePath('beads');
-      expect(path).toContain('.config/ralph-tui/templates/beads.hbs');
+      expect(path).toContain('.config/orbit/templates/beads.hbs');
     });
 
     test('handles different tracker types', () => {
@@ -468,7 +468,7 @@ describe('Template Engine - Loading (Filesystem)', () => {
     });
 
     test('2. Uses project template when no custom path', async () => {
-      const projectTemplateDir = join(testDir, '.ralph-tui', 'templates');
+      const projectTemplateDir = join(testDir, '.orbit', 'templates');
       await mkdir(projectTemplateDir, { recursive: true });
       await writeFile(join(projectTemplateDir, 'beads.hbs'), 'Project template');
 
@@ -502,7 +502,7 @@ describe('Template Engine - Loading (Filesystem)', () => {
     });
 
     test('project template takes precedence over tracker template', async () => {
-      const projectTemplateDir = join(testDir, '.ralph-tui', 'templates');
+      const projectTemplateDir = join(testDir, '.orbit', 'templates');
       await mkdir(projectTemplateDir, { recursive: true });
       await writeFile(join(projectTemplateDir, 'beads.hbs'), 'Project wins');
 
@@ -517,7 +517,7 @@ describe('Template Engine - Loading (Filesystem)', () => {
       const customPath = join(testDir, 'my-custom.hbs');
       await writeFile(customPath, 'Custom wins');
 
-      const projectTemplateDir = join(testDir, '.ralph-tui', 'templates');
+      const projectTemplateDir = join(testDir, '.orbit', 'templates');
       await mkdir(projectTemplateDir, { recursive: true });
       await writeFile(join(projectTemplateDir, 'beads.hbs'), 'Project template');
 
@@ -590,9 +590,9 @@ describe('Template Engine - Installation', () => {
   beforeEach(async () => {
     testDir = await createTestDir();
     // Sandbox user config by mocking getUserConfigDir to return a temp directory
-    // This prevents tests from polluting ~/.config/ralph-tui/templates
+    // This prevents tests from polluting ~/.config/orbit/templates
     getUserConfigDirSpy = spyOn(templateEngine, 'getUserConfigDir').mockReturnValue(
-      join(testDir, '.config', 'ralph-tui')
+      join(testDir, '.config', 'orbit')
     );
   });
 
@@ -662,7 +662,7 @@ describe('Template Engine - Installation', () => {
         expect(result).toHaveProperty('success');
         expect(result).toHaveProperty('templatesDir');
         expect(result).toHaveProperty('results');
-        expect(result.templatesDir).toContain('.config/ralph-tui/templates');
+        expect(result.templatesDir).toContain('.config/orbit/templates');
         expect(result.templatesDir.startsWith(testDir)).toBe(true);
         expect(Array.isArray(result.results)).toBe(true);
       });
@@ -684,7 +684,7 @@ describe('Template Engine - Installation', () => {
         expect(result.results.length).toBe(1);
         expect(result.results[0]?.created).toBe(true);
 
-        const expectedPath = join(testDir, '.config', 'ralph-tui', 'templates', 'sandbox-test.hbs');
+        const expectedPath = join(testDir, '.config', 'orbit', 'templates', 'sandbox-test.hbs');
         expect(existsSync(expectedPath)).toBe(true);
 
         const content = await readFile(expectedPath, 'utf-8');
@@ -797,7 +797,7 @@ describe('Template Engine - Installation', () => {
       expect(result).toBeDefined();
       expect(result.results).toBeDefined();
       expect(result.results.length).toBe(4);
-      expect(result.templatesDir).toContain('.config/ralph-tui/templates');
+      expect(result.templatesDir).toContain('.config/orbit/templates');
       // Verify templates were actually created or skipped (both are valid outcomes)
       expect(result.results.every(r => r.created || r.skipped)).toBe(true);
     });
@@ -999,7 +999,7 @@ describe('Template Engine - Integration', () => {
   describe('Full Template Resolution and Rendering', () => {
     test('project template overrides tracker and renders correctly', async () => {
       // Create project template
-      const projectTemplateDir = join(testDir, '.ralph-tui', 'templates');
+      const projectTemplateDir = join(testDir, '.orbit', 'templates');
       await mkdir(projectTemplateDir, { recursive: true });
       await writeFile(
         join(projectTemplateDir, 'beads.hbs'),
@@ -1024,7 +1024,7 @@ describe('Template Engine - Integration', () => {
       await writeFile(customPath, 'CUSTOM: {{taskId}}');
 
       // Also create project template (should be ignored)
-      const projectTemplateDir = join(testDir, '.ralph-tui', 'templates');
+      const projectTemplateDir = join(testDir, '.orbit', 'templates');
       await mkdir(projectTemplateDir, { recursive: true });
       await writeFile(join(projectTemplateDir, 'beads.hbs'), 'PROJECT: {{taskId}}');
 
@@ -1050,7 +1050,7 @@ describe('Template Engine - Integration', () => {
       const initialSource = result.source;
 
       // User creates project template
-      const projectTemplateDir = join(testDir, '.ralph-tui', 'templates');
+      const projectTemplateDir = join(testDir, '.orbit', 'templates');
       await mkdir(projectTemplateDir, { recursive: true });
       await writeFile(join(projectTemplateDir, 'beads.hbs'), 'Custom: {{taskId}}');
 
@@ -1072,7 +1072,7 @@ describe('Template Engine - Integration', () => {
       const config = createMockConfig({ cwd: testDir });
 
       // Create project template
-      const projectTemplateDir = join(testDir, '.ralph-tui', 'templates');
+      const projectTemplateDir = join(testDir, '.orbit', 'templates');
       await mkdir(projectTemplateDir, { recursive: true });
       await writeFile(join(projectTemplateDir, 'beads.hbs'), 'Project: {{taskId}}');
 
@@ -1097,9 +1097,9 @@ describe('Template Engine - Error Handling', () => {
     testDir = await createTestDir();
     clearTemplateCache();
     // Sandbox user config by mocking getUserConfigDir to return a temp directory
-    // This prevents tests from polluting ~/.config/ralph-tui/templates
+    // This prevents tests from polluting ~/.config/orbit/templates
     getUserConfigDirSpy = spyOn(templateEngine, 'getUserConfigDir').mockReturnValue(
-      join(testDir, '.config', 'ralph-tui')
+      join(testDir, '.config', 'orbit')
     );
   });
 
@@ -1123,7 +1123,7 @@ describe('Template Engine - Error Handling', () => {
 
     test('tracker template has lower priority than project template', async () => {
       // Create a project template
-      const projectDir = join(testDir, '.ralph-tui', 'templates');
+      const projectDir = join(testDir, '.orbit', 'templates');
       await mkdir(projectDir, { recursive: true });
       await writeFile(join(projectDir, 'beads.hbs'), 'Project Override');
 
@@ -1180,7 +1180,7 @@ describe('Template Engine - Error Handling', () => {
   describe('renderPrompt - Error Handling', () => {
     test('returns error when template has invalid Handlebars syntax', async () => {
       // Create template with invalid syntax
-      const projectDir = join(testDir, '.ralph-tui', 'templates');
+      const projectDir = join(testDir, '.orbit', 'templates');
       await mkdir(projectDir, { recursive: true });
       await writeFile(join(projectDir, 'beads.hbs'), '{{#if unclosed');
 
@@ -1267,8 +1267,8 @@ describe('Template Engine - Tracker Template Integration', () => {
   test('loadTemplate hierarchy: project > global > tracker > builtin', () => {
     // The template resolution hierarchy is:
     // 1. customPath (explicit path)
-    // 2. Project template (.ralph-tui/templates/{tracker}.hbs)
-    // 3. Global template (~/.config/ralph-tui/templates/{tracker}.hbs)
+    // 2. Project template (.orbit/templates/{tracker}.hbs)
+    // 3. Global template (~/.config/orbit/templates/{tracker}.hbs)
     // 4. Tracker template (from plugin's getTemplate())
     // 5. Builtin template
 
@@ -1284,7 +1284,7 @@ describe('Template Engine - Tracker Template Integration', () => {
 
   test('renderPrompt prefers project template over tracker template', async () => {
     // Create project template
-    const projectDir = join(testDir, '.ralph-tui', 'templates');
+    const projectDir = join(testDir, '.orbit', 'templates');
     await mkdir(projectDir, { recursive: true });
     await writeFile(join(projectDir, 'beads.hbs'), 'Project says: {{taskId}}');
 

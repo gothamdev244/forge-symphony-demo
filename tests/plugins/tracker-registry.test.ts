@@ -314,7 +314,7 @@ describe('TrackerRegistry', () => {
     test('returns expected path structure', () => {
       const dir = TrackerRegistry.getUserPluginsDir();
       expect(dir).toContain('.config');
-      expect(dir).toContain('ralph-tui');
+      expect(dir).toContain('orbit');
       expect(dir).toContain('plugins');
       expect(dir).toContain('trackers');
     });

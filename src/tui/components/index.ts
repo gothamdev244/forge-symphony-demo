@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Component barrel exports for the Ralph TUI.
+ * ABOUTME: Component barrel exports for the Orbit TUI.
  * Re-exports all TUI components from a single entry point.
  */
 

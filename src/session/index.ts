@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Session and lock management for Ralph TUI.
+ * ABOUTME: Session and lock management for Orbit TUI.
  * Handles session persistence, lock files, and resume functionality.
  */
 
@@ -25,7 +25,7 @@ import type {
 /**
  * Directory for session data (relative to cwd)
  */
-const SESSION_DIR = '.ralph-tui';
+const SESSION_DIR = '.orbit';
 const LOCK_FILE = 'ralph.lock';
 const SESSION_FILE = 'session-meta.json';
 

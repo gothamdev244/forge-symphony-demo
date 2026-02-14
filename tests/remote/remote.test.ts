@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Comprehensive tests for the ralph-tui remote module.
+ * ABOUTME: Comprehensive tests for the orbit remote module.
  * Tests cover types, server handlers, client methods, instance manager,
  * and the config push feature end-to-end.
  */
@@ -108,7 +108,7 @@ describe('Message Creation', () => {
       timestamp: new Date().toISOString(),
       globalExists: true,
       projectExists: false,
-      globalPath: '/home/user/.config/ralph-tui/config.toml',
+      globalPath: '/home/user/.config/orbit/config.toml',
       globalContent: 'maxIterations = 5',
       remoteCwd: '/home/user/project',
     };
@@ -125,8 +125,8 @@ describe('Message Creation', () => {
       id: 'test-id',
       timestamp: new Date().toISOString(),
       success: true,
-      configPath: '/home/user/.config/ralph-tui/config.toml',
-      backupPath: '/home/user/.config/ralph-tui/config.toml.backup.2026-01-19',
+      configPath: '/home/user/.config/orbit/config.toml',
+      backupPath: '/home/user/.config/orbit/config.toml.backup.2026-01-19',
       migrationTriggered: true,
       requiresRestart: false,
     };
@@ -399,9 +399,9 @@ describe('Config Push Feature', () => {
   let projectConfigDir: string;
 
   beforeEach(async () => {
-    tempDir = await mkdtemp(join(tmpdir(), 'ralph-tui-config-push-test-'));
-    globalConfigDir = join(tempDir, '.config', 'ralph-tui');
-    projectConfigDir = join(tempDir, '.ralph-tui');
+    tempDir = await mkdtemp(join(tmpdir(), 'orbit-config-push-test-'));
+    globalConfigDir = join(tempDir, '.config', 'orbit');
+    projectConfigDir = join(tempDir, '.orbit');
   });
 
   afterEach(async () => {
@@ -463,7 +463,7 @@ describe('Config Push Feature', () => {
     });
 
     test('reads config content for preview', async () => {
-      const content = `# Ralph TUI Config
+      const content = `# Orbit TUI Config
 maxIterations = 15
 agent = "claude"
 tracker = "beads"`;
@@ -1225,7 +1225,7 @@ describe('Token Management', () => {
   let tempDir: string;
 
   beforeEach(async () => {
-    tempDir = await mkdtemp(join(tmpdir(), 'ralph-tui-token-test-'));
+    tempDir = await mkdtemp(join(tmpdir(), 'orbit-token-test-'));
   });
 
   afterEach(async () => {
@@ -1286,7 +1286,7 @@ describe('Remote Config Integration', () => {
   let tempDir: string;
 
   beforeEach(async () => {
-    tempDir = await mkdtemp(join(tmpdir(), 'ralph-tui-remote-config-test-'));
+    tempDir = await mkdtemp(join(tmpdir(), 'orbit-remote-config-test-'));
   });
 
   afterEach(async () => {
@@ -1295,22 +1295,22 @@ describe('Remote Config Integration', () => {
 
   describe('Scope Selection', () => {
     test('global scope targets correct path', () => {
-      const globalPath = join(homedir(), '.config', 'ralph-tui', 'config.toml');
+      const globalPath = join(homedir(), '.config', 'orbit', 'config.toml');
       expect(globalPath).toContain('.config');
-      expect(globalPath).toContain('ralph-tui');
+      expect(globalPath).toContain('orbit');
       expect(globalPath).toContain('config.toml');
     });
 
     test('project scope targets correct path', () => {
-      const projectPath = join(tempDir, '.ralph-tui', 'config.toml');
-      expect(projectPath).toContain('.ralph-tui');
+      const projectPath = join(tempDir, '.orbit', 'config.toml');
+      expect(projectPath).toContain('.orbit');
       expect(projectPath).toContain('config.toml');
     });
   });
 
   describe('Directory Creation', () => {
     test('creates parent directory if needed', async () => {
-      const configDir = join(tempDir, 'new-dir', '.ralph-tui');
+      const configDir = join(tempDir, 'new-dir', '.orbit');
       await mkdir(configDir, { recursive: true });
 
       let exists = false;

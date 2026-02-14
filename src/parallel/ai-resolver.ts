@@ -5,7 +5,7 @@
  */
 
 import { getAgentRegistry } from '../plugins/agents/registry.js';
-import type { RalphConfig } from '../config/types.js';
+import type { OrbitConfig } from '../config/types.js';
 import type { FileConflict } from './types.js';
 import type { AiResolverCallback } from './conflict-resolver.js';
 
@@ -16,10 +16,10 @@ const DEFAULT_TIMEOUT_MS = 120000;
  * Creates an AI resolver callback that spawns the session's configured agent.
  * The callback is injected into ConflictResolver via ParallelExecutor.setAiResolver().
  *
- * @param config - The session's RalphConfig containing agent configuration
+ * @param config - The session's OrbitConfig containing agent configuration
  * @returns AiResolverCallback for use with ConflictResolver
  */
-export function createAiResolver(config: RalphConfig): AiResolverCallback {
+export function createAiResolver(config: OrbitConfig): AiResolverCallback {
   const timeout = config.conflictResolution?.timeoutMs ?? DEFAULT_TIMEOUT_MS;
 
   return async (conflict, taskContext) => {

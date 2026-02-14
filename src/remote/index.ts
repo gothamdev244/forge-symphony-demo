@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Remote module for ralph-tui remote listener functionality.
+ * ABOUTME: Remote module for orbit remote listener functionality.
  * Exports WebSocket server, token management, audit logging, and remote configuration.
  */
 

@@ -73,7 +73,7 @@ describe('printSkillsHelp', () => {
 
     expect(consoleSpy).toHaveBeenCalled();
     const output = consoleSpy.mock.calls[0][0];
-    expect(output).toContain('ralph-tui skills');
+    expect(output).toContain('orbit skills');
     expect(output).toContain('list');
     expect(output).toContain('install');
   });
@@ -92,8 +92,8 @@ describe('printSkillsHelp', () => {
     printSkillsHelp();
 
     const output = consoleSpy.mock.calls[0][0];
-    expect(output).toContain('ralph-tui skills list');
-    expect(output).toContain('ralph-tui skills install');
+    expect(output).toContain('orbit skills list');
+    expect(output).toContain('orbit skills install');
     expect(output).toContain('--agent claude');
   });
 
@@ -111,7 +111,7 @@ describe('printSkillsHelp', () => {
 
     const output = consoleSpy.mock.calls[0][0];
     expect(output).toContain('bunx add-skill');
-    expect(output).toContain('subsy/ralph-tui');
+    expect(output).toContain('subsy/orbit');
   });
 });
 
@@ -134,7 +134,7 @@ describe('executeSkillsCommand', () => {
 
     expect(consoleSpy).toHaveBeenCalled();
     const output = consoleSpy.mock.calls[0][0];
-    expect(output).toContain('ralph-tui skills');
+    expect(output).toContain('orbit skills');
   });
 
   test('shows help with --help flag', async () => {
@@ -142,7 +142,7 @@ describe('executeSkillsCommand', () => {
 
     expect(consoleSpy).toHaveBeenCalled();
     const output = consoleSpy.mock.calls[0][0];
-    expect(output).toContain('ralph-tui skills');
+    expect(output).toContain('orbit skills');
   });
 
   test('shows help with -h flag', async () => {
@@ -150,7 +150,7 @@ describe('executeSkillsCommand', () => {
 
     expect(consoleSpy).toHaveBeenCalled();
     const output = consoleSpy.mock.calls[0][0];
-    expect(output).toContain('ralph-tui skills');
+    expect(output).toContain('orbit skills');
   });
 
   test('list subcommand shows help with --help', async () => {
@@ -158,7 +158,7 @@ describe('executeSkillsCommand', () => {
 
     expect(consoleSpy).toHaveBeenCalled();
     const output = consoleSpy.mock.calls[0][0];
-    expect(output).toContain('ralph-tui skills');
+    expect(output).toContain('orbit skills');
   });
 
   test('install subcommand shows help with --help', async () => {
@@ -166,7 +166,7 @@ describe('executeSkillsCommand', () => {
 
     expect(consoleSpy).toHaveBeenCalled();
     const output = consoleSpy.mock.calls[0][0];
-    expect(output).toContain('ralph-tui skills');
+    expect(output).toContain('orbit skills');
   });
 });
 
@@ -257,8 +257,8 @@ describe('parseInstallArgs', () => {
   });
 
   test('parses skill name as positional argument', () => {
-    const result = parseInstallArgs(['ralph-tui-prd']);
-    expect(result.skillName).toBe('ralph-tui-prd');
+    const result = parseInstallArgs(['orbit-prd']);
+    expect(result.skillName).toBe('orbit-prd');
   });
 
   test('parses --agent flag', () => {
@@ -282,8 +282,8 @@ describe('parseInstallArgs', () => {
   });
 
   test('parses combined flags', () => {
-    const result = parseInstallArgs(['ralph-tui-prd', '--agent', 'claude', '--local']);
-    expect(result.skillName).toBe('ralph-tui-prd');
+    const result = parseInstallArgs(['orbit-prd', '--agent', 'claude', '--local']);
+    expect(result.skillName).toBe('orbit-prd');
     expect(result.agentId).toBe('claude');
     expect(result.local).toBe(true);
     expect(result.global).toBe(false);
@@ -298,7 +298,7 @@ describe('buildAddSkillArgs', () => {
       local: false,
       global: true,
     });
-    expect(args).toEqual(['add-skill', 'subsy/ralph-tui', '-g', '-y']);
+    expect(args).toEqual(['add-skill', 'subsy/orbit', '-g', '-y']);
   });
 
   test('builds local install args (no -g flag)', () => {
@@ -308,17 +308,17 @@ describe('buildAddSkillArgs', () => {
       local: true,
       global: false,
     });
-    expect(args).toEqual(['add-skill', 'subsy/ralph-tui', '-y']);
+    expect(args).toEqual(['add-skill', 'subsy/orbit', '-y']);
   });
 
   test('includes -s flag for specific skill', () => {
     const args = buildAddSkillArgs({
-      skillName: 'ralph-tui-prd',
+      skillName: 'orbit-prd',
       agentId: null,
       local: false,
       global: true,
     });
-    expect(args).toEqual(['add-skill', 'subsy/ralph-tui', '-s', 'ralph-tui-prd', '-g', '-y']);
+    expect(args).toEqual(['add-skill', 'subsy/orbit', '-s', 'orbit-prd', '-g', '-y']);
   });
 
   test('maps claude agent ID to claude-code', () => {
@@ -356,14 +356,14 @@ describe('buildAddSkillArgs', () => {
 
   test('builds full command with all options', () => {
     const args = buildAddSkillArgs({
-      skillName: 'ralph-tui-prd',
+      skillName: 'orbit-prd',
       agentId: 'claude',
       local: false,
       global: true,
     });
     expect(args).toEqual([
-      'add-skill', 'subsy/ralph-tui',
-      '-s', 'ralph-tui-prd',
+      'add-skill', 'subsy/orbit',
+      '-s', 'orbit-prd',
       '-a', 'claude-code',
       '-g', '-y',
     ]);
@@ -385,7 +385,7 @@ describe('skills install command', () => {
     await executeSkillsCommand(['install', '--help']);
 
     const allOutput = consoleSpy.mock.calls.map((c: unknown[]) => c[0]).join('\n');
-    expect(allOutput).toContain('ralph-tui skills');
+    expect(allOutput).toContain('orbit skills');
     expect(allOutput).toContain('add-skill');
   });
 });

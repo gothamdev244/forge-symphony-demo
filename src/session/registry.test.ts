@@ -24,7 +24,7 @@ import {
 } from './registry.js';
 
 // Mock the registry directory for tests
-// Note: These tests modify the actual registry file at ~/.config/ralph-tui/sessions.json
+// Note: These tests modify the actual registry file at ~/.config/orbit/sessions.json
 // In a real test environment, we'd want to mock the file system or use dependency injection
 
 describe('Session Registry', () => {
@@ -378,7 +378,7 @@ describe('Session Registry', () => {
       expect(typeof path).toBe('string');
       expect(path).toContain('sessions.json');
       expect(path).toContain('.config');
-      expect(path).toContain('ralph-tui');
+      expect(path).toContain('orbit');
     });
   });
 

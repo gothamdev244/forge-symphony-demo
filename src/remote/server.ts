@@ -1,5 +1,5 @@
 /**
- * ABOUTME: WebSocket server for remote ralph-tui control.
+ * ABOUTME: WebSocket server for remote orbit control.
  * Handles client connections, authentication, and message routing.
  * Binds to localhost if no token configured, all interfaces if token is set.
  * US-4: Extended with full remote control (pause, resume, cancel, state queries, subscriptions).
@@ -63,7 +63,7 @@ import {
 import { createAuditLogger, type AuditLogger } from './audit.js';
 import type { ExecutionEngine, EngineEvent } from '../engine/index.js';
 import type { TrackerPlugin } from '../plugins/trackers/types.js';
-import type { RalphConfig } from '../config/types.js';
+import type { OrbitConfig } from '../config/types.js';
 import { ParallelExecutor, analyzeTaskGraph, shouldRunParallel } from '../parallel/index.js';
 import type { ParallelEvent } from '../parallel/events.js';
 
@@ -121,7 +121,7 @@ interface OrchestrationSession {
   /** When the orchestration started */
   startedAt: string;
   /** Base config used to create the executor */
-  baseConfig: RalphConfig;
+  baseConfig: OrbitConfig;
   /** Status of the orchestration */
   status: 'running' | 'paused' | 'completed' | 'failed';
 }
@@ -191,7 +191,7 @@ export interface RemoteServerOptions {
   cwd?: string;
 
   /** Base config for parallel orchestration (required for orchestrate:start) */
-  baseConfig?: RalphConfig;
+  baseConfig?: OrbitConfig;
 }
 
 /**
@@ -276,7 +276,7 @@ export class RemoteServer {
    * Set the parallel config for orchestration.
    * Must be called before orchestrate:start can be used.
    */
-  setParallelConfig(config: { baseConfig: RalphConfig; tracker: TrackerPlugin }): void {
+  setParallelConfig(config: { baseConfig: OrbitConfig; tracker: TrackerPlugin }): void {
     this.options.baseConfig = config.baseConfig;
     this.options.tracker = config.tracker;
   }
@@ -416,7 +416,7 @@ export class RemoteServer {
 
             // Non-WebSocket request - return simple info
             return new Response(JSON.stringify({
-              service: 'ralph-tui-remote',
+              service: 'orbit-remote',
               version: '0.2.1',
               websocket: true,
             }), {
@@ -1111,9 +1111,9 @@ export class RemoteServer {
     const { join } = await import('node:path');
     const { access, readFile, constants } = await import('node:fs/promises');
 
-    const globalPath = join(homedir(), '.config', 'ralph-tui', 'config.toml');
+    const globalPath = join(homedir(), '.config', 'orbit', 'config.toml');
     const cwd = process.cwd();
-    const projectPath = join(cwd, '.ralph-tui', 'config.toml');
+    const projectPath = join(cwd, '.orbit', 'config.toml');
 
     let globalExists = false;
     let projectExists = false;
@@ -1170,9 +1170,9 @@ export class RemoteServer {
     let configPath: string;
 
     if (message.scope === 'global') {
-      configPath = join(homedir(), '.config', 'ralph-tui', 'config.toml');
+      configPath = join(homedir(), '.config', 'orbit', 'config.toml');
     } else {
-      configPath = join(cwd, '.ralph-tui', 'config.toml');
+      configPath = join(cwd, '.orbit', 'config.toml');
     }
 
     // Validate TOML syntax

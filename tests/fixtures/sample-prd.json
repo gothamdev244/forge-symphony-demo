@@ -2,7 +2,7 @@
   "name": "Sample Feature",
   "slug": "sample-feature",
   "description": "A sample feature for testing purposes",
-  "targetUsers": "Developers using Ralph TUI",
+  "targetUsers": "Developers using Orbit TUI",
   "problemStatement": "Need to test PRD parsing functionality",
   "solution": "Create sample PRD fixtures for testing",
   "successMetrics": "All tests pass with sample data",

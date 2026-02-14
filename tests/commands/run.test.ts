@@ -10,8 +10,8 @@ describe('run command', () => {
   describe('parseRunArgs', () => {
     describe('epic option', () => {
       test('parses --epic with value', () => {
-        const result = parseRunArgs(['--epic', 'ralph-tui-45r']);
-        expect(result.epicId).toBe('ralph-tui-45r');
+        const result = parseRunArgs(['--epic', 'orbit-45r']);
+        expect(result.epicId).toBe('orbit-45r');
       });
 
       test('ignores --epic without value', () => {
@@ -334,7 +334,7 @@ describe('run command', () => {
     test('prints help text', () => {
       printRunHelp();
       const output = consoleOutput.join('\n');
-      expect(output).toContain('ralph-tui run');
+      expect(output).toContain('orbit run');
       expect(output).toContain('--epic');
       expect(output).toContain('--agent');
       expect(output).toContain('--tracker');
@@ -360,7 +360,7 @@ describe('run command', () => {
       printRunHelp();
       const output = consoleOutput.join('\n');
       expect(output).toContain('Examples:');
-      expect(output).toContain('ralph-tui run');
+      expect(output).toContain('orbit run');
     });
   });
 
@@ -395,8 +395,8 @@ describe('run command', () => {
 
       const output = consoleErrorOutput.join('\n');
       expect(output).toContain('Markdown PRD files cannot be used directly');
-      expect(output).toContain('ralph-tui convert --to json --input my-prd.md');
-      expect(output).toContain('ralph-tui convert --to beads --input my-prd.md');
+      expect(output).toContain('orbit convert --to json --input my-prd.md');
+      expect(output).toContain('orbit convert --to beads --input my-prd.md');
       expect(processExitSpy).toHaveBeenCalledWith(1);
     });
 
@@ -446,14 +446,14 @@ describe('run command', () => {
       }
 
       const output = consoleErrorOutput.join('\n');
-      expect(output).toContain('ralph-tui convert --to json --input ./docs/feature.md');
-      expect(output).toContain('ralph-tui convert --to beads --input ./docs/feature.md');
+      expect(output).toContain('orbit convert --to json --input ./docs/feature.md');
+      expect(output).toContain('orbit convert --to beads --input ./docs/feature.md');
     });
   });
 
   /**
    * Tests for isSessionComplete function.
-   * See: https://github.com/subsy/ralph-tui/issues/247
+   * See: https://github.com/subsy/orbit/issues/247
    *
    * Session completion is determined solely by task counts, not engine status.
    * The engine status is always 'idle' after runLoop exits (set in finally block),

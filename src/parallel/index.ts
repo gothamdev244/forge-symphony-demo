@@ -6,7 +6,7 @@
 
 import { readFile, writeFile, appendFile, access, constants } from 'node:fs/promises';
 import { join } from 'node:path';
-import type { RalphConfig } from '../config/types.js';
+import type { OrbitConfig } from '../config/types.js';
 import type { TrackerPlugin, TrackerTask } from '../plugins/trackers/types.js';
 import type { EngineEventListener } from '../engine/types.js';
 import { analyzeTaskGraph, shouldRunParallel } from './task-graph.js';
@@ -31,7 +31,7 @@ import type {
 /** Default parallel executor configuration */
 const DEFAULT_PARALLEL_CONFIG: ParallelExecutorConfig = {
   maxWorkers: 3,
-  worktreeDir: '.ralph-tui/worktrees',
+  worktreeDir: '.orbit/worktrees',
   cwd: process.cwd(),
   maxIterationsPerWorker: 10,
   iterationDelay: 1000,
@@ -56,7 +56,7 @@ const DEFAULT_PARALLEL_CONFIG: ParallelExecutorConfig = {
  */
 export class ParallelExecutor {
   private readonly config: ParallelExecutorConfig;
-  private readonly baseConfig: RalphConfig;
+  private readonly baseConfig: OrbitConfig;
   private readonly tracker: TrackerPlugin;
 
   private readonly worktreeManager: WorktreeManager;
@@ -89,7 +89,7 @@ export class ParallelExecutor {
   private pendingConflictWorkerResult: WorkerResult | null = null;
 
   constructor(
-    baseConfig: RalphConfig,
+    baseConfig: OrbitConfig,
     tracker: TrackerPlugin,
     parallelConfig?: Partial<ParallelExecutorConfig>
   ) {
@@ -738,8 +738,8 @@ export class ParallelExecutor {
   private async mergeProgressFile(workerResult: WorkerResult): Promise<void> {
     if (!workerResult.worktreePath) return;
 
-    const workerProgressPath = join(workerResult.worktreePath, '.ralph-tui', 'progress.md');
-    const mainProgressPath = join(this.config.cwd, '.ralph-tui', 'progress.md');
+    const workerProgressPath = join(workerResult.worktreePath, '.orbit', 'progress.md');
+    const mainProgressPath = join(this.config.cwd, '.orbit', 'progress.md');
 
     try {
       // Check if worker's progress file exists

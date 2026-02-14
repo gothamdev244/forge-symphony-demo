@@ -17,9 +17,9 @@ import {
  */
 export function printPluginsHelp(): void {
   console.log(`
-ralph-tui plugins - Manage and inspect plugins
+orbit plugins - Manage and inspect plugins
 
-Usage: ralph-tui plugins <subcommand>
+Usage: orbit plugins <subcommand>
 
 Subcommands:
   agents     List all available agent plugins
@@ -29,7 +29,7 @@ Options:
   --help, -h   Show this help message
 
 Description:
-  Ralph TUI uses a plugin system for both AI agents and task trackers.
+  Orbit TUI uses a plugin system for both AI agents and task trackers.
 
   Agent plugins execute prompts via AI coding assistants:
     - claude: Claude Code CLI (claude command)
@@ -41,12 +41,12 @@ Description:
     - json: Simple prd.json file-based tracking
 
   Custom plugins can be added to:
-    ~/.config/ralph-tui/plugins/agents/
-    ~/.config/ralph-tui/plugins/trackers/
+    ~/.config/orbit/plugins/agents/
+    ~/.config/orbit/plugins/trackers/
 
 Examples:
-  ralph-tui plugins agents      # List agent plugins
-  ralph-tui plugins trackers    # List tracker plugins
+  orbit plugins agents      # List agent plugins
+  orbit plugins trackers    # List tracker plugins
 `);
 }
 
@@ -85,7 +85,7 @@ interface AgentPluginInfo {
 
 /**
  * List all available tracker plugins.
- * Called via: ralph-tui plugins trackers
+ * Called via: orbit plugins trackers
  */
 export async function listTrackerPlugins(): Promise<TrackerPluginInfo[]> {
   const registry = getTrackerRegistry();
@@ -148,7 +148,7 @@ export async function printTrackerPlugins(): Promise<void> {
 
 /**
  * List all available agent plugins.
- * Called via: ralph-tui plugins agents
+ * Called via: orbit plugins agents
  */
 export async function listAgentPlugins(): Promise<AgentPluginInfo[]> {
   const registry = getAgentRegistry();

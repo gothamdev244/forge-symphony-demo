@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Single instance lock management for Ralph TUI.
+ * ABOUTME: Single instance lock management for Orbit TUI.
  * Prevents concurrent runs in the same git repository to avoid state corruption.
  * Provides clear user feedback for lock conflicts and stale lock handling.
  */
@@ -20,7 +20,7 @@ import type { LockFile } from './types.js';
 /**
  * Directory for session data (relative to cwd)
  */
-const SESSION_DIR = '.ralph-tui';
+const SESSION_DIR = '.orbit';
 const LOCK_FILE = 'ralph.lock';
 
 /**
@@ -176,12 +176,12 @@ function formatStaleLockWarning(lock: LockFile): string {
   return `
 ⚠️  Stale lock detected
 
-A previous Ralph session did not exit cleanly:
+A previous Orbit session did not exit cleanly:
   PID:      ${lock.pid} (no longer running)
   Started:  ${startTime}
   Host:     ${lock.hostname}
 
-This may happen if Ralph was terminated unexpectedly (crash, kill -9, etc.).
+This may happen if Orbit was terminated unexpectedly (crash, kill -9, etc.).
 `;
 }
 
@@ -239,7 +239,7 @@ export async function acquireLockWithPrompt(
     const pid = lockStatus.lock.pid;
     return {
       acquired: false,
-      error: `Ralph already running in this repo (PID: ${pid})`,
+      error: `Orbit already running in this repo (PID: ${pid})`,
       existingPid: pid,
     };
   }

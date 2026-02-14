@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Cross-platform clipboard image reading utility for ralph-tui.
+ * ABOUTME: Cross-platform clipboard image reading utility for orbit.
  * Provides image extraction from system clipboard across macOS, Linux, and Windows.
  * Returns PNG buffer data or null if no image is present.
  */

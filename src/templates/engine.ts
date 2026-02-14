@@ -8,7 +8,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { homedir } from 'node:os';
 import type { TrackerTask } from '../plugins/trackers/types.js';
-import type { RalphConfig } from '../config/types.js';
+import type { OrbitConfig } from '../config/types.js';
 import type {
   TemplateVariables,
   TemplateContext,
@@ -72,11 +72,11 @@ export function getTemplateTypeFromPlugin(pluginName: string): BuiltinTemplateTy
 }
 
 /**
- * Get the user config directory path for ralph-tui.
- * @returns Path to ~/.config/ralph-tui/
+ * Get the user config directory path for orbit.
+ * @returns Path to ~/.config/orbit/
  */
 export function getUserConfigDir(): string {
-  return path.join(homedir(), '.config', 'ralph-tui');
+  return path.join(homedir(), '.config', 'orbit');
 }
 
 /**
@@ -90,17 +90,17 @@ export function getTemplateFilename(trackerType: BuiltinTemplateType): string {
 
 
 /**
- * Get the path to a template in the project's .ralph-tui/templates/ folder.
+ * Get the path to a template in the project's .orbit/templates/ folder.
  * @param cwd The working directory (project root)
  * @param trackerType The tracker type
  * @returns Full path to the project-level template
  */
 export function getProjectTemplatePath(cwd: string, trackerType: BuiltinTemplateType): string {
-  return path.join(cwd, '.ralph-tui', 'templates', getTemplateFilename(trackerType));
+  return path.join(cwd, '.orbit', 'templates', getTemplateFilename(trackerType));
 }
 
 /**
- * Get the path to a template in the global ~/.config/ralph-tui/templates/ folder.
+ * Get the path to a template in the global ~/.config/orbit/templates/ folder.
  * @param trackerType The tracker type
  * @returns Full path to the global template
  */
@@ -114,8 +114,8 @@ export function getGlobalTemplatePath(trackerType: BuiltinTemplateType): string 
  *
  * Resolution order:
  * 1. customPath (explicit --prompt argument or config file prompt_template)
- * 2. Project: ./.ralph-tui/templates/{tracker}.hbs (project-level customization)
- * 3. Global: ~/.config/ralph-tui/templates/{tracker}.hbs (user-level customization)
+ * 2. Project: ./.orbit/templates/{tracker}.hbs (project-level customization)
+ * 3. Global: ~/.config/orbit/templates/{tracker}.hbs (user-level customization)
  * 4. trackerTemplate (from tracker plugin's getTemplate())
  * 5. Built-in template (bundled default - final fallback)
  *
@@ -161,7 +161,7 @@ export function loadTemplate(
     }
   }
 
-  // 2. Try project-level template: ./.ralph-tui/templates/{tracker}.hbs
+  // 2. Try project-level template: ./.orbit/templates/{tracker}.hbs
   const projectTemplatePath = getProjectTemplatePath(cwd, trackerType);
   try {
     if (fs.existsSync(projectTemplatePath)) {
@@ -176,7 +176,7 @@ export function loadTemplate(
     // Silently fall through to next level
   }
 
-  // 3. Try global template: ~/.config/ralph-tui/templates/{tracker}.hbs
+  // 3. Try global template: ~/.config/orbit/templates/{tracker}.hbs
   const globalTemplatePath = getGlobalTemplatePath(trackerType);
   try {
     if (fs.existsSync(globalTemplatePath)) {
@@ -307,7 +307,7 @@ export interface ExtendedTemplateContext {
  */
 export function buildTemplateVariables(
   task: TrackerTask,
-  config: Partial<RalphConfig>,
+  config: Partial<OrbitConfig>,
   epic?: { id: string; title: string; description?: string },
   extended?: string | ExtendedTemplateContext
 ): TemplateVariables {
@@ -387,7 +387,7 @@ export function buildTemplateVariables(
  * Compute the full path to the beads database file.
  * Used for the --db flag when running bd commands from external directories.
  */
-function computeBeadsDbPath(config: Partial<RalphConfig>): string {
+function computeBeadsDbPath(config: Partial<OrbitConfig>): string {
   const trackerOptions = config.tracker?.options as Record<string, unknown> | undefined;
   const workingDir = (trackerOptions?.workingDir as string) ?? config.cwd ?? process.cwd();
   const beadsDir = (trackerOptions?.beadsDir as string) ?? '.beads';
@@ -404,7 +404,7 @@ function computeBeadsDbPath(config: Partial<RalphConfig>): string {
  */
 export function buildTemplateContext(
   task: TrackerTask,
-  config: Partial<RalphConfig>,
+  config: Partial<OrbitConfig>,
   epic?: { id: string; title: string; description?: string },
   extended?: string | ExtendedTemplateContext
 ): TemplateContext {
@@ -452,7 +452,7 @@ function compileTemplate(
  */
 export function renderPrompt(
   task: TrackerTask,
-  config: RalphConfig,
+  config: OrbitConfig,
   epic?: { id: string; title: string; description?: string },
   extended?: string | ExtendedTemplateContext,
   trackerTemplate?: string
@@ -565,7 +565,7 @@ export interface TemplateInstallResult {
 
 /**
  * Install templates to the global config directory.
- * Creates ~/.config/ralph-tui/templates/ and copies tracker templates.
+ * Creates ~/.config/orbit/templates/ and copies tracker templates.
  *
  * @param templates Map of tracker type to template content
  * @param force Overwrite existing files

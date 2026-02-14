@@ -7,7 +7,7 @@
 
 import { ExecutionEngine, type WorkerModeOptions } from '../engine/index.js';
 import type { EngineEvent, EngineEventListener } from '../engine/types.js';
-import type { RalphConfig } from '../config/types.js';
+import type { OrbitConfig } from '../config/types.js';
 import type { TrackerPlugin, TrackerTask } from '../plugins/trackers/types.js';
 import type {
   WorkerConfig,
@@ -75,19 +75,19 @@ export class Worker {
    * Create and initialize the execution engine for this worker.
    * Must be called before start().
    *
-   * @param baseConfig - The base RalphConfig to modify for this worktree
+   * @param baseConfig - The base OrbitConfig to modify for this worktree
    * @param tracker - Pre-initialized tracker plugin from the parent executor.
    *   The tracker is injected to avoid re-initializing in the worktree directory
    *   where tracker data (e.g., .beads/) may not be accessible.
    */
-  async initialize(baseConfig: RalphConfig, tracker: TrackerPlugin): Promise<void> {
+  async initialize(baseConfig: OrbitConfig, tracker: TrackerPlugin): Promise<void> {
     // Create a worker-specific config pointing to the worktree
-    const workerConfig: RalphConfig = {
+    const workerConfig: OrbitConfig = {
       ...baseConfig,
       cwd: this.config.worktreePath,
       maxIterations: this.maxIterations,
-      outputDir: `${this.config.worktreePath}/.ralph-tui/iterations`,
-      progressFile: `${this.config.worktreePath}/.ralph-tui/progress.md`,
+      outputDir: `${this.config.worktreePath}/.orbit/iterations`,
+      progressFile: `${this.config.worktreePath}/.orbit/progress.md`,
       sessionId: `${baseConfig.sessionId ?? 'session'}-${this.id}`,
       // Force auto-commit in parallel mode — required for merge workflow to work.
       // Without commits, there's nothing to merge back to main.

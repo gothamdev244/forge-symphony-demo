@@ -1,5 +1,5 @@
 /**
- * ABOUTME: PRD Chat application component for the Ralph TUI.
+ * ABOUTME: PRD Chat application component for the Orbit TUI.
  * Provides an interactive chat interface for generating PRDs using an AI agent.
  * After PRD generation, shows a split view with PRD preview and tracker options.
  * Supports image attachments that are appended to prompts.
@@ -148,7 +148,7 @@ function getTrackerOptions(cwd: string): TrackerOption[] {
     {
       key: '1',
       name: 'JSON (prd.json)',
-      skillPrompt: `Convert this PRD to prd.json format using the ralph-tui-create-json skill.
+      skillPrompt: `Convert this PRD to prd.json format using the orbit-create-json skill.
 
 ## CRITICAL SCHEMA REQUIREMENTS
 
@@ -202,7 +202,7 @@ Transform any complex PRD structure (phases, milestones, etc.) into a FLAT list 
       key: '2',
       name: 'Beads issues',
       skillPrompt:
-        'Convert this PRD to beads using the ralph-tui-create-beads skill.',
+        'Convert this PRD to beads using the orbit-create-beads skill.',
       available: hasBeads,
     },
   ];

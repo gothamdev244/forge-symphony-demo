@@ -116,7 +116,7 @@ describe('printListenHelp', () => {
     console.log = originalLog;
 
     const output = logs.join('\n');
-    expect(output).toContain('ralph-tui listen');
+    expect(output).toContain('orbit listen');
     expect(output).toContain('--port');
     expect(output).toContain('--daemon');
     expect(output).toContain('--rotate-token');
@@ -311,10 +311,10 @@ describe('Daemon Mode', () => {
     const { homedir } = await import('node:os');
     const { join } = await import('node:path');
 
-    const expectedPath = join(homedir(), '.config', 'ralph-tui', 'listen.pid');
+    const expectedPath = join(homedir(), '.config', 'orbit', 'listen.pid');
 
     expect(expectedPath).toContain('.config');
-    expect(expectedPath).toContain('ralph-tui');
+    expect(expectedPath).toContain('orbit');
     expect(expectedPath).toContain('listen.pid');
   });
 });
@@ -379,10 +379,10 @@ describe('Audit Logging', () => {
     const { homedir } = await import('node:os');
     const { join } = await import('node:path');
 
-    const expectedPath = join(homedir(), '.config', 'ralph-tui', 'audit.log');
+    const expectedPath = join(homedir(), '.config', 'orbit', 'audit.log');
 
     expect(expectedPath).toContain('.config');
-    expect(expectedPath).toContain('ralph-tui');
+    expect(expectedPath).toContain('orbit');
     expect(expectedPath).toContain('audit.log');
   });
 });

@@ -151,7 +151,7 @@ describe('BeadsTrackerPlugin detection', () => {
 
 describe('BeadsTrackerPlugin getNextTask', () => {
   // Tests for the getNextTask() method which uses bd ready for dependency-aware task selection
-  // See: https://github.com/subsy/ralph-tui/issues/97
+  // See: https://github.com/subsy/orbit/issues/97
 
   let plugin: BeadsTrackerPlugin;
 
@@ -230,7 +230,7 @@ describe('BeadsTrackerPlugin getNextTask', () => {
 
   describe('excludeIds filter handling', () => {
     // Tests for excludeIds filter - used by engine to skip failed tasks
-    // See: https://github.com/subsy/ralph-tui/issues/97#issuecomment-3762075053
+    // See: https://github.com/subsy/orbit/issues/97#issuecomment-3762075053
 
     test('accepts TaskFilter with excludeIds', async () => {
       await plugin.initialize({ workingDir: '/tmp/nonexistent-beads-test' });

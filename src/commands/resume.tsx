@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Resume command for ralph-tui.
+ * ABOUTME: Resume command for orbit.
  * Continues execution from a previously interrupted or paused session.
  * Supports cross-directory resume via session registry.
  */
@@ -53,7 +53,7 @@ import { RunApp } from '../tui/components/RunApp.js';
  * indicating the tracker cannot find the expected tasks (e.g., wrong epicId,
  * missing prdPath file, or database state mismatch).
  *
- * See: https://github.com/subsy/ralph-tui/issues/247
+ * See: https://github.com/subsy/orbit/issues/247
  *
  * @param engineTotalTasks - Number of tasks loaded by the tracker
  * @param sessionTotalTasks - Number of tasks recorded in the session
@@ -174,7 +174,7 @@ export async function listSessions(): Promise<void> {
   if (sessions.length === 0) {
     console.log('No resumable sessions found.');
     console.log('');
-    console.log('Start a new session with: ralph-tui run');
+    console.log('Start a new session with: orbit run');
     return;
   }
 
@@ -189,8 +189,8 @@ export async function listSessions(): Promise<void> {
   }
 
   console.log('To resume a session:');
-  console.log('  ralph-tui resume <session-id>    # Resume by ID (first 8 chars is enough)');
-  console.log('  ralph-tui resume                 # Resume session in current directory');
+  console.log('  orbit resume <session-id>    # Resume by ID (first 8 chars is enough)');
+  console.log('  orbit resume                 # Resume session in current directory');
 }
 
 /**
@@ -242,7 +242,7 @@ export async function resolveSession(args: ResumeArgs): Promise<{
     if (!entry) {
       console.error(`Session '${args.sessionId}' not found in registry.`);
       console.error('');
-      console.error('Use "ralph-tui resume --list" to see available sessions.');
+      console.error('Use "orbit resume --list" to see available sessions.');
       return null;
     }
 
@@ -250,7 +250,7 @@ export async function resolveSession(args: ResumeArgs): Promise<{
     const sessionFileExists = await hasPersistedSession(entry.cwd);
     if (!sessionFileExists) {
       console.error(`Session '${args.sessionId}' found in registry, but session file is missing.`);
-      console.error(`Expected session file at: ${entry.cwd}/.ralph-tui/session.json`);
+      console.error(`Expected session file at: ${entry.cwd}/.orbit/session.json`);
       console.error('');
       console.error('The session file may have been deleted. Run --cleanup to update the registry.');
       return null;
@@ -272,7 +272,7 @@ export async function resolveSession(args: ResumeArgs): Promise<{
   if (registryEntry) {
     // Registry has an entry but session file is missing
     console.error('Session file not found, but registry entry exists.');
-    console.error(`Expected session file at: ${args.cwd}/.ralph-tui/session.json`);
+    console.error(`Expected session file at: ${args.cwd}/.orbit/session.json`);
     console.error('');
     console.error('The session file may have been deleted. Run --cleanup to update the registry.');
     return null;
@@ -282,7 +282,7 @@ export async function resolveSession(args: ResumeArgs): Promise<{
   const sessions = await listResumableSessions();
 
   console.error('No session to resume in current directory.');
-  console.error(`Looked for session at: ${args.cwd}/.ralph-tui/session.json`);
+  console.error(`Looked for session at: ${args.cwd}/.orbit/session.json`);
   console.error('');
 
   if (sessions.length > 0) {
@@ -295,10 +295,10 @@ export async function resolveSession(args: ResumeArgs): Promise<{
       console.error(`  ... and ${sessions.length - 3} more`);
     }
     console.error('');
-    console.error('Use "ralph-tui resume <session-id>" to resume a specific session.');
-    console.error('Use "ralph-tui resume --list" to see all sessions.');
+    console.error('Use "orbit resume <session-id>" to resume a specific session.');
+    console.error('Use "orbit resume --list" to see all sessions.');
   } else {
-    console.error('Start a new session with: ralph-tui run');
+    console.error('Start a new session with: orbit run');
   }
 
   return null;
@@ -443,7 +443,7 @@ async function runHeadless(
   engine.on((event) => {
     switch (event.type) {
       case 'engine:started':
-        console.log(`\nResumed Ralph. Total tasks: ${event.totalTasks}`);
+        console.log(`\nResumed Orbit. Total tasks: ${event.totalTasks}`);
         break;
 
       case 'iteration:started':
@@ -468,7 +468,7 @@ async function runHeadless(
         break;
 
       case 'engine:paused':
-        console.log('\nPaused. Use "ralph-tui resume" to continue.');
+        console.log('\nPaused. Use "orbit resume" to continue.');
         currentState = pauseSession(currentState);
         savePersistedSession(currentState).catch(() => {
           // Log but don't fail on save errors
@@ -484,7 +484,7 @@ async function runHeadless(
         break;
 
       case 'engine:stopped':
-        console.log(`\nRalph stopped. Reason: ${event.reason}`);
+        console.log(`\nOrbit stopped. Reason: ${event.reason}`);
         console.log(`Total iterations: ${event.totalIterations}`);
         console.log(`Tasks completed: ${event.tasksCompleted}`);
         break;
@@ -573,9 +573,9 @@ export async function executeResumeCommand(args: string[]): Promise<void> {
     console.error(`Cannot resume session in '${summary.status}' state.`);
     console.error('');
     if (summary.status === 'completed') {
-      console.error('Session has already completed. Start a new session with: ralph-tui run');
+      console.error('Session has already completed. Start a new session with: orbit run');
     } else {
-      console.error('Session cannot be resumed. Start a new session with: ralph-tui run --force');
+      console.error('Session cannot be resumed. Start a new session with: orbit run --force');
     }
     process.exit(1);
   }
@@ -583,7 +583,7 @@ export async function executeResumeCommand(args: string[]): Promise<void> {
   // Check for lock conflicts
   const sessionCheck = await checkSession(cwd);
   if (sessionCheck.isLocked && !sessionCheck.isStale && !force) {
-    console.error('Another Ralph instance is already running.');
+    console.error('Another Orbit instance is already running.');
     console.error(`  PID: ${sessionCheck.lock?.pid}`);
     console.error('Use --force to override.');
     process.exit(1);
@@ -594,7 +594,7 @@ export async function executeResumeCommand(args: string[]): Promise<void> {
     await cleanStaleLock(cwd);
   }
 
-  console.log('Resuming Ralph TUI session...');
+  console.log('Resuming Orbit TUI session...');
   console.log('');
 
   // Initialize plugins
@@ -677,8 +677,8 @@ export async function executeResumeCommand(args: string[]): Promise<void> {
       console.warn(`  - The PRD file "${resumedState.trackerState.prdPath}" is missing or empty`);
     }
     console.warn('\nTo fix, provide the tracker source explicitly:');
-    console.warn('  ralph-tui run --prd <path-to-prd.json>');
-    console.warn('  ralph-tui run --epic <epic-id>');
+    console.warn('  orbit run --prd <path-to-prd.json>');
+    console.warn('  orbit run --epic <epic-id>');
     console.warn('');
   }
 
@@ -726,16 +726,16 @@ export async function executeResumeCommand(args: string[]): Promise<void> {
     if (registryEntry) {
       await updateRegistryStatus(registryEntry.sessionId, 'paused');
     }
-    console.log('\nSession paused. Use "ralph-tui resume" to continue.');
+    console.log('\nSession paused. Use "orbit resume" to continue.');
   } else {
     // Update registry with current status
     if (registryEntry) {
       await updateRegistryStatus(registryEntry.sessionId, finalState.status);
     }
-    console.log('\nSession state saved. Use "ralph-tui resume" to continue.');
+    console.log('\nSession state saved. Use "orbit resume" to continue.');
   }
 
-  console.log('\nRalph TUI finished.');
+  console.log('\nOrbit TUI finished.');
 }
 
 /**
@@ -743,9 +743,9 @@ export async function executeResumeCommand(args: string[]): Promise<void> {
  */
 export function printResumeHelp(): void {
   console.log(`
-ralph-tui resume - Continue from a previous session
+orbit resume - Continue from a previous session
 
-Usage: ralph-tui resume [session-id] [options]
+Usage: orbit resume [session-id] [options]
 
 Arguments:
   session-id        Session ID to resume (first 8 characters is enough)
@@ -760,7 +760,7 @@ Options:
 
 Description:
   Resumes execution from a previously interrupted or paused session.
-  The session state is stored in .ralph-tui/session.json.
+  The session state is stored in .orbit/session.json.
 
   Sessions can be resumed if they are in one of these states:
   - paused: Manually paused by user
@@ -768,18 +768,18 @@ Description:
   - interrupted: Stopped by signal (Ctrl+C)
 
   Cross-directory Resume:
-  Sessions are registered in a global registry (~/.config/ralph-tui/sessions.json)
+  Sessions are registered in a global registry (~/.config/orbit/sessions.json)
   allowing you to resume sessions from any directory using the session ID.
 
-  Completed or failed sessions cannot be resumed. Use 'ralph-tui run --force'
+  Completed or failed sessions cannot be resumed. Use 'orbit run --force'
   to start a new session.
 
 Examples:
-  ralph-tui resume              # Resume session in current directory
-  ralph-tui resume --list       # List all resumable sessions
-  ralph-tui resume a1b2c3d4     # Resume session by ID (from any directory)
-  ralph-tui resume --headless   # Resume without TUI
-  ralph-tui resume --force      # Force resume (override stale lock)
-  ralph-tui resume --cleanup    # Clean up stale registry entries
+  orbit resume              # Resume session in current directory
+  orbit resume --list       # List all resumable sessions
+  orbit resume a1b2c3d4     # Resume session by ID (from any directory)
+  orbit resume --headless   # Resume without TUI
+  orbit resume --force      # Force resume (override stale lock)
+  orbit resume --cleanup    # Clean up stale registry entries
 `);
 }

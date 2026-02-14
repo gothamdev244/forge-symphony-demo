@@ -1,7 +1,7 @@
 /**
- * ABOUTME: Cross-platform sound playback utility for ralph-tui.
+ * ABOUTME: Cross-platform sound playback utility for orbit.
  * Provides audio playback across macOS, Linux, and Windows.
- * Supports system notification sounds and bundled Ralph Wiggum clips.
+ * Supports system notification sounds and bundled Orbit Wiggum clips.
  */
 
 import { spawn } from 'node:child_process';
@@ -31,7 +31,7 @@ function getSoundsDir(): string {
 }
 
 /**
- * List of bundled Ralph Wiggum sound files.
+ * List of bundled Orbit Wiggum sound files.
  * These are iconic quotes that play randomly on notifications.
  */
 const RALPH_SOUNDS = [
@@ -205,15 +205,15 @@ async function playSystemSound(): Promise<void> {
 }
 
 /**
- * Play a random Ralph Wiggum sound clip.
+ * Play a random Orbit Wiggum sound clip.
  * Selects randomly from the bundled RALPH_SOUNDS list.
  */
-async function playRalphSound(): Promise<void> {
+async function playOrbitSound(): Promise<void> {
   const soundsDir = getSoundsDir();
   const randomSound = RALPH_SOUNDS[Math.floor(Math.random() * RALPH_SOUNDS.length)];
 
   if (!randomSound) {
-    console.warn('[sound] No Ralph sounds available');
+    console.warn('[sound] No Orbit sounds available');
     return;
   }
 
@@ -236,7 +236,7 @@ export async function playNotificationSound(mode: NotificationSoundMode): Promis
       return playSystemSound();
 
     case 'ralph':
-      return playRalphSound();
+      return playOrbitSound();
 
     default: {
       // Exhaustive check - block scoped to prevent identifier leakage

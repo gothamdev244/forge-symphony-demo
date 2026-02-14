@@ -188,12 +188,12 @@ describe('ParallelConfigSchema', () => {
     const result = ParallelConfigSchema.parse({
       mode: 'auto',
       maxWorkers: 4,
-      worktreeDir: '.ralph-tui/worktrees',
+      worktreeDir: '.orbit/worktrees',
       directMerge: true,
     });
     expect(result.mode).toBe('auto');
     expect(result.maxWorkers).toBe(4);
-    expect(result.worktreeDir).toBe('.ralph-tui/worktrees');
+    expect(result.worktreeDir).toBe('.orbit/worktrees');
     expect(result.directMerge).toBe(true);
   });
 
@@ -486,9 +486,9 @@ describe('StoredConfigSchema', () => {
 
   test('accepts progressFile field', () => {
     const result = StoredConfigSchema.parse({
-      progressFile: '.ralph-tui/progress.md',
+      progressFile: '.orbit/progress.md',
     });
-    expect(result.progressFile).toBe('.ralph-tui/progress.md');
+    expect(result.progressFile).toBe('.orbit/progress.md');
   });
 
   test('accepts parallel configuration', () => {
@@ -496,13 +496,13 @@ describe('StoredConfigSchema', () => {
       parallel: {
         mode: 'auto',
         maxWorkers: 4,
-        worktreeDir: '.ralph-tui/worktrees',
+        worktreeDir: '.orbit/worktrees',
         directMerge: false,
       },
     });
     expect(result.parallel?.mode).toBe('auto');
     expect(result.parallel?.maxWorkers).toBe(4);
-    expect(result.parallel?.worktreeDir).toBe('.ralph-tui/worktrees');
+    expect(result.parallel?.worktreeDir).toBe('.orbit/worktrees');
     expect(result.parallel?.directMerge).toBe(false);
   });
 

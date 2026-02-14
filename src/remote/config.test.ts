@@ -116,12 +116,12 @@ describe('parseHostPort', () => {
 describe('REMOTES_CONFIG_PATHS', () => {
   test('dir path contains expected components', () => {
     expect(REMOTES_CONFIG_PATHS.dir).toContain('.config');
-    expect(REMOTES_CONFIG_PATHS.dir).toContain('ralph-tui');
+    expect(REMOTES_CONFIG_PATHS.dir).toContain('orbit');
   });
 
   test('file path contains expected components', () => {
     expect(REMOTES_CONFIG_PATHS.file).toContain('.config');
-    expect(REMOTES_CONFIG_PATHS.file).toContain('ralph-tui');
+    expect(REMOTES_CONFIG_PATHS.file).toContain('orbit');
     expect(REMOTES_CONFIG_PATHS.file).toContain('remotes.toml');
   });
 

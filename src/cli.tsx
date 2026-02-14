@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 /**
  * ABOUTME: CLI entry point for Orbit - AI Agent Loop Orchestrator.
- * Built on Ralph TUI with GitHub Copilot as the primary agent.
+ * Built on Orbit TUI with GitHub Copilot as the primary agent.
  */
 
 import chalk from 'chalk';
@@ -55,9 +55,9 @@ async function showMenu(): Promise<void> {
   console.log(chalk.green('  [1]'), '💬  Chat       - Talk to Orbit directly');
   console.log(chalk.green('  [2]'), '📋  Plan       - Create a task plan');
   console.log(chalk.green('  [3]'), '🔗  Jira       - Load Jira issue');
-  console.log(chalk.green('  [4]'), '▶️  Run        - Start execution (Ralph mode)');
+  console.log(chalk.green('  [4]'), '▶️  Run        - Start execution (Orbit mode)');
   console.log(chalk.gray('  ─────────────────────────────────────'));
-  console.log(chalk.green('  [r]  Ralph      - Legacy Ralph TUI mode'));
+  console.log(chalk.green('  [r]  Orbit      - Legacy Orbit TUI mode'));
   console.log(chalk.red('  [q]  Quit       - Exit Orbit\n'));
 
   const choice = await ask(chalk.cyan('  ➤ '));
@@ -69,7 +69,7 @@ async function showMenu(): Promise<void> {
     case '4': await handleRun(); break;
     case 'r':
     case 'R':
-      console.log(chalk.yellow('\n  Launching Ralph TUI...\n'));
+      console.log(chalk.yellow('\n  Launching Orbit TUI...\n'));
       await executeRunCommand([]);
       break;
     case 'q':
@@ -119,7 +119,7 @@ async function handleJira(): Promise<void> {
 async function handleRun(): Promise<void> {
   console.clear();
   console.log(chalk.bold.cyan('\n  ▶️ Run Mode\n'));
-  console.log(chalk.gray('  Starting full execution engine (Ralph TUI)\n'));
+  console.log(chalk.gray('  Starting full execution engine (Orbit TUI)\n'));
   await executeRunCommand([]);
 }
 
@@ -134,7 +134,7 @@ Commands:
   chat [message]     Start a chat session
   plan <description> Create a task plan
   jira <issue>       Load a Jira issue
-  run [options]      Start execution (Ralph TUI mode)
+  run [options]      Start execution (Orbit TUI mode)
   resume [options]   Resume an interrupted session
   status [options]   Check session status
   remote [subcommand] Manage remote servers

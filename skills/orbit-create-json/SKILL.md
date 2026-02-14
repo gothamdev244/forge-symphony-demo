@@ -1,13 +1,13 @@
 ---
-name: ralph-tui-create-json
-description: "Convert PRDs to prd.json format for ralph-tui execution. Creates JSON task files with user stories, acceptance criteria, and dependencies. Triggers on: create prd.json, convert to json, ralph json, create json tasks."
+name: orbit-create-json
+description: "Convert PRDs to prd.json format for orbit execution. Creates JSON task files with user stories, acceptance criteria, and dependencies. Triggers on: create prd.json, convert to json, ralph json, create json tasks."
 ---
 
-# Ralph TUI - Create JSON Tasks
+# Orbit - Create JSON Tasks
 
-Converts PRDs to prd.json format for ralph-tui autonomous execution.
+Converts PRDs to prd.json format for orbit autonomous execution.
 
-> **Note:** This skill is bundled with ralph-tui's JSON tracker plugin. Future tracker plugins (Linear, GitHub Issues, etc.) will bundle their own task creation skills.
+> **Note:** This skill is bundled with orbit's JSON tracker plugin. Future tracker plugins (Linear, GitHub Issues, etc.) will bundle their own task creation skills.
 
 > **⚠️ CRITICAL:** The output MUST be a FLAT JSON object with "name" and "userStories" at the ROOT level. DO NOT wrap content in a "prd" object or use "tasks" array. See "Schema Anti-Patterns" section below.
 
@@ -20,7 +20,7 @@ Take a PRD (markdown file or text) and create a prd.json file:
 2. Parse user stories from the PRD
 3. Append quality gates to each story's acceptance criteria
 4. Set up dependencies between stories
-5. Output ready for `ralph-tui run --prd <path>`
+5. Output ready for `orbit run --prd <path>`
 
 ---
 
@@ -165,9 +165,9 @@ Use `"passes": false` for incomplete stories, `"passes": true` for completed.
 
 ## Story Size: The #1 Rule
 
-**Each story must be completable in ONE ralph-tui iteration (~one agent context window).**
+**Each story must be completable in ONE orbit iteration (~one agent context window).**
 
-Ralph-tui spawns a fresh agent instance per iteration with no memory of previous work. If a story is too big, the agent runs out of context before finishing.
+Orbit-tui spawns a fresh agent instance per iteration with no memory of previous work. If a story is too big, the agent runs out of context before finishing.
 
 ### Right-sized stories:
 - Add a database column + migration
@@ -197,7 +197,7 @@ Use the `dependsOn` array to specify which stories must complete first:
 }
 ```
 
-Ralph-tui will:
+Orbit-tui will:
 - Show US-002 as "blocked" until US-001 completes
 - Never select US-002 for execution while US-001 is open
 - Include "Prerequisites: US-001" in the prompt when working on US-002
@@ -249,9 +249,9 @@ Default: `./tasks/prd.json` (alongside the PRD markdown files)
 
 This keeps all PRD-related files together in the `tasks/` directory.
 
-Or specify a different path - ralph-tui will use it with:
+Or specify a different path - orbit will use it with:
 ```bash
-ralph-tui run --prd ./path/to/prd.json
+orbit run --prd ./path/to/prd.json
 ```
 
 ---
@@ -357,14 +357,14 @@ For UI stories, also include:
 
 ---
 
-## Running with ralph-tui
+## Running with orbit
 
 After creating prd.json:
 ```bash
-ralph-tui run --prd ./tasks/prd.json
+orbit run --prd ./tasks/prd.json
 ```
 
-Ralph-tui will:
+Orbit-tui will:
 1. Load stories from prd.json
 2. Select the highest-priority story with `passes: false` and no blocking dependencies
 3. Generate a prompt with story details + acceptance criteria

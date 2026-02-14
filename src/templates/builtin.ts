@@ -95,7 +95,7 @@ export const BEADS_TEMPLATE = `{{!-- Full PRD for project context (agent studies
 
 ## Workflow
 1. Study the PRD context above to understand the bigger picture (if available)
-2. Study \`.ralph-tui/progress.md\` to understand overall status, implementation progress, and learnings including codebase patterns and gotchas
+2. Study \`.orbit/progress.md\` to understand overall status, implementation progress, and learnings including codebase patterns and gotchas
 3. Implement the requirements (stay on current branch)
 4. Run your project's quality checks (typecheck, lint, etc.)
 {{#if config.autoCommit}}
@@ -108,7 +108,7 @@ export const BEADS_TEMPLATE = `{{!-- Full PRD for project context (agent studies
 8. Signal completion
 
 ## Before Completing
-APPEND to \`.ralph-tui/progress.md\`:
+APPEND to \`.orbit/progress.md\`:
 \`\`\`
 ## [Date] - {{taskId}}
 - What was implemented
@@ -193,7 +193,7 @@ Completing this task will unblock: {{blocks}}
 
 ## Workflow
 1. Study the PRD context above to understand the bigger picture (if available)
-2. Study \`.ralph-tui/progress.md\` to understand overall status, implementation progress, and learnings including codebase patterns and gotchas
+2. Study \`.orbit/progress.md\` to understand overall status, implementation progress, and learnings including codebase patterns and gotchas
 3. Implement the requirements (stay on current branch)
 4. Run your project's quality checks (typecheck, lint, etc.)
 {{#if config.autoCommit}}
@@ -206,7 +206,7 @@ Completing this task will unblock: {{blocks}}
 8. Signal completion
 
 ## Before Completing
-APPEND to \`.ralph-tui/progress.md\`:
+APPEND to \`.orbit/progress.md\`:
 \`\`\`
 ## [Date] - {{taskId}}
 - What was implemented
@@ -279,7 +279,7 @@ export const BEADS_RUST_TEMPLATE = `{{!-- Full PRD for project context (agent st
 
 ## Workflow
 1. Study the PRD context above to understand the bigger picture (if available)
-2. Study \`.ralph-tui/progress.md\` to understand overall status, implementation progress, and learnings including codebase patterns and gotchas
+2. Study \`.orbit/progress.md\` to understand overall status, implementation progress, and learnings including codebase patterns and gotchas
 3. Implement the requirements (stay on current branch)
 4. Run your project's quality checks (typecheck, lint, etc.)
 {{#if config.autoCommit}}
@@ -293,7 +293,7 @@ export const BEADS_RUST_TEMPLATE = `{{!-- Full PRD for project context (agent st
 9. Signal completion
 
 ## Before Completing
-APPEND to \`.ralph-tui/progress.md\`:
+APPEND to \`.orbit/progress.md\`:
 \`\`\`
 ## [Date] - {{taskId}}
 - What was implemented
@@ -369,7 +369,7 @@ export const JSON_TEMPLATE = `{{!-- Full PRD for project context (agent studies 
 
 ## Workflow
 1. Study the PRD context above to understand the bigger picture
-2. Study \`.ralph-tui/progress.md\` to understand overall status, implementation progress, and learnings including codebase patterns and gotchas
+2. Study \`.orbit/progress.md\` to understand overall status, implementation progress, and learnings including codebase patterns and gotchas
 3. Implement this single story following acceptance criteria
 4. Run quality checks: typecheck, lint, etc.
 {{#if config.autoCommit}}
@@ -381,7 +381,7 @@ export const JSON_TEMPLATE = `{{!-- Full PRD for project context (agent studies 
 7. Signal completion
 
 ## Before Completing
-APPEND to \`.ralph-tui/progress.md\`:
+APPEND to \`.orbit/progress.md\`:
 \`\`\`
 ## [Date] - {{taskId}}
 - What was implemented

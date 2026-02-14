@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Theme constants and types for the Ralph TUI application.
+ * ABOUTME: Theme constants and types for the Orbit TUI application.
  * Provides consistent styling across all TUI components with a modern dark theme.
  * Includes functionality to load custom themes from JSON files.
  */
@@ -54,7 +54,7 @@ export interface ThemeColors {
 }
 
 /**
- * Default Tokyo Night color palette for the Ralph TUI.
+ * Default Tokyo Night color palette for the Orbit TUI.
  * This constant preserves the original values and serves as the base for theming.
  */
 export const defaultColors: ThemeColors = {
@@ -106,7 +106,7 @@ export const defaultColors: ThemeColors = {
 let activeColors: ThemeColors = { ...defaultColors };
 
 /**
- * Color palette for the Ralph TUI.
+ * Color palette for the Orbit TUI.
  * References the active theme colors which can be customized via initializeTheme().
  * This export maintains type compatibility with all existing component usage.
  */
@@ -119,7 +119,7 @@ export const colors: ThemeColors = new Proxy({} as ThemeColors, {
 /**
  * Status indicator symbols
  * Task status: ✓ (done), ▶ (active/running), ○ (actionable/pending), ⊘ (blocked), ✗ (error), ✓ (closed - greyed)
- * Ralph status: ▶ (running), ◎ (pausing), ⏸ (paused), ■ (stopped), ✓ (complete), ○ (idle/ready)
+ * Orbit status: ▶ (running), ◎ (pausing), ⏸ (paused), ■ (stopped), ✓ (complete), ○ (idle/ready)
  */
 export const statusIndicators = {
   done: '✓',
@@ -177,7 +177,7 @@ export const keyboardShortcuts = [
  */
 export const fullKeyboardShortcuts = [
   { key: '?', description: 'Show/hide this help', category: 'General' },
-  { key: 'q', description: 'Quit Ralph', category: 'General' },
+  { key: 'q', description: 'Quit Orbit', category: 'General' },
   { key: 'Esc', description: 'Go back / Cancel', category: 'General' },
   { key: ',', description: 'Open settings', category: 'General' },
   { key: 's', description: 'Start execution (when ready)', category: 'Execution' },
@@ -244,7 +244,7 @@ export const layout = {
 } as const;
 
 /**
- * Ralph status types
+ * Orbit status types
  * - 'ready': Waiting for user to start execution (interactive mode)
  * - 'running': Actively executing iterations (generic running state)
  * - 'selecting': Selecting next task to work on
@@ -256,7 +256,7 @@ export const layout = {
  * - 'idle': Stopped, no more tasks available
  * - 'error': Stopped due to error
  */
-export type RalphStatus = 'ready' | 'running' | 'selecting' | 'executing' | 'pausing' | 'paused' | 'stopped' | 'complete' | 'idle' | 'error';
+export type OrbitStatus = 'ready' | 'running' | 'selecting' | 'executing' | 'pausing' | 'paused' | 'stopped' | 'complete' | 'idle' | 'error';
 
 /**
  * Task status types matching the acceptance criteria
@@ -392,7 +392,7 @@ function validateColors(obj: unknown, path: string = ''): string[] {
 
 /**
  * List of bundled theme names available without a full path.
- * These themes are shipped with ralph-tui in the assets/themes directory.
+ * These themes are shipped with orbit in the assets/themes directory.
  */
 export const BUNDLED_THEMES = [
   'bright',

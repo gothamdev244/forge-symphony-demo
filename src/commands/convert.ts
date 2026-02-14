@@ -1,5 +1,5 @@
 /**
- * ABOUTME: Convert command for ralph-tui.
+ * ABOUTME: Convert command for orbit.
  * Converts PRD markdown files to prd.json or Beads format.
  */
 
@@ -109,7 +109,7 @@ export function parseConvertArgs(args: string[]): ConvertArgs | null {
 
   if (!input) {
     console.error('Error: Input file path is required');
-    console.log('Usage: ralph-tui convert --to json ./tasks/prd-feature.md');
+    console.log('Usage: orbit convert --to json ./tasks/prd-feature.md');
     return null;
   }
 
@@ -121,9 +121,9 @@ export function parseConvertArgs(args: string[]): ConvertArgs | null {
  */
 export function printConvertHelp(): void {
   console.log(`
-ralph-tui convert - Convert PRD markdown to JSON or Beads format
+orbit convert - Convert PRD markdown to JSON or Beads format
 
-Usage: ralph-tui convert --to <format> <input-file> [options]
+Usage: orbit convert --to <format> <input-file> [options]
 
 Arguments:
   <input-file>           Path to the PRD markdown file to convert
@@ -148,7 +148,7 @@ Description:
   - Dependencies from **Depends on:** lines
 
   For JSON format (--to json):
-    Creates a prd.json file for use with \`ralph-tui run --prd ./prd.json\`
+    Creates a prd.json file for use with \`orbit run --prd ./prd.json\`
 
   For Beads format (--to beads):
     - Creates an epic bead for the feature
@@ -160,12 +160,12 @@ Description:
 
 Examples:
   # Convert to JSON format
-  ralph-tui convert --to json ./tasks/prd-feature.md
-  ralph-tui convert --to json ./docs/requirements.md -o ./custom.json
+  orbit convert --to json ./tasks/prd-feature.md
+  orbit convert --to json ./docs/requirements.md -o ./custom.json
 
   # Convert to Beads format
-  ralph-tui convert --to beads ./tasks/prd-feature.md
-  ralph-tui convert --to beads ./prd.md --labels "frontend,sprint-1"
+  orbit convert --to beads ./tasks/prd-feature.md
+  orbit convert --to beads ./prd.md --labels "frontend,sprint-1"
 `);
 }
 
@@ -489,7 +489,7 @@ async function executeJsonConversion(
     branchName = await promptText('Git branch name for this work:', {
       default: defaultBranch,
       required: true,
-      help: 'The git branch that will be used when running ralph-tui',
+      help: 'The git branch that will be used when running orbit',
     });
   }
 
@@ -559,7 +559,7 @@ async function executeJsonConversion(
   console.log(`  Branch: ${branchName}`);
   console.log(`  Output: ${outputPath}`);
   console.log();
-  printInfo(`Run with: ralph-tui run --prd ${outputPath}`);
+  printInfo(`Run with: orbit run --prd ${outputPath}`);
 }
 
 /**
@@ -619,5 +619,5 @@ async function executeBeadsConversion(
     console.log(`  Task: ${storyId}`);
   }
   console.log();
-  printInfo(`Run with: ralph-tui run --epic ${result.epicId}`);
+  printInfo(`Run with: orbit run --epic ${result.epicId}`);
 }
