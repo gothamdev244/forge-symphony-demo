@@ -1,0 +1,624 @@
+---
+title: Options Reference
+description: Complete reference for all Ralph TUI configuration options with types, defaults, and constraints.
+---
+
+## Configuration Options Reference
+
+This page documents every configuration option available in Ralph TUI. Options can be set in config files (TOML) or via CLI flags.
+
+<Callout type="tip">
+Most options have sensible defaults. You typically only need to configure the agent and tracker for your project.
+</Callout>
+
+## Core Settings
+
+These control basic execution behavior.
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `agent` | string | - | Agent plugin to use (e.g., "claude", "opencode") |
+| `command` | string | - | Custom command/executable for the agent (e.g., "ccr code") |
+| `tracker` | string | - | Tracker plugin to use (e.g., "beads-bv", "json") |
+| `maxIterations` | number | `10` | Maximum iterations per session (0 = unlimited, max 1000) |
+| `iterationDelay` | number | `1000` | Delay between iterations in milliseconds (max 300000) |
+| `outputDir` | string | `.ralph-tui/iterations` | Directory for iteration log files |
+| `progressFile` | string | `.ralph-tui/progress.md` | Progress file for cross-iteration context |
+| `autoCommit` | boolean | `false` | Ensures a git commit after each successful task. When `true`, ralph-tui stages and commits all uncommitted changes after task completion. When `false`, no automatic commit is made by ralph-tui, though the agent may still commit on its own if instructed by templates or CLAUDE.md. |
+| `prompt_template` | string | - | Custom Handlebars template path |
+| `subagentTracingDetail` | string | `"off"` | Subagent visibility level |
+| `skills_dir` | string | - | Directory containing custom PRD skills |
+
+### subagentTracingDetail Values
+
+Controls how much information about subagent activity is displayed:
+
+| Value | Description |
+|-------|-------------|
+| `"off"` | No tracing, show raw agent output only |
+| `"minimal"` | Show start/complete events |
+| `"moderate"` | Show events with description and duration |
+| `"full"` | Show events with nested output and hierarchy |
+
+## Agent Options
+
+### Shorthand Configuration
+
+The simplest way to configure an agent:
+
+```toml
+agent = "claude"
+
+[agentOptions]
+model = "claude-sonnet-4-20250514"
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `agent` | string | - | Agent plugin name |
+| `command` | string | - | Custom command/executable path (see below) |
+| `agentOptions` | object | `{}` | Plugin-specific options |
+
+### Custom Command
+
+The `command` option lets you specify a custom binary or wrapper for your agent. This is useful for:
+
+- **AI routing tools** like [Claude Code Router (CCR)](https://github.com/anthropics/ccr) that proxy to different providers
+- **Custom wrappers** that add logging, authentication, or other behavior
+- **Alternative binary locations** when the default isn't in PATH
+
+```toml
+agent = "claude"
+command = "ccr code"
+```
+
+This uses the Claude agent plugin but routes requests through CCR, which can proxy to OpenRouter, DeepSeek, Ollama, Gemini, or other providers.
+
+#### Precedence
+
+The command follows this precedence (highest to lowest):
+
+1. **Agent-specific**: `command` field in `[[agents]]` array
+2. **Top-level**: `command` field (this option)
+3. **Plugin default**: e.g., "claude" for the Claude plugin
+
+<Callout type="warning">
+For security, the `command` field cannot contain shell metacharacters (`;`, `&`, `|`, `` ` ``, `$`, `(`, `)`). If you need complex command logic, create a wrapper script.
+</Callout>
+
+### Full Agent Configuration
+
+For advanced setups with multiple agents:
+
+```toml
+[[agents]]
+name = "my-agent"
+plugin = "claude"
+default = true
+command = "claude"
+defaultFlags = ["--no-confirm"]
+timeout = 300000
+
+  [agents.options]
+  model = "claude-sonnet-4-20250514"
+
+  [agents.rateLimitHandling]
+  enabled = true
+  maxRetries = 3
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `name` | string | **required** | Unique identifier for this agent config |
+| `plugin` | string | **required** | Plugin type ("claude", "opencode") |
+| `default` | boolean | `false` | Use as default agent |
+| `command` | string | (from plugin) | Override executable command |
+| `defaultFlags` | string[] | `[]` | Additional CLI flags |
+| `timeout` | number | `0` | Execution timeout (ms, 0 = no timeout) |
+| `options` | object | `{}` | Plugin-specific options |
+| `fallbackAgents` | string[] | `[]` | Agents to try on rate limit |
+| `rateLimitHandling` | object | - | Rate limit configuration |
+| `envExclude` | string[] | `[]` | Additional env var patterns to exclude |
+| `envPassthrough` | string[] | `[]` | Env vars to allow through despite exclusion patterns |
+
+## Tracker Options
+
+### Shorthand Configuration
+
+```toml
+tracker = "beads-bv"
+
+[trackerOptions]
+epicId = "beads-001"
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `tracker` | string | - | Tracker plugin name |
+| `trackerOptions` | object | `{}` | Plugin-specific options |
+
+### Full Tracker Configuration
+
+```toml
+[[trackers]]
+name = "my-tracker"
+plugin = "beads-bv"
+default = true
+
+  [trackers.options]
+  epicId = "beads-001"
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `name` | string | **required** | Unique identifier |
+| `plugin` | string | **required** | Plugin type ("json", "beads-bv", "beads") |
+| `default` | boolean | `false` | Use as default tracker |
+| `options` | object | `{}` | Plugin-specific options |
+
+### Tracker Plugin Options
+
+Each tracker plugin accepts specific options:
+
+#### JSON Tracker
+
+For prd.json task files:
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `path` | string | Path to prd.json file |
+
+#### Beads-BV Tracker
+
+For Beads issues with BV triage:
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `epicId` | string | Epic ID to filter tasks |
+
+#### Beads Tracker
+
+For basic Beads integration:
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `epicId` | string | Epic ID to filter tasks |
+
+## Error Handling
+
+Controls how Ralph responds to task failures.
+
+```toml
+[errorHandling]
+strategy = "skip"
+maxRetries = 3
+retryDelayMs = 5000
+continueOnNonZeroExit = false
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `strategy` | string | `"skip"` | Error handling strategy |
+| `maxRetries` | number | `3` | Max retry attempts (0-10) |
+| `retryDelayMs` | number | `5000` | Delay between retries (0-300000 ms) |
+| `continueOnNonZeroExit` | boolean | `false` | Continue if agent exits non-zero |
+
+### Strategy Values
+
+| Value | Description |
+|-------|-------------|
+| `"retry"` | Retry the task up to `maxRetries` times |
+| `"skip"` | Skip the failed task and continue to next |
+| `"abort"` | Stop execution immediately on failure |
+
+<Callout type="warning">
+Use `"abort"` for CI pipelines where any failure should stop the build. Use `"skip"` for development where you want to see all issues.
+</Callout>
+
+## Rate Limit Handling
+
+Controls fallback behavior when the primary agent hits API rate limits.
+
+```toml
+fallbackAgents = ["opencode"]
+
+[rateLimitHandling]
+enabled = true
+maxRetries = 3
+baseBackoffMs = 5000
+recoverPrimaryBetweenIterations = true
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `fallbackAgents` | string[] | `[]` | Ordered list of fallback agents |
+| `rateLimitHandling.enabled` | boolean | `true` | Enable rate limit handling |
+| `rateLimitHandling.maxRetries` | number | `3` | Retries before fallback (0-10) |
+| `rateLimitHandling.baseBackoffMs` | number | `5000` | Base backoff time (0-300000 ms) |
+| `rateLimitHandling.recoverPrimaryBetweenIterations` | boolean | `true` | Try primary between iterations |
+
+## Environment Variable Exclusion
+
+Controls which environment variables are passed to agent subprocesses. This is essential when your shell environment contains API keys that conflict with the agent's authentication method.
+
+### The Problem
+
+When you run ralph-tui from a directory containing a `.env` or `.env.local` file, runtimes like **Bun** or tools like **direnv** and **dotenv-cli** may automatically load these variables into your shell environment. If one of these variables is an API key (e.g., `ANTHROPIC_API_KEY`), the agent CLI will use it instead of your intended authentication method (like a Max subscription), causing unexpected billing.
+
+### Default Exclusion Patterns
+
+Ralph TUI automatically excludes environment variables matching these patterns from agent subprocesses:
+
+- `*_API_KEY` — blocks `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, etc.
+- `*_SECRET_KEY` — blocks `AWS_SECRET_KEY`, etc.
+- `*_SECRET` — blocks `DB_SECRET`, `JWT_SECRET`, etc.
+
+These defaults are always active, even without any configuration. You'll see which variables are blocked (and which are allowed through) in the startup output of `ralph-tui run`, `ralph-tui prime`, `ralph-tui doctor`, and `ralph-tui info`.
+
+<Callout type="info">
+The defaults protect against the most common accidental credential leakage. If no environment variables match these patterns, you'll see a message confirming the filter is active but found nothing to block.
+</Callout>
+
+### envPassthrough: Allowing Specific Variables
+
+If you need a blocked variable to reach the agent (e.g., when the agent genuinely needs the API key), use `envPassthrough` to override the exclusion:
+
+```toml
+# Allow ANTHROPIC_API_KEY through despite matching *_API_KEY
+envPassthrough = ["ANTHROPIC_API_KEY"]
+```
+
+Passthrough supports glob patterns:
+
+```toml
+# Allow all *_API_KEY variables through
+envPassthrough = ["*_API_KEY"]
+```
+
+### envExclude: Additional Exclusions
+
+The `envExclude` option adds patterns on top of the defaults. Use it to block variables not covered by the default patterns:
+
+```toml
+# Block tokens and passwords in addition to defaults
+envExclude = ["*_TOKEN", "*_PASSWORD"]
+```
+
+### Three-Layer Filtering
+
+Environment variables are filtered through three layers (in order):
+
+1. **Default patterns** — `*_API_KEY`, `*_SECRET_KEY`, `*_SECRET` (always applied)
+2. **User envExclude** — additional patterns you configure (stacked on defaults)
+3. **envPassthrough** — overrides both defaults and user excludes
+
+```
+process.env variables
+  │
+  ├─ Matches default pattern? ──── BLOCKED (unless in passthrough)
+  ├─ Matches envExclude?      ──── BLOCKED (unless in passthrough)
+  ├─ Matches envPassthrough?  ──── ALLOWED (overrides exclusion)
+  └─ No pattern match         ──── ALLOWED (passed through)
+```
+
+### Shorthand Configuration
+
+Apply to the default agent with top-level settings:
+
+```toml
+agent = "claude"
+envExclude = ["*_TOKEN"]
+envPassthrough = ["ANTHROPIC_API_KEY"]
+```
+
+### Per-Agent Configuration
+
+Apply to specific agents in the `[[agents]]` array:
+
+```toml
+[[agents]]
+name = "claude-max"
+plugin = "claude"
+# Uses defaults - ANTHROPIC_API_KEY is blocked
+
+[[agents]]
+name = "claude-api"
+plugin = "claude"
+envPassthrough = ["ANTHROPIC_API_KEY"]
+# Explicitly allows the API key through for API-based auth
+```
+
+### Glob Pattern Syntax
+
+Both `envExclude` and `envPassthrough` patterns support glob-style wildcards:
+
+| Pattern | Matches |
+|---------|---------|
+| `ANTHROPIC_API_KEY` | Exact match only |
+| `*_API_KEY` | `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, etc. |
+| `*_SECRET` | `DB_SECRET`, `JWT_SECRET`, etc. |
+| `AWS_*` | All AWS environment variables |
+| `*TOKEN*` | Any variable containing "TOKEN" |
+
+### Common Use Cases
+
+**Use Max subscription (default behavior, no config needed):**
+```toml
+# ANTHROPIC_API_KEY is blocked by default
+agent = "claude"
+```
+
+**Explicitly use API key authentication:**
+```toml
+agent = "claude"
+envPassthrough = ["ANTHROPIC_API_KEY"]
+```
+
+**Block additional sensitive variables:**
+```toml
+envExclude = ["*_TOKEN", "*_PASSWORD", "DATABASE_URL"]
+```
+
+**Multiple agents with different auth methods:**
+```toml
+[[agents]]
+name = "claude-max"
+plugin = "claude"
+# Default: ANTHROPIC_API_KEY blocked, uses Max subscription
+
+[[agents]]
+name = "claude-api"
+plugin = "claude"
+envPassthrough = ["ANTHROPIC_API_KEY"]
+# Uses API key from environment
+```
+
+### Diagnostics
+
+Run `ralph-tui doctor` to see which variables are blocked vs. allowed:
+
+```
+Env filter:
+  Blocked:     ANTHROPIC_API_KEY, OPENAI_API_KEY
+  Passthrough: (none)
+```
+
+Or if nothing matches:
+
+```
+Env filter: no vars matched exclusion patterns (*_API_KEY, *_SECRET_KEY, *_SECRET)
+```
+
+<Callout type="tip">
+If you're experiencing unexpected API credit usage while using a Max subscription, run `ralph-tui doctor` to verify that `ANTHROPIC_API_KEY` is listed under "Blocked". If it's not, check whether Bun is loading it from a `.env` file.
+</Callout>
+
+## Notifications
+
+Configure desktop notifications for iteration events.
+
+```toml
+[notifications]
+enabled = true
+sound = "off"
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | boolean | `true` | Enable desktop notifications |
+| `sound` | string | `"off"` | Notification sound mode |
+
+### Sound Mode Values
+
+| Value | Description |
+|-------|-------------|
+| `"off"` | No sound |
+| `"system"` | Use OS default notification sound |
+| `"ralph"` | Play random Ralph Wiggum sound clips |
+
+## Parallel Execution
+
+Configure automatic parallel execution behavior.
+
+```toml
+[parallel]
+mode = "auto"
+maxWorkers = 3
+directMerge = false
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `mode` | string | `"auto"` | Execution mode |
+| `maxWorkers` | number | `3` | Maximum concurrent workers |
+| `directMerge` | boolean | `false` | Merge directly to current branch (vs session branch) |
+| `worktreeDir` | string | `"../.ralph-worktrees/<project>"` | Directory for git worktrees |
+
+### Mode Values
+
+| Value | Description |
+|-------|-------------|
+| `"auto"` | Analyze task dependencies; use parallel when beneficial |
+| `"always"` | Force parallel execution regardless of dependency analysis |
+| `"never"` | Disable parallel execution; always run sequentially |
+
+### CLI Flags
+
+| Flag | Description |
+|------|-------------|
+| `--serial`, `--sequential` | Force sequential (overrides config) |
+| `--parallel` | Force parallel with default workers |
+| `--parallel N` | Force parallel with N workers |
+| `--direct-merge` | Merge directly to current branch |
+
+See the [Parallel Execution guide](/docs/parallel/overview) for detailed documentation.
+
+## Custom Skills Directory
+
+Configure a `skills_dir` to use custom PRD skills with the `--prd-skill` flag:
+
+```toml
+skills_dir = "/path/to/my-skills"
+```
+
+### Skills Directory Structure
+
+Skills must be folders inside `skills_dir` containing a `SKILL.md` file:
+
+```
+my-skills/
+├── custom-prd-skill/
+│   └── SKILL.md
+├── another-skill/
+│   └── SKILL.md
+```
+
+### Using Custom Skills
+
+```bash
+# Use a custom skill with create-prd
+ralph-tui create-prd --chat --prd-skill custom-prd-skill
+```
+
+<Callout type="warning">
+Using `--prd-skill` requires `skills_dir` to be set in your config file. The command will fail with a clear error if `skills_dir` is not configured.
+</Callout>
+
+### PRD Format Requirements for Custom Skills
+
+Custom skills must generate PRDs compatible with task creation. Required format:
+
+```markdown
+# Feature Name
+
+## Quality Gates (optional but recommended)
+
+These commands must pass for every user story:
+- `bun run typecheck`
+- `bun run lint`
+
+## User Stories
+
+### US-001: Story Title
+
+**As a** [user type]
+**I want** [capability]
+**So that** [benefit]
+
+#### Acceptance Criteria
+- [ ] Criterion 1
+- [ ] Criterion 2
+
+### US-002: Another Story
+...
+```
+
+<Callout type="info">
+If a custom skill generates a PRD without user stories matching `### US-XXX:` pattern, task creation will fail with a clear error message.
+</Callout>
+
+## CLI Flag Reference
+
+These flags override config file settings. Use with any execution command.
+
+### Execution Options
+
+| Flag | Short | Type | Description |
+|------|-------|------|-------------|
+| `--iterations <n>` | `-n` | number | Max iterations |
+| `--delay <ms>` | | number | Iteration delay |
+| `--output-dir <path>` | | string | Output directory |
+| `--progress-file <path>` | | string | Progress file path |
+| `--headless` | | boolean | Run without TUI |
+| `--no-setup` | | boolean | Skip setup check |
+
+### Agent Options
+
+| Flag | Short | Type | Description |
+|------|-------|------|-------------|
+| `--agent <name>` | `-a` | string | Agent to use |
+| `--model <model>` | `-m` | string | Model override |
+
+### Tracker Options
+
+| Flag | Short | Type | Description |
+|------|-------|------|-------------|
+| `--tracker <name>` | `-t` | string | Tracker to use |
+| `--epic <id>` | `-e` | string | Epic ID (beads trackers) |
+| `--prd <path>` | `-p` | string | PRD file path (json tracker) |
+
+### Error Handling Options
+
+| Flag | Type | Description |
+|------|------|-------------|
+| `--on-error <strategy>` | string | Error strategy (retry/skip/abort) |
+| `--max-retries <n>` | number | Max retry attempts |
+
+### Prompt Options
+
+| Flag | Type | Description |
+|------|------|-------------|
+| `--prompt <path>` | string | Custom prompt template |
+
+#### Prompt Template Precedence
+
+Ralph TUI resolves prompt templates in this order (first match wins):
+
+| Priority | Source | Description |
+|----------|--------|-------------|
+| 1 | CLI or config path | `--prompt <path>` flag or `prompt_template` in config |
+| 2 | Project template | `.ralph-tui-prompt.hbs` or path in `.ralph-tui/config.toml` |
+| 3 | User template | `~/.config/ralph-tui/prompt.md` or `prompt-{tracker}.md` |
+| 4 | Built-in default | Bundled fallback template for the tracker type |
+
+<Callout type="tip">
+Use `ralph-tui template show` to see which template would be used, and `ralph-tui template init` to scaffold a custom template at the appropriate location.
+</Callout>
+
+### Notification Options
+
+| Flag | Type | Description |
+|------|------|-------------|
+| `--notify` | boolean | Enable notifications |
+| `--no-notify` | boolean | Disable notifications |
+
+## Validation Constraints
+
+All numeric options have validation constraints:
+
+| Option | Min | Max |
+|--------|-----|-----|
+| `maxIterations` | 0 | 1000 |
+| `iterationDelay` | 0 | 300000 |
+| `errorHandling.maxRetries` | 0 | 10 |
+| `errorHandling.retryDelayMs` | 0 | 300000 |
+| `rateLimitHandling.maxRetries` | 0 | 10 |
+| `rateLimitHandling.baseBackoffMs` | 0 | 300000 |
+
+## Environment Variables
+
+Ralph TUI respects these environment variables:
+
+| Variable | Description |
+|----------|-------------|
+| `XDG_CONFIG_HOME` | Override global config location (default: `~/.config`) |
+
+### Environment Variable Filtering
+
+Ralph TUI automatically excludes variables matching `*_API_KEY`, `*_SECRET_KEY`, and `*_SECRET` from agent subprocesses. Use `envPassthrough` to allow specific variables through, or `envExclude` to block additional patterns:
+
+```toml
+# Allow a specific key through (overrides default block)
+envPassthrough = ["ANTHROPIC_API_KEY"]
+
+# Block additional patterns beyond defaults
+envExclude = ["*_TOKEN", "DATABASE_URL"]
+```
+
+See [Environment Variable Exclusion](#environment-variable-exclusion) for the full three-layer filtering details.
+
+## Next Steps
+
+- **[Config File](/docs/configuration/config-file)** - Full config file examples
+- **[CLI Commands](/docs/cli/run)** - Command documentation
+- **[Plugins](/docs/plugins)** - Agent and tracker plugin details
