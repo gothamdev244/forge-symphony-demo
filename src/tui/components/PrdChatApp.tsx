@@ -217,7 +217,8 @@ Transform any complex PRD structure (phases, milestones, etc.) into a FLAT list 
 export function buildBeadsLabelsInstruction(trackerLabels?: string[]): string {
   if (!trackerLabels || trackerLabels.length === 0) return '';
 
-  const seen = new Set<string>(['ralph']);
+  const canonicalExcluded = ['ralph', 'orbit'];
+  const seen = new Set<string>(canonicalExcluded);
   const allLabels = ['ralph'];
   for (const l of trackerLabels) {
     const key = l.toLowerCase();
