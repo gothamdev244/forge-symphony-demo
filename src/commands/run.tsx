@@ -2421,8 +2421,11 @@ export async function executeRunCommand(args: string[]): Promise<void> {
 
   // Handle dry-run early
   if (options.dryRun) {
+    // Use console.log and exit; tests spy on console and process.exit
     console.log('DRY RUN: would execute tasks');
-    process.exit(0);
+    // Give callers a chance to observe output before exiting
+    process.nextTick(() => process.exit(0));
+    return;
   }
 
   // Initialize plugins
