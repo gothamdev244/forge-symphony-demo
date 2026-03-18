@@ -191,6 +191,8 @@ export interface TaskRangeFilter {
 interface ExtendedRuntimeOptions extends RuntimeOptions {
   noSetup?: boolean;
   verify?: boolean;
+  /** Dry run: don't execute, just print intent */
+  dryRun?: boolean;
   /** Enable remote listener (implies headless) */
   listen?: boolean;
   /** Port for remote listener (default: 7890) */
@@ -387,6 +389,10 @@ export function parseRunArgs(args: string[]): ExtendedRuntimeOptions {
 
       case '--rotate-token':
         options.rotateToken = true;
+        break;
+
+      case '--dry-run':
+        options.dryRun = true;
         break;
 
       case '--theme':
@@ -2411,6 +2417,12 @@ export async function executeRunCommand(args: string[]): Promise<void> {
       console.error(`\nTheme loading failed: ${message}`);
       process.exit(1);
     }
+  }
+
+  // Handle dry-run early
+  if (options.dryRun) {
+    console.log('DRY RUN: would execute tasks');
+    process.exit(0);
   }
 
   // Initialize plugins
